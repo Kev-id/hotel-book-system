@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
-import { getHotelList } from '../../../api/hotelApi';
-import { updateHotel, deleteHotel } from '../../../api/userApi';
-import { Table, Button, Space, Tag, Popconfirm, message } from 'antd';
+import { getHotelList, updateHotel, deleteHotel } from '../../../api/hotelApi';
+import { Table, Button, Space, Tag, Popconfirm, message, Modal, Input, Form } from 'antd';
 import { DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 const Audit = () => {
@@ -11,6 +10,10 @@ const Audit = () => {
   const navigate = useNavigate();
   const [hotelList, setHotelList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rejectModalVisible, setRejectModalVisible] = useState(false);
+  const [selectedHotelId, setSelectedHotelId] = useState(null);
+  const [rejectReason, setRejectReason] = useState('');
+  const [form] = Form.useForm();
 
   // 获取所有酒店数据
   const fetchAllHotels = async () => {
@@ -28,11 +31,37 @@ const Audit = () => {
     fetchAllHotels();
   }, []);
 
-  // 审核操作：通过/驳回
-  const handleAudit = async (id, status) => {
-    const res = await updateHotel(id, { status });
+  // 审核操作：通过
+  const handleApprove = async (id) => {
+    const res = await updateHotel(id, { status: 'published' });
     if (res) {
-      message.success(status === 'published' ? '审核通过' : '已驳回');
+      message.success('审核通过');
+      fetchAllHotels();
+    } else {
+      message.error('操作失败');
+    }
+  };
+
+  // 显示驳回原因输入框
+  const showRejectModal = (id) => {
+    setSelectedHotelId(id);
+    setRejectReason('');
+    setRejectModalVisible(true);
+  };
+
+  // 提交驳回
+  const handleReject = async () => {
+    if (!rejectReason.trim()) {
+      message.error('请输入驳回原因');
+      return;
+    }
+    const res = await updateHotel(selectedHotelId, { 
+      status: 'rejected',
+      rejectReason: rejectReason.trim()
+    });
+    if (res) {
+      message.success('已驳回');
+      setRejectModalVisible(false);
       fetchAllHotels();
     } else {
       message.error('操作失败');
@@ -96,6 +125,31 @@ const Audit = () => {
       render: (price) => `¥${price}`
     },
     {
+      title: '标签',
+      dataIndex: 'tags',
+      key: 'tags',
+      width: 200,
+      render: (tags) => {
+        if (!tags || !Array.isArray(tags) || tags.length === 0) {
+          return <span style={{ color: '#999' }}>无</span>;
+        }
+        return (
+          <Space size={[0, 4]} wrap>
+            {tags.slice(0, 3).map((tag, index) => (
+              <Tag key={index} color="blue" style={{ fontSize: '12px' }}>
+                {tag}
+              </Tag>
+            ))}
+            {tags.length > 3 && (
+              <Tag color="default" style={{ fontSize: '12px' }}>
+                +{tags.length - 3}
+              </Tag>
+            )}
+          </Space>
+        );
+      }
+    },
+    {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
@@ -112,7 +166,7 @@ const Audit = () => {
             <>
               <Popconfirm
                 title="确认通过？"
-                onConfirm={() => handleAudit(record.id, 'published')}
+                onConfirm={() => handleApprove(record.id)}
                 okText="确认"
                 cancelText="取消"
               >
@@ -120,16 +174,14 @@ const Audit = () => {
                   通过
                 </Button>
               </Popconfirm>
-              <Popconfirm
-                title="确认驳回？"
-                onConfirm={() => handleAudit(record.id, 'rejected')}
-                okText="确认"
-                cancelText="取消"
+              <Button 
+                danger 
+                size="small" 
+                icon={<CloseOutlined />}
+                onClick={() => showRejectModal(record.id)}
               >
-                <Button danger size="small" icon={<CloseOutlined />}>
-                  驳回
-                </Button>
-              </Popconfirm>
+                驳回
+              </Button>
             </>
           )}
           {record.status !== 'pending' && (
@@ -159,8 +211,43 @@ const Audit = () => {
         loading={loading}
         rowKey="id"
         pagination={{ pageSize: 10 }}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1400 }}
+        expandable={{
+          expandedRowRender: (record) => (
+            <div style={{ padding: '12px 24px', background: '#fafafa' }}>
+              <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: '#333' }}>
+                酒店介绍：
+              </p>
+              <p style={{ margin: 0, color: '#666', lineHeight: '1.6' }}>
+                {record.description || '暂无介绍'}
+              </p>
+            </div>
+          ),
+          rowExpandable: (record) => !!record.description,
+        }}
       />
+
+      <Modal
+        title="驳回酒店"
+        open={rejectModalVisible}
+        onOk={handleReject}
+        onCancel={() => setRejectModalVisible(false)}
+        okText="确认驳回"
+        cancelText="取消"
+      >
+        <Form layout="vertical">
+          <Form.Item label="驳回原因" required>
+            <Input.TextArea
+              rows={4}
+              placeholder="请输入驳回原因，商户将看到此信息"
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              maxLength={500}
+              showCount
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

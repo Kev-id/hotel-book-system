@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Menu, Button, Avatar, Space } from 'antd';
+import { Button, Avatar, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './Navigation.css';
 
@@ -15,27 +15,31 @@ const Navigation = () => {
     navigate('/');
   };
 
-  // 选中菜单 key（针对子路由做简单映射）
   const pathname = location.pathname;
-  const selectedKey = pathname.startsWith('/detail') ? '/list' : pathname;
 
   // 构造菜单项
   const baseItems = [
-    { key: '/', label: '首页' },
-    { key: '/list', label: '酒店列表' },
+    { path: '/', label: '首页' },
+    { path: '/list', label: '酒店列表' },
   ];
 
   if (user?.role === 'admin') {
-    baseItems.push({ key: '/admin/audit', label: '审核管理' });
+    baseItems.push({ path: '/admin/audit', label: '审核管理' });
   }
   if (user?.role === 'merchant') {
-    baseItems.push({ key: '/admin/hotel-form', label: '酒店录入' });
+    baseItems.push({ path: '/admin/hotel-form', label: '酒店录入' });
+    baseItems.push({ path: '/admin/merchant-status', label: '审核状态' });
   }
 
   if (!user) {
-    baseItems.push({ key: '/admin/login', label: '登录' });
-    baseItems.push({ key: '/admin/register', label: '注册' });
+    baseItems.push({ path: '/admin/login', label: '登录' });
+    baseItems.push({ path: '/admin/register', label: '注册' });
   }
+
+  const isActive = (path) => {
+    if (path === '/list' && pathname.startsWith('/detail')) return true;
+    return pathname === path;
+  };
 
   return (
     <nav className="nav-header">
@@ -43,17 +47,17 @@ const Navigation = () => {
         <div className="nav-logo" onClick={() => navigate('/')}>🏨 酒店预订系统</div>
 
         <div className="nav-menu">
-          <Menu
-            mode="horizontal"
-            selectedKeys={[selectedKey]}
-            onClick={({ key }) => navigate(key)}
-            className="nav-ant-menu"
-            overflowedIndicator={null}
-          >
-            {baseItems.map((it) => (
-              <Menu.Item key={it.key}>{it.label}</Menu.Item>
+          <div className="nav-links">
+            {baseItems.map((item) => (
+              <button
+                key={item.path}
+                className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
+                onClick={() => navigate(item.path)}
+              >
+                {item.label}
+              </button>
             ))}
-          </Menu>
+          </div>
 
           <div style={{ marginLeft: 12 }}>
             {user ? (

@@ -16,7 +16,13 @@ const Login = () => {
     if (userInfo) {
       login(userInfo);
       message.success('登录成功！');
-      userInfo.role === 'merchant' ? navigate('/admin/hotel-form') : navigate('/admin/audit');
+      if (values.role === 'merchant') {
+        navigate('/admin/hotel-form');
+      } else if (values.role === 'admin') {
+        navigate('/admin/audit');
+      } else {
+        navigate('/');
+      }
     } else {
       message.error('账号、密码或角色错误，请重试');
     }
@@ -106,6 +112,11 @@ const Login = () => {
                 <Select.Option value="merchant">
                   <span className="role-option">
                     <UserOutlined /> 商户
+                  </span>
+                </Select.Option>
+                <Select.Option value="user">
+                  <span className="role-option">
+                    <UserOutlined /> 用户
                   </span>
                 </Select.Option>
                 <Select.Option value="admin">

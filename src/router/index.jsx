@@ -7,6 +7,7 @@ import Register from '../pages/admin/Register';
 // 新增后台页面
 import HotelForm from '../pages/admin/HotelForm';
 import Audit from '../pages/admin/Audit';
+import MerchantStatus from '../pages/admin/MerchantStatus';
 import AuthGuard from '../components/AuthGuard';
 import Navigation from '../components/Navigation';
 
@@ -34,6 +35,17 @@ const router = createBrowserRouter([
       <Layout>
         <AuthGuard allowedRoles={['merchant']}>
           <HotelForm />
+        </AuthGuard>
+      </Layout>
+    )
+  },
+  // 商户：审核状态
+  {
+    path: '/admin/merchant-status',
+    element: (
+      <Layout>
+        <AuthGuard allowedRoles={['merchant']}>
+          <MerchantStatus />
         </AuthGuard>
       </Layout>
     )

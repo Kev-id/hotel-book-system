@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { userRegister } from '../../../api/userApi';
-import { Form, Input, Button, Card, message } from 'antd';
+import { Form, Input, Button, Card, message, Radio } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import './styles.css';
 
@@ -9,12 +9,14 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
-    const success = await userRegister(values.username, values.password, 'merchant');
-    if (success) {
-      message.success('注册成功！请登录');
-      navigate('/admin/login');
-    } else {
-      message.error('注册失败，用户名可能已存在');
+    try {
+      const result = await userRegister(values.username, values.password, values.role || 'user');
+      if (result) {
+        message.success('注册成功！请登录');
+        navigate('/admin/login');
+      }
+    } catch (error) {
+      message.error(error.message || '注册失败，请重试');
     }
   };
 
@@ -44,9 +46,9 @@ const Register = () => {
                   }}
                 />
               </div>
-              <h1 className="logo-title">商户注册</h1>
+              <h1 className="logo-title">用户注册</h1>
             </div>
-            <p className="register-subtitle">创建您的商户账号，开始发布酒店信息</p>
+            <p className="register-subtitle">创建您的账号，开始使用酒店预订系统</p>
           </div>
 
           <Form
@@ -54,7 +56,19 @@ const Register = () => {
             layout="vertical"
             onFinish={handleSubmit}
             className="register-form"
+            initialValues={{ role: 'user' }}
           >
+            <Form.Item
+              label="注册身份"
+              name="role"
+              rules={[{ required: true, message: '请选择注册身份' }]}
+            >
+              <Radio.Group>
+                <Radio value="user">普通用户（仅查询酒店）</Radio>
+                <Radio value="merchant">商户（可发布酒店）</Radio>
+              </Radio.Group>
+            </Form.Item>
+
             <Form.Item
               label="用户名"
               name="username"
@@ -92,7 +106,7 @@ const Register = () => {
 
             <Form.Item
               label="确认密码"
-              name="confirmPassword"
+              name="confirmPwd"
               dependencies={['password']}
               rules={[
                 { required: true, message: '请确认密码' },
@@ -170,8 +184,9 @@ const Register = () => {
         </Card>
 
         <div className="register-info">
-          <p className="info-text">📝 注册后您可以发布和管理酒店信息</p>
-          <p className="info-text">✅ 所有酒店信息需经管理员审核后上线</p>
+          <p className="info-text">📝 普通用户可以浏览和查询酒店信息</p>
+          <p className="info-text">🏨 商户可以发布和管理酒店信息</p>
+          <p className="info-text">✅ 商户发布的酒店需经管理员审核后上线</p>
         </div>
       </div>
     </div>

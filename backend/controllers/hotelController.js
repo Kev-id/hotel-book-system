@@ -31,7 +31,14 @@ exports.getHotels = async (req, res) => {
 
     const [rows] = await conn.query(query, params);
     conn.release();
-    res.json(rows);
+    
+    // 解析 JSON 字段
+    const parsedRows = rows.map(row => ({
+      ...row,
+      tags: row.tags ? (typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags) : []
+    }));
+    
+    res.json(parsedRows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -46,7 +53,10 @@ exports.getHotelDetail = async (req, res) => {
     conn.release();
 
     if (rows.length > 0) {
-      res.json(rows[0]);
+      const hotel = rows[0];
+      // 解析 JSON 字段
+      hotel.tags = hotel.tags ? (typeof hotel.tags === 'string' ? JSON.parse(hotel.tags) : hotel.tags) : [];
+      res.json(hotel);
     } else {
       res.status(404).json(null);
     }
@@ -58,11 +68,11 @@ exports.getHotelDetail = async (req, res) => {
 // 新增酒店
 exports.addHotel = async (req, res) => {
   try {
-    const { name, address, price, city, status, merchantId, openingDate, stars, roomType } = req.body;
+    const { name, address, price, city, status, merchantId, openingDate, stars, roomType, tags, description } = req.body;
     const conn = await pool.getConnection();
     const [result] = await conn.query(
-      'INSERT INTO hotels (name, address, price, city, status, merchantId, openingDate, stars, roomType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [name, address, price, city, status || 'pending', merchantId, openingDate, stars, roomType]
+      'INSERT INTO hotels (name, address, price, city, status, merchantId, openingDate, stars, roomType, tags, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [name, address, price, city, status || 'pending', merchantId, openingDate, stars, roomType, JSON.stringify(tags || []), description || '']
     );
     conn.release();
 
@@ -76,11 +86,11 @@ exports.addHotel = async (req, res) => {
 exports.updateHotel = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status, rejectReason } = req.body;
     const conn = await pool.getConnection();
     const [result] = await conn.query(
-      'UPDATE hotels SET status = ? WHERE id = ?',
-      [status, id]
+      'UPDATE hotels SET status = ?, rejectReason = ? WHERE id = ?',
+      [status, rejectReason || null, id]
     );
     conn.release();
 

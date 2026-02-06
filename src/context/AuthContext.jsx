@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 
 export const AuthContext = createContext(null);
 
@@ -19,12 +19,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('hotelUser');
+    // 清除所有相关的本地存储
+    localStorage.removeItem('hotelUser');
   };
-
-  // 持久化存储
-  useEffect(() => {
-    if (user) localStorage.setItem('hotelUser', JSON.stringify(user));
-  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

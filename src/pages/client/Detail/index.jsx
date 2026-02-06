@@ -181,32 +181,17 @@ const HotelDetail = () => {
         </Card>
 
         {/* Facilities */}
-        <Card className="info-card" title="酒店设施">
-          <div className="facilities-grid">
-            <div className="facility-item">
-              <CheckCircleOutlined className="facility-icon" />
-              <span>免费WiFi</span>
-            </div>
-            <div className="facility-item">
-              <CheckCircleOutlined className="facility-icon" />
-              <span>停车场</span>
-            </div>
-            <div className="facility-item">
-              <CheckCircleOutlined className="facility-icon" />
-              <span>健身房</span>
-            </div>
-            <div className="facility-item">
-              <CheckCircleOutlined className="facility-icon" />
-              <span>游泳池</span>
-            </div>
-            <div className="facility-item">
-              <CheckCircleOutlined className="facility-icon" />
-              <span>餐厅</span>
-            </div>
-            <div className="facility-item">
-              <CheckCircleOutlined className="facility-icon" />
-              <span>会议室</span>
-            </div>
+        <Card className="info-card" title="酒店标签">
+          <div className="tags-display">
+            {hotel.tags && Array.isArray(hotel.tags) && hotel.tags.length > 0 ? (
+              hotel.tags.map((tag, index) => (
+                <Tag key={index} color="blue" style={{ marginBottom: '8px' }}>
+                  {tag}
+                </Tag>
+              ))
+            ) : (
+              <span className="no-tags">暂无标签</span>
+            )}
           </div>
         </Card>
       </div>
@@ -214,10 +199,10 @@ const HotelDetail = () => {
       {/* Description */}
       <Card className="description-card" title="酒店介绍">
         <p className="description-text">
-          {hotel.name}位于{hotel.address}，是一家{hotel.stars}星级酒店。
+          {hotel.description || `${hotel.name}位于${hotel.address}，是一家${hotel.stars}星级酒店。
           酒店设施齐全，服务周到，是您商务出行和休闲度假的理想选择。
           我们提供舒适的客房、美味的餐饮、完善的会议设施以及贴心的服务，
-          致力于为每一位宾客创造难忘的入住体验。
+          致力于为每一位宾客创造难忘的入住体验。`}
         </p>
       </Card>
 

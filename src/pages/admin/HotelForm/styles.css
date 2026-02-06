@@ -113,6 +113,30 @@
   gap: var(--space-sm);
 }
 
+.section-desc {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  margin: 0 0 var(--space-md) 0;
+  line-height: 1.5;
+}
+
+.tags-container {
+  padding: var(--space-md);
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.tags-container .ant-checkbox-wrapper {
+  margin-right: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.tags-container .ant-tag {
+  margin: 0;
+  cursor: pointer;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

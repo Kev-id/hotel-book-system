@@ -1,5 +1,74 @@
 # 更新日志
 
+## [v2.1.0] - 2026-02-06
+
+### 🐛 Bug 修复
+
+#### 1. 用户注册功能修复
+- ✅ 修复注册表单字段名不匹配问题（`confirmPassword` → `confirmPwd`）
+- ✅ 用户现在可以正常注册账号
+
+#### 2. 管理员登录问题修复
+- ✅ 修复 `icc` 账号角色错误（`merchant` → `admin`）
+- ✅ 更新数据库初始化脚本，确保管理员角色正确
+- ✅ 当前可用管理员账号：`admin1/123456` 和 `icc/Wang2006`
+
+#### 3. 管理员审核操作失败修复
+- ✅ 添加缺失的 `rejectReason` 数据库字段
+- ✅ 更新数据库迁移脚本
+- ✅ 优化前端 API 错误处理
+- ✅ 审核通过/驳回功能现已正常工作
+
+### ✨ 功能优化
+
+#### 标签匹配逻辑优化
+- 🎯 改进标签匹配算法，从"完全匹配"改为"部分匹配"
+- 📊 新的匹配规则：
+  - 五星豪华酒店：需满足 4/5 项标签
+  - 商务酒店：需满足 2/3 项标签
+  - 会议酒店：需满足 2/3 项标签
+  - 文化特色酒店：需满足 3/5 项标签
+  - 经济酒店：需满足 1/2 项标签
+- ✨ 商户录入酒店时更容易获得自动生成的介绍
+
+### 🔧 技术改进
+
+#### 数据库
+- 📊 添加 `rejectReason VARCHAR(500)` 字段到 `hotels` 表
+- 🔄 完善数据库迁移脚本（`backend/sql/migrate.js`）
+- ✅ 确保所有必要字段都包含在初始化和迁移脚本中
+
+#### 代码质量
+- 🧹 删除 11 个冗余的过程性文档
+- 📝 保留核心文档（README、CHANGELOG、QUICK_START、项目总结）
+- 📄 新增 UPDATE_LOG.md 详细记录本次更新
+
+### 📊 测试验证
+
+- ✅ 用户注册：正常
+- ✅ 管理员登录：正常
+- ✅ 商户登录：正常
+- ✅ 酒店录入：正常
+- ✅ 标签匹配：正常
+- ✅ 审核通过：正常
+- ✅ 审核驳回：正常
+- ✅ 酒店删除：正常
+
+### 📝 文件变更
+
+**修改的文件（17个）**
+- 后端：`backend/controllers/hotelController.js`, `backend/sql/init.js`, `backend/sql/migrate.js`
+- 前端：`src/api/hotelApi.js`, `src/pages/admin/Register/index.jsx`, `src/pages/admin/HotelForm/index.jsx`, 等
+
+**新增的文件**
+- `UPDATE_LOG.md` - 详细更新日志
+- `src/pages/admin/MerchantStatus/` - 商户状态页面
+
+**删除的文件（11个冗余文档）**
+- BUG_FIXES.md, DATABASE_GUIDE.md, GIT_COMMIT_SUMMARY.md, 等过程性文档
+
+---
+
 ## [v2.0.0] - 2026-02-06
 
 ### 🎨 UI/UX 优化
