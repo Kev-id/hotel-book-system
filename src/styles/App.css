@@ -1,0 +1,16 @@
+/* 适配移动端的容器样式 */
+.App {
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  min-height: 100vh;
+}
+
+/* 页面内容容器 */
+.home-page,
+.hotel-list-page,
+.hotel-detail-page {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}

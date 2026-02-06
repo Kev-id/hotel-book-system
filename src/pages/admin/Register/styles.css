@@ -1,0 +1,233 @@
+/* Register Page Styles - Same as Login with adjustments */
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Animated Background */
+.register-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  bottom: -150px;
+  right: -150px;
+  animation-delay: 7s;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 14s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* Content */
+.register-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 520px;
+  padding: var(--space-lg);
+}
+
+.register-card {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Header */
+.register-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.logo-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-title {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin: 0;
+  font-weight: 700;
+}
+
+.register-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+/* Form */
+.register-form {
+  margin-top: var(--space-lg);
+}
+
+.form-input {
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  transition: all 200ms ease;
+}
+
+.form-input:hover {
+  border-color: var(--color-secondary);
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.register-button {
+  height: 48px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border: none;
+  margin-top: var(--space-md);
+  transition: all 200ms ease;
+}
+
+.register-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(79, 172, 254, 0.4);
+}
+
+/* Footer */
+.form-footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.footer-text {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.login-link {
+  font-weight: 600;
+  padding: 0;
+  height: auto;
+}
+
+/* Info */
+.register-info {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.info-text {
+  color: white;
+  font-size: 0.9375rem;
+  margin: var(--space-sm) 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-content {
+    padding: var(--space-md);
+  }
+
+  .register-card {
+    max-height: 85vh;
+  }
+
+  .logo-icon {
+    font-size: 3rem;
+  }
+
+  .logo-title {
+    font-size: 1.5rem;
+  }
+
+  .orb-1, .orb-2, .orb-3 {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    border-radius: 16px;
+  }
+
+  .logo-icon {
+    font-size: 2.5rem;
+  }
+
+  .logo-title {
+    font-size: 1.25rem;
+  }
+
+  .register-button {
+    height: 44px;
+    font-size: 1rem;
+  }
+}

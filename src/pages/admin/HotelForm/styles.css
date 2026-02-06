@@ -1,0 +1,230 @@
+/* Hotel Form Page Styles */
+.hotel-form-container {
+  min-height: 100vh;
+  background: var(--color-background);
+  padding: var(--space-lg);
+}
+
+/* Header */
+.form-header {
+  max-width: 1200px;
+  margin: 0 auto var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: var(--space-lg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.logo {
+  font-size: 2.5rem;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin: 0;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.logout-button {
+  height: 40px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Steps Card */
+.steps-card {
+  max-width: 1200px;
+  margin: 0 auto var(--space-xl);
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+/* Form Card */
+.form-card {
+  max-width: 900px;
+  margin: 0 auto var(--space-xl);
+  border-radius: 16px;
+  border: none;
+  box-shadow: var(--shadow-lg);
+}
+
+.form-card-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.form-title {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin: 0 0 var(--space-sm) 0;
+  font-weight: 700;
+}
+
+.form-desc {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Form */
+.hotel-form {
+  margin-top: var(--space-xl);
+}
+
+.form-section {
+  margin-bottom: var(--space-2xl);
+  padding: var(--space-lg);
+  background: var(--color-background);
+  border-radius: 12px;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  margin: 0 0 var(--space-lg) 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+.form-item-half {
+  margin-bottom: 0;
+}
+
+.submit-section {
+  margin-top: var(--space-2xl);
+  margin-bottom: 0;
+}
+
+.submit-button {
+  height: 56px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  transition: all 200ms ease;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Info Card */
+.info-card {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.info-title {
+  font-size: 1.25rem;
+  margin: 0 0 var(--space-md) 0;
+  font-weight: 600;
+  color: white;
+}
+
+.info-list {
+  margin: 0;
+  padding-left: var(--space-lg);
+  list-style: none;
+}
+
+.info-list li {
+  position: relative;
+  padding-left: var(--space-md);
+  margin-bottom: var(--space-sm);
+  line-height: 1.6;
+}
+
+.info-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hotel-form-container {
+    padding: var(--space-md);
+  }
+
+  .form-header {
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  .logout-button {
+    width: 100%;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-section {
+    padding: var(--space-md);
+  }
+
+  .submit-button {
+    height: 48px;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.125rem;
+  }
+}

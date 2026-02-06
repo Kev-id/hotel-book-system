@@ -1,0 +1,164 @@
+/* 导航栏容器 */
+.nav-header {
+  background: linear-gradient(135deg, #1677ff 0%, #0958ca 100%);
+  color: white;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.nav-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Logo */
+.nav-logo {
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.9;
+}
+
+/* 菜单容器 */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Ant Design Menu 在渐变背景上调整样式 */
+.nav-menu .nav-ant-menu {
+  background: transparent;
+  border-bottom: none;
+}
+
+.nav-menu .nav-ant-menu .ant-menu-item {
+  color: white !important;
+  background: transparent !important;
+}
+
+.nav-menu .nav-ant-menu .ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.nav-menu .nav-ant-menu .ant-menu-item-selected {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-bottom: 2px solid white !important;
+}
+
+/* 菜单项 */
+.nav-item {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 当前页面激活态 */
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-bottom: 2px solid white;
+}
+
+/* 用户区域 */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-name {
+  font-size: 13px;
+  color: white;
+}
+
+/* 退出按钮 */
+.nav-logout {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-logout:hover {
+  background-color: rgba(255, 68, 68, 0.7);
+  border-color: rgba(255, 68, 68, 0.8);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .nav-wrapper {
+    padding: 10px 12px;
+    gap: 12px;
+  }
+
+  .nav-item {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .nav-menu {
+    gap: 2px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .nav-user {
+    margin-left: 8px;
+    padding-left: 8px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-wrapper {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-logo {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-menu {
+    width: 100%;
+    justify-content: center;
+  }
+}
