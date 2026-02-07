@@ -10,7 +10,7 @@ const Register = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const result = await userRegister(values.username, values.password, values.role || 'user');
+      const result = await userRegister(values.username, values.password, values.role);
       if (result) {
         message.success('注册成功！请登录');
         navigate('/admin/login');
@@ -56,7 +56,7 @@ const Register = () => {
             layout="vertical"
             onFinish={handleSubmit}
             className="register-form"
-            initialValues={{ role: 'user' }}
+            initialValues={{ role: 'admin' }}
           >
             <Form.Item
               label="注册身份"
@@ -64,7 +64,7 @@ const Register = () => {
               rules={[{ required: true, message: '请选择注册身份' }]}
             >
               <Radio.Group>
-                <Radio value="user">普通用户（仅查询酒店）</Radio>
+                <Radio value="admin">管理员（可审核酒店）</Radio>
                 <Radio value="merchant">商户（可发布酒店）</Radio>
               </Radio.Group>
             </Form.Item>

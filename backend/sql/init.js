@@ -26,6 +26,8 @@ const initDB = async () => {
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(50) UNIQUE NOT NULL,
         password VARCHAR(100) NOT NULL,
+        email VARCHAR(100) UNIQUE ,
+        phone VARCHAR(20) UNIQUE ,
         role ENUM('admin', 'merchant', 'user') DEFAULT 'user',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
@@ -56,12 +58,12 @@ const initDB = async () => {
 
     // 插入初始数据
     await conn.query(`
-      INSERT IGNORE INTO users (id, username, password, role) VALUES
-      (1, 'admin1', '123456', 'admin'),
-      (2, 'merchant1', '123456', 'merchant'),
-      (3, '陈凯文', 'Kv20060426', 'merchant'),
-      (4, 'icc', 'Wang2006', 'admin'),
-      (5, 'user1', '123456', 'user')
+      INSERT IGNORE INTO users (id, username, password, email, phone, role) VALUES
+      (1, 'admin1', '123456', NULL, NULL, 'admin'),
+      (2, 'merchant1', '123456', NULL, NULL, 'merchant'),
+      (3, '陈凯文', 'Kv20060426', '123@qq.com', '18017402610', 'merchant'),
+      (4, 'icc', 'Wang2006', NULL, NULL, 'admin'),
+      (5, 'user1', '123456', NULL, NULL, 'user')
     `);
     console.log('✓ 用户数据插入成功');
 
