@@ -6,7 +6,7 @@ exports.userLogin = async (req, res) => {
     const { username, password, role } = req.query;
     const conn = await pool.getConnection();
     const [rows] = await conn.query(
-      'SELECT * FROM users WHERE username = ? AND password = ? AND role = ?',
+      'SELECT * FROM users WHERE username = ? AND password = ?',
       [username, password, role]
     );
     conn.release();

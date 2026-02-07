@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
-    const userInfo = await userLogin(values.username, values.password, values.role);
+    const userInfo = await userLogin(values.username, values.password);
     if (userInfo) {
       login(userInfo);
       message.success('登录成功！');
@@ -98,34 +98,7 @@ const Login = () => {
               />
             </Form.Item>
 
-            <Form.Item
-              label="登录角色"
-              name="role"
-              rules={[{ required: true, message: '请选择登录角色' }]}
-            >
-              <Select 
-                placeholder="请选择登录角色" 
-                size="large"
-                className="form-select"
-                suffixIcon={<SafetyOutlined />}
-              >
-                <Select.Option value="merchant">
-                  <span className="role-option">
-                    <UserOutlined /> 商户
-                  </span>
-                </Select.Option>
-                <Select.Option value="user">
-                  <span className="role-option">
-                    <UserOutlined /> 用户
-                  </span>
-                </Select.Option>
-                <Select.Option value="admin">
-                  <span className="role-option">
-                    <SafetyOutlined /> 管理员
-                  </span>
-                </Select.Option>
-              </Select>
-            </Form.Item>
+            
 
             <Form.Item>
               <Button 

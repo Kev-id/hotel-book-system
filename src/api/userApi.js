@@ -1,9 +1,9 @@
 const baseUrl = '/api';
 
 // 用户登录
-export const userLogin = async (username, password, role) => {
+export const userLogin = async (username, password) => {
   try {
-    const res = await fetch(`${baseUrl}/users?username=${username}&password=${password}&role=${role}`);
+    const res = await fetch(`${baseUrl}/users?username=${username}&password=${password}`);
     const data = await res.json();
     return data.length > 0 ? data[0] : null;
   } catch (err) {
