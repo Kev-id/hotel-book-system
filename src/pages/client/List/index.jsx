@@ -16,32 +16,41 @@ const HotelList = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('default');
-  const [selectedTag, setSelectedTag] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
   const pageSize = 10;
   const location = useLocation();
   const navigate = useNavigate();
 
   const parseSearchParams = () => {
     const params = new URLSearchParams(location.search);
+    // 支持 ?tag=WiFi,健身房 或 ?tag=WiFi&tag=健身房 两种形式
+    const tagParams = params.getAll('tag');
+    let tags = [];
+    if (tagParams.length > 0) {
+      tags = tagParams.flatMap(t => String(t).split(',').map(s => s.trim()).filter(Boolean));
+    } else if (params.get('tag')) {
+      tags = String(params.get('tag')).split(',').map(s => s.trim()).filter(Boolean);
+    }
+
     return {
       city: params.get('city'),
       minPrice: params.get('minPrice'),
       maxPrice: params.get('maxPrice'),
       stars: params.get('stars'),
-      tag: params.get('tag')
+      tags
     };
   };
 
   const fetchHotels = async () => {
     setLoading(true);
-    const { city, minPrice, maxPrice, stars, tag } = parseSearchParams();
+    const { city, minPrice, maxPrice, stars, tags } = parseSearchParams();
 
     const filterParams = {};
     if (city) filterParams.city = city;
     if (minPrice) filterParams.price_gte = minPrice;
     if (maxPrice) filterParams.price_lte = maxPrice;
     if (stars) filterParams.stars = stars;
-    if (tag) filterParams.tag = tag;
+    if (tags && tags.length > 0) filterParams.tag = tags.join(',');
     filterParams.status = 'published';
 
     let data = await getHotelList(filterParams);
@@ -61,8 +70,8 @@ const HotelList = () => {
   };
 
   useEffect(() => {
-    const { tag } = parseSearchParams();
-    setSelectedTag(tag || null);
+    const { tags } = parseSearchParams();
+    setSelectedTags(tags || []);
     fetchHotels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, sortBy]);
@@ -77,15 +86,24 @@ const HotelList = () => {
 
   const handleTagClick = (tag) => {
     const params = new URLSearchParams(location.search);
-    if (selectedTag === tag) {
-      // 取消选择
-      params.delete('tag');
-      setSelectedTag(null);
+    let newTags = Array.isArray(selectedTags) ? [...selectedTags] : [];
+    const idx = newTags.indexOf(tag);
+    if (idx > -1) {
+      // 取消该标签
+      newTags.splice(idx, 1);
     } else {
-      // 选择新的标签
-      params.set('tag', tag);
-      setSelectedTag(tag);
+      // 添加该标签
+      newTags.push(tag);
     }
+
+    // 更新 URL: 使用逗号分隔的单个 tag 参数（后端支持解析）
+    if (newTags.length > 0) {
+      params.set('tag', newTags.join(','));
+    } else {
+      params.delete('tag');
+    }
+
+    setSelectedTags(newTags);
     navigate(`?${params.toString()}`);
   };
 
@@ -154,22 +172,52 @@ const HotelList = () => {
           <div className="summary-tags">
             <span className="summary-label">筛选标签：</span>
             <Button 
-              className={`tag-filter-btn ${selectedTag === 'WiFi' ? 'active' : ''}`}
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('WiFi') ? 'active' : ''}`}
               onClick={() => handleTagClick('WiFi')}
             >
               WiFi
             </Button>
             <Button 
-              className={`tag-filter-btn ${selectedTag === '健身房' ? 'active' : ''}`}
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('健身房') ? 'active' : ''}`}
               onClick={() => handleTagClick('健身房')}
             >
               健身房
             </Button>
             <Button 
-              className={`tag-filter-btn ${selectedTag === '停车场' ? 'active' : ''}`}
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('停车场') ? 'active' : ''}`}
               onClick={() => handleTagClick('停车场')}
             >
               停车场
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('游泳池') ? 'active' : ''}`}
+              onClick={() => handleTagClick('游泳池')}
+            >
+              游泳池
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('前台24小时') ? 'active' : ''}`}
+              onClick={() => handleTagClick('前台24小时')}
+            >
+              前台24小时
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('行李寄存') ? 'active' : ''}`}
+              onClick={() => handleTagClick('行李寄存')}
+            >
+              行李寄存
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('商务中心') ? 'active' : ''}`}
+              onClick={() => handleTagClick('商务中心')}
+            >
+              商务中心
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTags && selectedTags.includes('会议室') ? 'active' : ''}`}
+              onClick={() => handleTagClick('会议室')}
+            >
+              会议室
             </Button>
           </div>
           <div className="summary-count">
