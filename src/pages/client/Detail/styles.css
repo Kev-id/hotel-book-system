@@ -272,6 +272,119 @@
   margin: 0;
 }
 
+/* Room Types Section */
+.room-types-card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-xl);
+}
+
+.room-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-lg);
+}
+
+.room-type-card {
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.room-type-card:hover {
+  border-color: var(--color-secondary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.room-type-card.current-room {
+  border-color: var(--color-cta);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  cursor: default;
+}
+
+.room-type-card.current-room:hover {
+  transform: none;
+}
+
+.room-type-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.room-type-name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.room-icon {
+  font-size: 1.25rem;
+  color: var(--color-secondary);
+}
+
+.room-type-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.room-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.room-info-label {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.room-info-value {
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.room-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.room-type-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.room-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
+.room-price-label {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.room-price-value {
+  color: var(--color-cta);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
 /* Contact */
 .contact-card {
   border-radius: 12px;
@@ -394,6 +507,10 @@
 
   .facilities-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .room-types-grid {
+    grid-template-columns: 1fr;
   }
 
   .bottom-bar-content {

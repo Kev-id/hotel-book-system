@@ -138,3 +138,74 @@ exports.deleteHotel = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// 获取同名酒店的所有房型
+exports.getHotelRoomTypes = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const conn = await pool.getConnection();
+    
+    // 先获取当前酒店信息
+    const [currentHotel] = await conn.query('SELECT name FROM hotels WHERE id = ?', [id]);
+    
+    if (currentHotel.length === 0) {
+      conn.release();
+      return res.status(404).json({ error: '酒店不存在' });
+    }
+    
+    const hotelName = currentHotel[0].name;
+    
+    // 获取同名的所有酒店（不同房型）
+    const [rows] = await conn.query(
+      'SELECT * FROM hotels WHERE name = ? AND status = ? ORDER BY price ASC',
+      [hotelName, 'published']
+    );
+    conn.release();
+    
+    // 解析 JSON 字段
+    const parsedRows = rows.map(row => ({
+      ...row,
+      tags: row.tags ? (typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags) : []
+    }));
+    
+    res.json(parsedRows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取同名酒店的所有房型
+exports.getHotelRoomTypes = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const conn = await pool.getConnection();
+
+    // 先获取当前酒店信息
+    const [currentHotel] = await conn.query('SELECT name FROM hotels WHERE id = ?', [id]);
+
+    if (currentHotel.length === 0) {
+      conn.release();
+      return res.status(404).json({ error: '酒店不存在' });
+    }
+
+    const hotelName = currentHotel[0].name;
+
+    // 获取同名的所有酒店（不同房型）
+    const [rows] = await conn.query(
+      'SELECT * FROM hotels WHERE name = ? AND status = ? ORDER BY price ASC',
+      [hotelName, 'published']
+    );
+    conn.release();
+
+    // 解析 JSON 字段
+    const parsedRows = rows.map(row => ({
+      ...row,
+      tags: row.tags ? (typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags) : []
+    }));
+
+    res.json(parsedRows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+

@@ -78,3 +78,15 @@ export const deleteHotel = async (id) => {
     return false;
   }
 };
+
+// 获取同名酒店的所有房型
+export const getHotelRoomTypes = async (id) => {
+  try {
+    const res = await fetch(`${baseUrl}/hotels/${id}/room-types`);
+    if (!res.ok) throw new Error('请求失败');
+    return await res.json();
+  } catch (err) {
+    console.error('获取酒店房型失败：', err);
+    return [];
+  }
+};

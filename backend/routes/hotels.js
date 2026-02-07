@@ -17,4 +17,11 @@ router.patch('/:id', hotelController.updateHotel);
 // DELETE /api/hotels/:id - 删除酒店
 router.delete('/:id', hotelController.deleteHotel);
 
+// GET /api/hotels/:id/room-types - 获取同名酒店的所有房型
+router.get('/:id/room-types', hotelController.getHotelRoomTypes);
+
 module.exports = router;
+
+// GET /api/hotels/:id/room-types - 获取同名酒店的所有房型
+router.get('/:id/room-types', hotelController.getHotelRoomTypes);
+
