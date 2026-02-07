@@ -16,6 +16,7 @@ const HotelList = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('default');
+  const [selectedTag, setSelectedTag] = useState(null);
   const pageSize = 10;
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,19 +27,21 @@ const HotelList = () => {
       city: params.get('city'),
       minPrice: params.get('minPrice'),
       maxPrice: params.get('maxPrice'),
-      stars: params.get('stars')
+      stars: params.get('stars'),
+      tag: params.get('tag')
     };
   };
 
   const fetchHotels = async () => {
     setLoading(true);
-    const { city, minPrice, maxPrice, stars } = parseSearchParams();
+    const { city, minPrice, maxPrice, stars, tag } = parseSearchParams();
 
     const filterParams = {};
     if (city) filterParams.city = city;
     if (minPrice) filterParams.price_gte = minPrice;
     if (maxPrice) filterParams.price_lte = maxPrice;
     if (stars) filterParams.stars = stars;
+    if (tag) filterParams.tag = tag;
     filterParams.status = 'published';
 
     let data = await getHotelList(filterParams);
@@ -58,6 +61,8 @@ const HotelList = () => {
   };
 
   useEffect(() => {
+    const { tag } = parseSearchParams();
+    setSelectedTag(tag || null);
     fetchHotels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, sortBy]);
@@ -68,6 +73,20 @@ const HotelList = () => {
 
   const goBack = () => {
     navigate('/');
+  };
+
+  const handleTagClick = (tag) => {
+    const params = new URLSearchParams(location.search);
+    if (selectedTag === tag) {
+      // 取消选择
+      params.delete('tag');
+      setSelectedTag(null);
+    } else {
+      // 选择新的标签
+      params.set('tag', tag);
+      setSelectedTag(tag);
+    }
+    navigate(`?${params.toString()}`);
   };
 
   const getCityName = (cityCode) => {
@@ -132,6 +151,27 @@ const HotelList = () => {
               </span>
             </div>
           )}
+          <div className="summary-tags">
+            <span className="summary-label">筛选标签：</span>
+            <Button 
+              className={`tag-filter-btn ${selectedTag === 'WiFi' ? 'active' : ''}`}
+              onClick={() => handleTagClick('WiFi')}
+            >
+              WiFi
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTag === '健身房' ? 'active' : ''}`}
+              onClick={() => handleTagClick('健身房')}
+            >
+              健身房
+            </Button>
+            <Button 
+              className={`tag-filter-btn ${selectedTag === '停车场' ? 'active' : ''}`}
+              onClick={() => handleTagClick('停车场')}
+            >
+              停车场
+            </Button>
+          </div>
           <div className="summary-count">
             找到 <strong>{hotels.length}</strong> 家酒店
           </div>

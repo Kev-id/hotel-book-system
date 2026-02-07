@@ -32,11 +32,19 @@ exports.getHotels = async (req, res) => {
     const [rows] = await conn.query(query, params);
     conn.release();
     
-    // 解析 JSON 字段
-    const parsedRows = rows.map(row => ({
+    // 解析 JSON 字段并处理标签筛选
+    let parsedRows = rows.map(row => ({
       ...row,
       tags: row.tags ? (typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags) : []
     }));
+
+    // 如果提供了标签过滤，进行客户端过滤
+    if (req.query.tag) {
+      const selectedTag = req.query.tag;
+      parsedRows = parsedRows.filter(hotel => 
+        hotel.tags && hotel.tags.includes(selectedTag)
+      );
+    }
     
     res.json(parsedRows);
   } catch (error) {
