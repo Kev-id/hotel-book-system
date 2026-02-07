@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getHotelList } from '../../../api/hotelApi';
-import { Card, Empty, Spin, Tag, Pagination, Button, Select } from 'antd';
+import { 
+  Card, Empty, Spin, Tag, Pagination, Button, Select, 
+  InputNumber, Form, Row, Col, Space  // 新增：表单相关组件
+} from 'antd';
 import { 
   StarFilled, 
   EnvironmentOutlined, 
@@ -17,9 +20,29 @@ const HotelList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('default');
   const [selectedTags, setSelectedTags] = useState([]);
+  const [form] = Form.useForm(); // 新增：创建表单实例管理筛选条件
   const pageSize = 10;
   const location = useLocation();
   const navigate = useNavigate();
+
+  // 新增：城市选项配置（可根据业务扩展）
+  const cityOptions = [
+    { label: '全部', value: '' },
+    { label: '北京', value: 'beijing' },
+    { label: '上海', value: 'shanghai' },
+    { label: '广州', value: 'guangzhou' },
+    { label: '深圳', value: 'shenzhen' },
+  ];
+
+  // 新增：星级选项配置
+  const starOptions = [
+    { label: '全部', value: '' },
+    { label: '1星', value: '1' },
+    { label: '2星', value: '2' },
+    { label: '3星', value: '3' },
+    { label: '4星', value: '4' },
+    { label: '5星', value: '5' },
+  ];
 
   const parseSearchParams = () => {
     const params = new URLSearchParams(location.search);
@@ -39,6 +62,36 @@ const HotelList = () => {
       stars: params.get('stars'),
       tags
     };
+  };
+
+  // 新增：处理筛选表单提交（更新URL参数）
+  const handleFilterSubmit = (values) => {
+    const params = new URLSearchParams(location.search);
+    // 清空原有城市/价格/星级参数
+    params.delete('city');
+    params.delete('minPrice');
+    params.delete('maxPrice');
+    params.delete('stars');
+
+    // 添加新的筛选参数
+    if (values.city) params.set('city', values.city);
+    if (values.minPrice) params.set('minPrice', values.minPrice);
+    if (values.maxPrice) params.set('maxPrice', values.maxPrice);
+    if (values.stars) params.set('stars', values.stars);
+
+    // 更新URL触发数据刷新
+    navigate(`?${params.toString()}`);
+  };
+
+  // 新增：重置筛选条件
+  const handleFilterReset = () => {
+    const params = new URLSearchParams(location.search);
+    params.delete('city');
+    params.delete('minPrice');
+    params.delete('maxPrice');
+    params.delete('stars');
+    form.resetFields(); // 重置表单显示
+    navigate(`?${params.toString()}`);
   };
 
   const fetchHotels = async () => {
@@ -70,8 +123,15 @@ const HotelList = () => {
   };
 
   useEffect(() => {
-    const { tags } = parseSearchParams();
+    const { tags, city, minPrice, maxPrice, stars } = parseSearchParams();
     setSelectedTags(tags || []);
+    // 新增：表单回显当前URL中的筛选条件
+    form.setFieldsValue({
+      city: city || '',
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+      stars: stars || '',
+    });
     fetchHotels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, sortBy]);
@@ -144,6 +204,69 @@ const HotelList = () => {
         </Button>
         <h1 className="list-title">酒店列表</h1>
       </div>
+
+      {/* 新增：筛选表单区域（城市/价格/星级） */}
+      <Card className="filter-form-card" title="高级筛选" bordered={true}>
+        <Form
+          form={form}
+          layout="inline"
+          onFinish={handleFilterSubmit}
+          initialValues={{ city: '', stars: '' }}
+        >
+          <Row gutter={16}>
+            <Col xs={24} sm={8} md={6}>
+              <Form.Item name="city" label="城市">
+                <Select 
+                  options={cityOptions} 
+                  placeholder="选择城市"
+                  allowClear
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={8} md={5}>
+              <Form.Item name="minPrice" label="最低价格">
+                <InputNumber 
+                  min={0} 
+                  placeholder="¥0" 
+                  style={{ width: '100%' }}
+                  formatter={value => `¥ ${value}`}
+                  parser={value => value.replace(/¥\s?/, '')}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={8} md={5}>
+              <Form.Item name="maxPrice" label="最高价格">
+                <InputNumber 
+                  min={0} 
+                  placeholder="¥不限" 
+                  style={{ width: '100%' }}
+                  formatter={value => `¥ ${value}`}
+                  parser={value => value.replace(/¥\s?/, '')}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={8} md={4}>
+              <Form.Item name="stars" label="星级">
+                <Select 
+                  options={starOptions} 
+                  placeholder="选择星级"
+                  allowClear
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={24} md={4}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  筛选
+                </Button>
+                <Button onClick={handleFilterReset}>
+                  重置
+                </Button>
+              </Space>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
 
       {/* Search Summary */}
       <Card className="search-summary">
