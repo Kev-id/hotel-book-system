@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getHotelDetail, getHotelRoomTypes } from '../../../api/hotelApi';
-import { Card, Button, Tag, Spin, Empty, Divider, message } from 'antd';
+import { Card, Button, Tag, Spin, Empty, Divider, message, Carousel } from 'antd';
 import { 
   StarFilled, 
   ArrowLeftOutlined,
@@ -10,7 +10,9 @@ import {
   HomeOutlined,
   CheckCircleOutlined,
   PhoneOutlined,
-  SafetyOutlined
+  SafetyOutlined,
+  LeftOutlined,
+  RightOutlined
 } from '@ant-design/icons';
 import './styles.css';
 
@@ -21,6 +23,7 @@ const HotelDetail = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const [carouselRef, setCarouselRef] = useState(null);
 
   const fetchHotelDetail = async () => {
     setLoading(true);
@@ -43,6 +46,26 @@ const HotelDetail = () => {
 
   const handleBook = () => {
     message.success('预订功能开发中，敬请期待！');
+  };
+
+  // 默认图片列表
+  const getDefaultImages = () => {
+    const baseUrl = 'https://images.unsplash.com/photo-';
+    const imageIds = hotel.stars >= 4 
+      ? ['1566073771259-6a8506099945', '1582719478250-c89cae4dc85b', '1445019980597-93fa8acb246c']
+      : hotel.stars >= 3 
+      ? ['1551882547-ff40c63fe5fa', '1566073771259-6a8506099945', '1445019980597-93fa8acb246c']
+      : ['1445019980597-93fa8acb246c', '1551882547-ff40c63fe5fa', '1582719478250-c89cae4dc85b'];
+    
+    return imageIds.map(id => `${baseUrl}${id}?w=1200&h=500&fit=crop`);
+  };
+
+  // 获取图片列表（优先使用上传的图片，否则使用默认图片）
+  const getImageList = () => {
+    if (hotel.images && hotel.images.length > 0) {
+      return hotel.images.map(img => `http://localhost:5000${img}`);
+    }
+    return getDefaultImages();
   };
 
   if (loading) {
@@ -86,19 +109,36 @@ const HotelDetail = () => {
 
       {/* Hero Section */}
       <Card className="hero-card">
-        {/* Hotel Image Gallery */}
+        {/* Hotel Image Gallery - Carousel */}
         <div className="hotel-gallery">
-          <img 
-            src={`https://images.unsplash.com/photo-${
-              hotel.stars >= 4 
-                ? '1566073771259-6a8506099945' 
-                : hotel.stars >= 3 
-                ? '1551882547-ff40c63fe5fa'
-                : '1445019980597-93fa8acb246c'
-            }?w=1200&h=400&fit=crop`}
-            alt={hotel.name}
-            className="hotel-main-image"
-          />
+          <Carousel 
+            autoplay 
+            ref={setCarouselRef}
+            dots={{ className: 'custom-dots' }}
+            effect="fade"
+          >
+            {getImageList().map((img, index) => (
+              <div key={index} className="carousel-slide">
+                <img 
+                  src={img}
+                  alt={`${hotel.name} - 图片 ${index + 1}`}
+                  className="hotel-main-image"
+                />
+              </div>
+            ))}
+          </Carousel>
+          <div className="carousel-controls">
+            <Button 
+              className="carousel-btn carousel-btn-prev"
+              icon={<LeftOutlined />}
+              onClick={() => carouselRef?.prev()}
+            />
+            <Button 
+              className="carousel-btn carousel-btn-next"
+              icon={<RightOutlined />}
+              onClick={() => carouselRef?.next()}
+            />
+          </div>
         </div>
 
         <div className="hero-content">

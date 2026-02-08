@@ -2,8 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { addHotel } from '../../../api/hotelApi';
-import { Form, Input, InputNumber, Select, DatePicker, Button, Card, message, Steps, Checkbox, Space, Tag } from 'antd';
-import { HomeOutlined, EnvironmentOutlined, DollarOutlined, CalendarOutlined, StarOutlined, CheckCircleOutlined, LogoutOutlined, TagsOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Form, Input, InputNumber, Select, DatePicker, Button, Card, message, Steps, Checkbox, Space, Tag, Upload } from 'antd';
+import { HomeOutlined, EnvironmentOutlined, DollarOutlined, CalendarOutlined, StarOutlined, CheckCircleOutlined, LogoutOutlined, TagsOutlined, FileTextOutlined, PictureOutlined, UploadOutlined } from '@ant-design/icons';
 import './styles.css';
 
 const AVAILABLE_TAGS = ['WiFi', '停车场', '健身房', '游泳池', 'SPA', '餐厅', '会议室', '前台24小时', '中餐厅', '茶楼', '商务中心', '行李寄存', '接送服务', '洗衣服务'];
@@ -21,6 +21,7 @@ const HotelForm = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [selectedTags, setSelectedTags] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   const handleTagsChange = (tags) => {
     setSelectedTags(tags);
@@ -36,12 +37,97 @@ const HotelForm = () => {
   };
 
   const handleSubmit = async (values) => {
-    const params = { ...values, price: Number(values.price), stars: Number(values.stars), tags: selectedTags, merchantId: user.id, status: 'pending', openingDate: values.openingDate.format('YYYY-MM-DD') };
-    const res = await addHotel(params);
-    if (res) { message.success('酒店提交成功，等待管理员审核！'); form.resetFields(); setSelectedTags([]); } else { message.error('提交失败，请重试'); }
+    // 创建 FormData 对象
+    const formData = new FormData();
+    
+    // 添加基本字段
+    formData.append('name', values.name);
+    formData.append('address', values.address);
+    formData.append('city', values.city);
+    formData.append('price', Number(values.price));
+    formData.append('stars', Number(values.stars));
+    formData.append('roomType', values.roomType);
+    formData.append('openingDate', values.openingDate.format('YYYY-MM-DD'));
+    formData.append('description', values.description);
+    formData.append('merchantId', user.id);
+    formData.append('status', 'pending');
+    formData.append('tags', JSON.stringify(selectedTags));
+    
+    // 添加图片文件
+    fileList.forEach(file => {
+      if (file.originFileObj) {
+        formData.append('images', file.originFileObj);
+      }
+    });
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/hotels', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (response.ok) {
+        message.success('酒店提交成功，等待管理员审核！');
+        form.resetFields();
+        setSelectedTags([]);
+        setFileList([]);
+      } else {
+        message.error('提交失败，请重试');
+      }
+    } catch (error) {
+      message.error('提交失败：' + error.message);
+    }
   };
 
   const handleLogout = () => { logout(); message.success('已退出登录'); navigate('/admin/login'); };
+
+  const uploadProps = {
+    listType: 'picture-card',
+    fileList: fileList,
+    beforeUpload: (file) => {
+      // 检查文件类型
+      const isImage = file.type.startsWith('image/');
+      if (!isImage) {
+        message.error('只能上传图片文件！');
+        return false;
+      }
+      
+      // 检查文件大小（5MB）
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        message.error('图片大小不能超过 5MB！');
+        return false;
+      }
+      
+      // 检查数量限制
+      if (fileList.length >= 10) {
+        message.error('最多只能上传 10 张图片！');
+        return false;
+      }
+      
+      return false; // 阻止自动上传
+    },
+    onChange: ({ fileList: newFileList }) => {
+      setFileList(newFileList);
+    },
+    onRemove: (file) => {
+      setFileList(fileList.filter(item => item.uid !== file.uid));
+    },
+    onPreview: async (file) => {
+      let src = file.url;
+      if (!src) {
+        src = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file.originFileObj);
+          reader.onload = () => resolve(reader.result);
+        });
+      }
+      const image = new Image();
+      image.src = src;
+      const imgWindow = window.open(src);
+      imgWindow?.document.write(image.outerHTML);
+    }
+  };
 
   return (
     <div className="hotel-form-container">
@@ -75,6 +161,18 @@ const HotelForm = () => {
           </div>
           <div className="form-section"><h3 className="section-title"><TagsOutlined /> 酒店标签</h3><p className="section-desc">选择酒店的特色标签，帮助用户更好地了解酒店设施</p>
             <div className="tags-container"><Checkbox.Group value={selectedTags} onChange={handleTagsChange} style={{ width: '100%' }}><Space wrap>{AVAILABLE_TAGS.map(tag => (<Checkbox key={tag} value={tag}><Tag color="blue">{tag}</Tag></Checkbox>))}</Space></Checkbox.Group></div>
+          </div>
+          <div className="form-section"><h3 className="section-title"><PictureOutlined /> 酒店图片</h3><p className="section-desc">上传酒店真实图片，最多 10 张，每张不超过 5MB</p>
+            <Form.Item name="images">
+              <Upload {...uploadProps}>
+                {fileList.length >= 10 ? null : (
+                  <div>
+                    <UploadOutlined />
+                    <div style={{ marginTop: 8 }}>上传图片</div>
+                  </div>
+                )}
+              </Upload>
+            </Form.Item>
           </div>
           <div className="form-section"><h3 className="section-title"><FileTextOutlined /> 酒店介绍</h3><p className="section-desc">{selectedTags.length > 0 ? ' 根据您选择的标签，我们已为您生成默认介绍。您也可以自定义修改。' : '请先选择酒店标签，系统将自动生成介绍。您也可以手动编写。'}</p>
             <Form.Item label="酒店介绍" name="description" rules={[{ required: true, message: '请输入酒店介绍' }, { min: 10, message: '介绍至少10个字符' }, { max: 500, message: '介绍最多500个字符' }]}><Input.TextArea placeholder="请输入酒店介绍，介绍您的酒店特色、服务等信息" rows={5} maxLength={500} showCount /></Form.Item>

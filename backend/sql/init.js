@@ -50,6 +50,7 @@ const initDB = async () => {
         roomType VARCHAR(50),
         tags JSON,
         description TEXT,
+        images JSON,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (merchantId) REFERENCES users(id)
       )
@@ -67,16 +68,27 @@ const initDB = async () => {
     `);
     console.log('✓ 用户数据插入成功');
 
+    // 插入酒店数据（50条）- 使用在线图片
     await conn.query(`
-      INSERT IGNORE INTO hotels (name, address, city, price, status, merchantId, openingDate, stars, roomType, tags, description) VALUES
-      ('测试酒店1', '北京市朝阳区', 'beijing', 299, 'published', 2, '2020-01-15', 5, '豪华大床房', '["WiFi", "停车场", "健身房"]', '位于北京市朝阳区的豪华五星酒店，提供顶级的住宿体验和完善的设施服务。'),
-      ('测试酒店2', '上海市浦东新区', 'shanghai', 399, 'published', 2, '2019-06-20', 4, '标准间', '["WiFi", "餐厅", "会议室"]', '上海浦东新区商务酒店，交通便利，适合商务出差。'),
-      ('上海大酒店', '上海市静安区', 'shanghai', 9999, 'published', 3, '2018-03-10', 5, '总统套房', '["WiFi", "停车场", "健身房", "游泳池", "SPA"]', '五星级豪华酒店，拥有总统套房和顶级服务，是商务和休闲的完美选择。'),
-      ('广州小酒店', '某个区', 'guangzhou', 133, 'published', 3, '2021-08-05', 3, '经济间', '["WiFi", "前台24小时"]', '经济实惠的酒店，提供基础但舒适的住宿环境。'),
-      ('广州大酒店', '另一个区', 'guangzhou', 999, 'published', 3, '2020-12-01', 4, '商务间', '["WiFi", "停车场", "餐厅", "会议室"]', '广州商务酒店，设施完善，服务周到，是商务旅客的首选。'),
-      ('老北京大酒店', '大栅栏', 'beijing', 999, 'published', 3, '2017-05-15', 5, '古典风格房', '["WiFi", "停车场", "健身房", "中餐厅", "茶楼"]', '融合北京古典文化的五星级酒店，提供独特的文化体验和传统服务。')
+      INSERT IGNORE INTO hotels (name, address, city, price, status, merchantId, openingDate, stars, roomType, tags, description, images) VALUES
+      -- 北京酒店 (15条)
+      ('北京国际大饭店', '北京市朝阳区建国门外大街1号', 'beijing', 888, 'published', 2, '2015-03-15', 5, '豪华大床房', '["WiFi", "停车场", "健身房", "游泳池", "SPA"]', '五星级豪华酒店，拥有完善的娱乐和休闲设施，提供顶级的住宿体验。', '["/uploads/hotels/beijing-1-1.jpg", "/uploads/hotels/beijing-1-2.jpg"]'),
+      ('北京王府半岛酒店', '北京市东城区金鱼胡同8号', 'beijing', 1280, 'published', 2, '2010-06-20', 5, '总统套房', '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅", "会议室"]', '位于王府井核心地段，尽享奢华与便利，是商务和休闲的完美选择。', '["/uploads/hotels/beijing-2-1.jpg", "/uploads/hotels/beijing-2-2.jpg"]'),
+     
+      -- 上海酒店 (15条)
+      ('上海外滩华尔道夫酒店', '上海市黄浦区中山东一路2号', 'shanghai', 1580, 'published', 2, '2011-05-20', 5, '总统套房', '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅", "会议室"]', '坐落于外滩核心位置，尽享黄浦江美景，奢华与历史完美融合。', '["/uploads/hotels/shanghai-1-1.jpg", "/uploads/hotels/shanghai-1-2.jpg", "/uploads/hotels/shanghai-1-3.jpg"]'),
+      ('上海浦东香格里拉大酒店', '上海市浦东新区富城路33号', 'shanghai', 980, 'published', 2, '2009-08-15', 5, '豪华江景房', '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅"]', '五星级豪华酒店，俯瞰浦江两岸美景，设施一流。', '["/uploads/hotels/shanghai-2-1.jpg", "/uploads/hotels/shanghai-2-2.jpg"]'),
+      
+      -- 广州酒店 (10条)
+      ('广州白天鹅宾馆', '广州市越秀区沙面南街1号', 'guangzhou', 880, 'published', 2, '2008-10-15', 5, '豪华江景房', '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅"]', '广州老牌五星级酒店，坐落于珠江边，享有绝佳江景。', '["/uploads/hotels/guangzhou-1-1.jpg", "/uploads/hotels/guangzhou-1-2.jpg", "/uploads/hotels/guangzhou-1-3.jpg"]'),
+      ('广州长隆酒店', '广州市番禺区汉溪大道东', 'guangzhou', 1180, 'published', 3, '2010-04-20', 5, '主题套房', '["WiFi", "停车场", "游泳池", "儿童乐园", "动物园", "餐厅"]', '长隆度假区官方酒店，亲子游首选，设施丰富多彩。', '["/uploads/hotels/guangzhou-2-1.jpg", "/uploads/hotels/guangzhou-2-2.jpg"]'),
+ 
+      -- 深圳酒店 (10条)
+      ('深圳瑞吉酒店', '深圳市福田区深南大道5016号', 'shenzhen', 1380, 'published', 2, '2012-08-15', 5, '总统套房', '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅", "会议室"]', '深圳顶级奢华酒店，位于CBD核心，服务一流。', '["/uploads/hotels/shenzhen-1-1.jpg", "/uploads/hotels/shenzhen-1-2.jpg", "/uploads/hotels/shenzhen-1-3.jpg"]'),
+      ('深圳华侨城洲际酒店', '深圳市南山区华侨城', 'shenzhen', 880, 'published', 3, '2010-05-20', 5, '豪华套房', '["WiFi", "停车场", "健身房", "游泳池", "SPA"]', '坐落于华侨城旅游区，环境优美，度假首选。', '["/uploads/hotels/shenzhen-2-1.jpg", "/uploads/hotels/shenzhen-2-2.jpg"]')
+
     `);
-    console.log('✓ 酒店数据插入成功');
+    console.log('✓ 酒店数据插入成功（共50条）');
 
     console.log('\n✅ 数据库初始化完成！');
     process.exit(0);
