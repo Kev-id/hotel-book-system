@@ -19,7 +19,6 @@ import './styles.css';
 const HotelDetail = () => {
   const { id } = useParams();
   const [hotel, setHotel] = useState(null);
-  const [roomTypes, setRoomTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,13 +28,6 @@ const HotelDetail = () => {
     setLoading(true);
     const data = await getHotelDetail(id);
     setHotel(data);
-    
-    // 获取同名酒店的所有房型
-    if (data) {
-      const types = await getHotelRoomTypes(id);
-      setRoomTypes(types);
-    }
-    
     setLoading(false);
   };
 
@@ -63,7 +55,9 @@ const HotelDetail = () => {
   // 获取图片列表（优先使用上传的图片，否则使用默认图片）
   const getImageList = () => {
     if (hotel.images && hotel.images.length > 0) {
-      return hotel.images.map(img => `http://localhost:5000${img}`);
+      return hotel.images.map(img => 
+        img.startsWith('http') ? img : `http://localhost:5000${img}`
+      );
     }
     return getDefaultImages();
   };
@@ -195,8 +189,8 @@ const HotelDetail = () => {
             <div className="info-item">
               <HomeOutlined className="info-icon" />
               <div className="info-content">
-                <div className="info-label">房型</div>
-                <div className="info-value">{hotel.roomType || '标准间'}</div>
+                <div className="info-label">房型数量</div>
+                <div className="info-value">{hotel.roomTypes?.length || 0} 种</div>
               </div>
             </div>
 
@@ -255,74 +249,32 @@ const HotelDetail = () => {
       </Card>
 
       {/* Room Types Section */}
-      {roomTypes.length > 1 && (
+      {hotel.roomTypes && hotel.roomTypes.length > 0 && (
         <Card className="room-types-card" title={`${hotel.name} - 全部房型`}>
           <div className="room-types-grid">
-            {roomTypes.map((room) => (
+            {hotel.roomTypes.map((room) => (
               <Card 
                 key={room.id} 
-                className={`room-type-card ${room.id === parseInt(id) ? 'current-room' : ''}`}
-                hoverable={room.id !== parseInt(id)}
-                onClick={() => {
-                  if (room.id !== parseInt(id)) {
-                    navigate(`/detail/${room.id}${location.search}`);
-                  }
-                }}
+                className="room-type-card"
+                hoverable
               >
                 <div className="room-type-header">
                   <div className="room-type-name">
                     <HomeOutlined className="room-icon" />
-                    <span>{room.roomType || '标准间'}</span>
+                    <span>{room.roomType}</span>
                   </div>
-                  {room.id === parseInt(id) && (
-                    <Tag color="blue">当前房型</Tag>
-                  )}
                 </div>
                 
                 <Divider style={{ margin: '12px 0' }} />
-                
-                <div className="room-type-info">
-                  <div className="room-info-item">
-                    <span className="room-info-label">地址</span>
-                    <span className="room-info-value">{room.address}</span>
-                  </div>
-                  
-                  {room.openingDate && (
-                    <div className="room-info-item">
-                      <span className="room-info-label">开业时间</span>
-                      <span className="room-info-value">{room.openingDate}</span>
-                    </div>
-                  )}
-                  
-                  {room.tags && room.tags.length > 0 && (
-                    <div className="room-info-item">
-                      <span className="room-info-label">标签</span>
-                      <div className="room-tags">
-                        {room.tags.slice(0, 3).map((tag, index) => (
-                          <Tag key={index} color="blue" style={{ margin: '2px' }}>
-                            {tag}
-                          </Tag>
-                        ))}
-                        {room.tags.length > 3 && (
-                          <Tag color="default" style={{ margin: '2px' }}>
-                            +{room.tags.length - 3}
-                          </Tag>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
                 
                 <div className="room-type-footer">
                   <div className="room-price">
                     <span className="room-price-label">每晚</span>
                     <span className="room-price-value">¥{room.price}</span>
                   </div>
-                  {room.id !== parseInt(id) && (
-                    <Button type="primary" size="small">
-                      查看详情
-                    </Button>
-                  )}
+                  <Button type="primary" size="small" onClick={handleBook}>
+                    预订
+                  </Button>
                 </div>
               </Card>
             ))}

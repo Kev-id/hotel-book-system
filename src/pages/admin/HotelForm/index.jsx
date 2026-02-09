@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { addHotel } from '../../../api/hotelApi';
 import { Form, Input, InputNumber, Select, DatePicker, Button, Card, message, Steps, Checkbox, Space, Tag, Upload } from 'antd';
-import { HomeOutlined, EnvironmentOutlined, DollarOutlined, CalendarOutlined, StarOutlined, CheckCircleOutlined, LogoutOutlined, TagsOutlined, FileTextOutlined, PictureOutlined, UploadOutlined } from '@ant-design/icons';
+import { HomeOutlined, EnvironmentOutlined, DollarOutlined, CalendarOutlined, StarOutlined, CheckCircleOutlined, LogoutOutlined, TagsOutlined, FileTextOutlined, PictureOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import './styles.css';
 
 const AVAILABLE_TAGS = ['WiFi', '停车场', '健身房', '游泳池', 'SPA', '餐厅', '会议室', '前台24小时', '中餐厅', '茶楼', '商务中心', '行李寄存', '接送服务', '洗衣服务'];
@@ -22,6 +22,7 @@ const HotelForm = () => {
   const [form] = Form.useForm();
   const [selectedTags, setSelectedTags] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([{ roomType: '', price: '' }]);
 
   const handleTagsChange = (tags) => {
     setSelectedTags(tags);
@@ -37,6 +38,12 @@ const HotelForm = () => {
   };
 
   const handleSubmit = async (values) => {
+    // 验证房型
+    if (roomTypes.length === 0 || !roomTypes.every(rt => rt.roomType && rt.price)) {
+      message.error('请至少添加一个房型并填写完整信息');
+      return;
+    }
+
     // 创建 FormData 对象
     const formData = new FormData();
     
@@ -44,14 +51,13 @@ const HotelForm = () => {
     formData.append('name', values.name);
     formData.append('address', values.address);
     formData.append('city', values.city);
-    formData.append('price', Number(values.price));
     formData.append('stars', Number(values.stars));
-    formData.append('roomType', values.roomType);
     formData.append('openingDate', values.openingDate.format('YYYY-MM-DD'));
     formData.append('description', values.description);
     formData.append('merchantId', user.id);
     formData.append('status', 'pending');
     formData.append('tags', JSON.stringify(selectedTags));
+    formData.append('roomTypes', JSON.stringify(roomTypes));
     
     // 添加图片文件
     fileList.forEach(file => {
@@ -71,12 +77,30 @@ const HotelForm = () => {
         form.resetFields();
         setSelectedTags([]);
         setFileList([]);
+        setRoomTypes([{ roomType: '', price: '' }]);
       } else {
         message.error('提交失败，请重试');
       }
     } catch (error) {
       message.error('提交失败：' + error.message);
     }
+  };
+
+  const addRoomType = () => {
+    setRoomTypes([...roomTypes, { roomType: '', price: '' }]);
+  };
+
+  const removeRoomType = (index) => {
+    if (roomTypes.length > 1) {
+      const newRoomTypes = roomTypes.filter((_, i) => i !== index);
+      setRoomTypes(newRoomTypes);
+    }
+  };
+
+  const updateRoomType = (index, field, value) => {
+    const newRoomTypes = [...roomTypes];
+    newRoomTypes[index][field] = value;
+    setRoomTypes(newRoomTypes);
   };
 
   const handleLogout = () => { logout(); message.success('已退出登录'); navigate('/admin/login'); };
@@ -147,17 +171,52 @@ const HotelForm = () => {
             <Form.Item label="酒店地址" name="address" rules={[{ required: true, message: '请输入酒店地址' }, { min: 5, message: '地址至少5个字符' }]}><Input placeholder="例如：北京市朝阳区建国路88号" size="large" prefix={<EnvironmentOutlined />} /></Form.Item>
             <Form.Item label="所在城市" name="city" rules={[{ required: true, message: '请选择酒店城市' }]}><Select placeholder="请选择酒店城市" size="large" suffixIcon={<EnvironmentOutlined />}><Select.Option value="beijing">北京</Select.Option><Select.Option value="shanghai">上海</Select.Option><Select.Option value="guangzhou">广州</Select.Option><Select.Option value="shenzhen">深圳</Select.Option></Select></Form.Item>
           </div>
-          <div className="form-section"><h3 className="section-title"><DollarOutlined /> 价格与星级</h3>
-            <div className="form-row">
-              <Form.Item label="每晚价格（元）" name="price" rules={[{ required: true, message: '请输入价格' }, { type: 'number', min: 1, message: '价格必须大于0' }]} className="form-item-half"><InputNumber min={0} max={99999} placeholder="例如：588" size="large" style={{ width: '100%' }} /></Form.Item>
-              <Form.Item label="酒店星级" name="stars" rules={[{ required: true, message: '请选择星级' }]} className="form-item-half"><Select placeholder="请选择星级" size="large" suffixIcon={<StarOutlined />}><Select.Option value="1"> 1星</Select.Option><Select.Option value="2"> 2星</Select.Option><Select.Option value="3"> 3星</Select.Option><Select.Option value="4"> 4星</Select.Option><Select.Option value="5"> 5星</Select.Option></Select></Form.Item>
-            </div>
+          <div className="form-section"><h3 className="section-title"><DollarOutlined /> 房型与价格</h3><p className="section-desc">添加酒店的各个房型及对应价格，至少添加一个房型</p>
+            {roomTypes.map((room, index) => (
+              <div key={index} className="room-type-row" style={{ display: 'flex', gap: '12px', marginBottom: '12px', alignItems: 'center' }}>
+                <Input
+                  placeholder="房型名称（如：豪华大床房）"
+                  value={room.roomType}
+                  onChange={(e) => updateRoomType(index, 'roomType', e.target.value)}
+                  style={{ flex: 2 }}
+                  size="large"
+                />
+                <InputNumber
+                  placeholder="价格（元/晚）"
+                  value={room.price}
+                  onChange={(value) => updateRoomType(index, 'price', value)}
+                  min={0}
+                  max={99999}
+                  style={{ flex: 1 }}
+                  size="large"
+                />
+                {roomTypes.length > 1 && (
+                  <Button
+                    type="text"
+                    danger
+                    icon={<MinusCircleOutlined />}
+                    onClick={() => removeRoomType(index)}
+                    size="large"
+                  />
+                )}
+              </div>
+            ))}
+            <Button
+              type="dashed"
+              onClick={addRoomType}
+              icon={<PlusOutlined />}
+              block
+              size="large"
+              style={{ marginTop: '8px' }}
+            >
+              添加房型
+            </Button>
           </div>
-          <div className="form-section"><h3 className="section-title"><CalendarOutlined /> 其他信息</h3>
-            <div className="form-row">
-              <Form.Item label="开业时间" name="openingDate" rules={[{ required: true, message: '请选择开业时间' }]} className="form-item-half"><DatePicker size="large" style={{ width: '100%' }} placeholder="选择开业日期" /></Form.Item>
-              <Form.Item label="房型" name="roomType" rules={[{ required: true, message: '请选择房型' }]} className="form-item-half"><Select placeholder="请选择房型" size="large"><Select.Option value="经济间">经济间</Select.Option><Select.Option value="标准间">标准间</Select.Option><Select.Option value="商务间">商务间</Select.Option><Select.Option value="豪华大床房">豪华大床房</Select.Option><Select.Option value="套房">套房</Select.Option><Select.Option value="总统套房">总统套房</Select.Option></Select></Form.Item>
-            </div>
+          <div className="form-section"><h3 className="section-title"><StarOutlined /> 星级</h3>
+            <Form.Item label="酒店星级" name="stars" rules={[{ required: true, message: '请选择星级' }]}><Select placeholder="请选择星级" size="large" suffixIcon={<StarOutlined />}><Select.Option value="1"> 1星</Select.Option><Select.Option value="2"> 2星</Select.Option><Select.Option value="3"> 3星</Select.Option><Select.Option value="4"> 4星</Select.Option><Select.Option value="5"> 5星</Select.Option></Select></Form.Item>
+          </div>
+          <div className="form-section"><h3 className="section-title"><CalendarOutlined /> 开业时间</h3>
+            <Form.Item label="开业时间" name="openingDate" rules={[{ required: true, message: '请选择开业时间' }]}><DatePicker size="large" style={{ width: '100%' }} placeholder="选择开业日期" /></Form.Item>
           </div>
           <div className="form-section"><h3 className="section-title"><TagsOutlined /> 酒店标签</h3><p className="section-desc">选择酒店的特色标签，帮助用户更好地了解酒店设施</p>
             <div className="tags-container"><Checkbox.Group value={selectedTags} onChange={handleTagsChange} style={{ width: '100%' }}><Space wrap>{AVAILABLE_TAGS.map(tag => (<Checkbox key={tag} value={tag}><Tag color="blue">{tag}</Tag></Checkbox>))}</Space></Checkbox.Group></div>

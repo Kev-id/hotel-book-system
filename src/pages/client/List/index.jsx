@@ -108,6 +108,14 @@ const HotelList = () => {
 
     let data = await getHotelList(filterParams);
     
+    // 调试：打印第一个酒店的数据
+    if (data && data.length > 0) {
+      console.log('第一个酒店数据:', data[0]);
+      console.log('images 字段:', data[0].images);
+      console.log('images 类型:', typeof data[0].images);
+      console.log('是否为数组:', Array.isArray(data[0].images));
+    }
+    
     // 排序
     if (sortBy === 'price-asc') {
       data = data.sort((a, b) => a.price - b.price);
@@ -392,15 +400,22 @@ const HotelList = () => {
                   {/* Hotel Image */}
                   <div className="hotel-image">
                     <img 
-                      src={`https://images.unsplash.com/photo-${
-                        hotel.stars >= 4 
-                          ? '1566073771259-6a8506099945' 
-                          : hotel.stars >= 3 
-                          ? '1551882547-ff40c63fe5fa'
-                          : '1445019980597-93fa8acb246c'
-                      }?w=300&h=200&fit=crop`}
+                      src={
+                        hotel.images && Array.isArray(hotel.images) && hotel.images.length > 0 
+                          ? (hotel.images[0].startsWith('http') 
+                              ? hotel.images[0]  // 如果是完整URL，直接使用
+                              : `http://localhost:5000${hotel.images[0]}`)  // 如果是本地路径，拼接完整URL
+                          : `https://images.unsplash.com/photo-${
+                              hotel.stars >= 4 
+                                ? '1566073771259-6a8506099945' 
+                                : hotel.stars >= 3 
+                                ? '1551882547-ff40c63fe5fa'
+                                : '1445019980597-93fa8acb246c'
+                            }?w=300&h=200&fit=crop`  // 如果没有图片，使用默认图片
+                      }
                       alt={hotel.name}
                       loading="lazy"
+                      
                     />
                   </div>
 
