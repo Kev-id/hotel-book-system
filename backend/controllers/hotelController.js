@@ -35,7 +35,10 @@ exports.getHotels = async (req, res) => {
       query += ' AND h.stars = ?';
       params.push(Number(req.query.stars));
     }
-
+    if (req.query.keyword) {
+      query += ' AND h.name LIKE ?';
+      params.push(`%${req.query.keyword}%`);
+    }
     query += ' GROUP BY h.id';
 
     const [rows] = await conn.query(query, params);

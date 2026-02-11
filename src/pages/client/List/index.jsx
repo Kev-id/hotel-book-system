@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getHotelList } from '../../../api/hotelApi';
 import { 
   Card, Empty, Spin, Tag, Pagination, Button, Select, 
-  InputNumber, Form, Row, Col, Space  // 新增：表单相关组件
+  InputNumber, Form, Row, Col, Space,  // 新增：表单相关组件
+  Input
 } from 'antd';
 import { 
   StarFilled, 
@@ -20,6 +21,7 @@ const HotelList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('default');
   const [selectedTags, setSelectedTags] = useState([]);
+  const [keyword,setKeyword]=useState('');
   const [form] = Form.useForm(); // 新增：创建表单实例管理筛选条件
   const pageSize = 10;
   const location = useLocation();
@@ -60,6 +62,7 @@ const HotelList = () => {
       minPrice: params.get('minPrice'),
       maxPrice: params.get('maxPrice'),
       stars: params.get('stars'),
+      keyword: params.get('keyword'),
       tags
     };
   };
@@ -72,12 +75,14 @@ const HotelList = () => {
     params.delete('minPrice');
     params.delete('maxPrice');
     params.delete('stars');
+    params.delete('keyword');
 
     // 添加新的筛选参数
     if (values.city) params.set('city', values.city);
     if (values.minPrice) params.set('minPrice', values.minPrice);
     if (values.maxPrice) params.set('maxPrice', values.maxPrice);
     if (values.stars) params.set('stars', values.stars);
+    if(values.keyword) params.set('keyword',keyword);
 
     // 更新URL触发数据刷新
     navigate(`?${params.toString()}`);
@@ -90,19 +95,21 @@ const HotelList = () => {
     params.delete('minPrice');
     params.delete('maxPrice');
     params.delete('stars');
+    params.delete('keyword');
     form.resetFields(); // 重置表单显示
     navigate(`?${params.toString()}`);
   };
 
   const fetchHotels = async () => {
     setLoading(true);
-    const { city, minPrice, maxPrice, stars, tags } = parseSearchParams();
+    const { city, minPrice, maxPrice, stars, tags,keyword} = parseSearchParams();
 
     const filterParams = {};
     if (city) filterParams.city = city;
     if (minPrice) filterParams.price_gte = minPrice;
     if (maxPrice) filterParams.price_lte = maxPrice;
     if (stars) filterParams.stars = stars;
+    if (keyword) filterParams.keyword = keyword;
     if (tags && tags.length > 0) filterParams.tag = tags.join(',');
     filterParams.status = 'published';
 
@@ -131,7 +138,7 @@ const HotelList = () => {
   };
 
   useEffect(() => {
-    const { tags, city, minPrice, maxPrice, stars } = parseSearchParams();
+    const { tags, city, minPrice, maxPrice, stars, keyword } = parseSearchParams();
     setSelectedTags(tags || []);
     // 新增：表单回显当前URL中的筛选条件
     form.setFieldsValue({
@@ -259,6 +266,15 @@ const HotelList = () => {
                   options={starOptions} 
                   placeholder="选择星级"
                   allowClear
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={8} md={4}>
+              <Form.Item name="keyword" label="关键词">
+                <Input 
+                  placeholder="搜索酒店名称"
+                  allowClear
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
               </Form.Item>
             </Col>
