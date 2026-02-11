@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Select, InputNumber, Button, Card, Carousel } from 'antd';
 import { SearchOutlined, EnvironmentOutlined, DollarOutlined, StarOutlined } from '@ant-design/icons';
+import { getHotelList } from '../../../api/hotelApi';
 import './styles.css';
 
 const Home = () => {
@@ -9,7 +10,18 @@ const Home = () => {
   const [stars, setStars] = useState('');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [featuredHotels, setFeaturedHotels] = useState([]);
   const navigate = useNavigate();
+
+  // 获取推荐酒店（用于轮播图）
+  useEffect(() => {
+    const fetchFeaturedHotels = async () => {
+      const hotels = await getHotelList({ status: 'published' });
+      // 取前3个酒店用于轮播
+      setFeaturedHotels(hotels.slice(0, 3));
+    };
+    fetchFeaturedHotels();
+  }, []);
 
   const handleSearch = () => {
     if (!city) {
@@ -19,53 +31,69 @@ const Home = () => {
     navigate(`/list?city=${city}&minPrice=${minPrice}&maxPrice=${maxPrice}&stars=${stars}`);
   };
 
-  // 轮播图数据
-  const carouselItems = [
-    { 
-      id: 1, 
-      title: '豪华五星酒店', 
-      desc: '享受顶级服务体验', 
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=400&fit=crop',
-      gradient: 'linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%)' 
-    },
-    { 
-      id: 2, 
-      title: '舒适商务酒店', 
-      desc: '完美出差选择', 
-      image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1200&h=400&fit=crop',
-      gradient: 'linear-gradient(135deg, rgba(240, 147, 251, 0.8) 0%, rgba(245, 87, 108, 0.8) 100%)' 
-    },
-    { 
-      id: 3, 
-      title: '经济实惠酒店', 
-      desc: '性价比之选', 
-      image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=1200&h=400&fit=crop',
-      gradient: 'linear-gradient(135deg, rgba(79, 172, 254, 0.8) 0%, rgba(0, 242, 254, 0.8) 100%)' 
+  // 点击轮播图跳转到酒店详情
+  const handleCarouselClick = (hotelId) => {
+    navigate(`/detail/${hotelId}`);
+  };
+
+  // 获取酒店图片
+  const getHotelImage = (hotel) => {
+    if (hotel.images && Array.isArray(hotel.images) && hotel.images.length > 0) {
+      const imageUrl = hotel.images[0];
+      // 如果是完整URL，直接使用；否则拼接后端地址
+      return imageUrl.startsWith('http') 
+        ? imageUrl 
+        : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imageUrl}`;
     }
-  ];
+    // 默认图片
+    return `https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=400&fit=crop`;
+  };
 
   return (
     <div className="home-container">
       {/* Hero Section with Carousel */}
       <div className="hero-section">
         <Carousel autoplay autoplaySpeed={4000} effect="fade">
-          {carouselItems.map((item) => (
-            <div key={item.id}>
+          {featuredHotels.length > 0 ? (
+            featuredHotels.map((hotel) => (
+              <div key={hotel.id}>
+                <div
+                  className="carousel-item"
+                  style={{ 
+                    backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 100%), url(${getHotelImage(hotel)})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => handleCarouselClick(hotel.id)}
+                >
+                  <div className="carousel-content">
+                    <h1 className="carousel-title">{hotel.name}</h1>
+                    <p className="carousel-desc">
+                      {hotel.address} · ¥{hotel.price}/晚起
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            // 加载中显示默认轮播
+            <div>
               <div
                 className="carousel-item"
                 style={{ 
-                  backgroundImage: `${item.gradient}, url(${item.image})`,
+                  backgroundImage: `linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), url(https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=400&fit=crop)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
                 }}
               >
                 <div className="carousel-content">
-                  <h1 className="carousel-title">{item.title}</h1>
-                  <p className="carousel-desc">{item.desc}</p>
+                  <h1 className="carousel-title">加载中...</h1>
+                  <p className="carousel-desc">正在为您推荐精选酒店</p>
                 </div>
               </div>
             </div>
-          ))}
+          )}
         </Carousel>
       </div>
 
