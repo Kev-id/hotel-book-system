@@ -1,4 +1,4 @@
-const baseUrl = '/api';
+const baseUrl = import.meta.env.VITE_API_URL || '/api';
 
 // 用户登录
 export const userLogin = async (username, password) => {

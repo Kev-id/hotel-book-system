@@ -1,5 +1,5 @@
 // 酒店接口封装（适配 Vite 跨域代理）
-const baseUrl = '/api';
+const baseUrl = import.meta.env.VITE_API_URL || '/api';
 
 // 获取酒店列表（支持筛选）
 export const getHotelList = async (params) => {
