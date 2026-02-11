@@ -10,7 +10,7 @@ exports.getHotels = async (req, res) => {
       SELECT h.*, MIN(rt.price) as price
       FROM hotels h
       LEFT JOIN room_types rt ON h.id = rt.hotelId
-      WHERE 1=1
+      WHERE h.deleted_at IS NULL
     `;
     const params = [];
 
@@ -168,20 +168,74 @@ exports.updateHotel = async (req, res) => {
   }
 };
 
-// 删除酒店
+// 软删除酒店（下线）
 exports.deleteHotel = async (req, res) => {
   try {
     const { id } = req.params;
     const conn = await pool.getConnection();
-    // 由于设置了 ON DELETE CASCADE，删除酒店会自动删除关联的房型
-    const [result] = await conn.query('DELETE FROM hotels WHERE id = ?', [id]);
+    // 软删除：设置 deleted_at 时间戳
+    const [result] = await conn.query(
+      'UPDATE hotels SET deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL',
+      [id]
+    );
     conn.release();
 
     if (result.affectedRows > 0) {
-      res.json({ success: true });
+      res.json({ success: true, message: '酒店已下线' });
     } else {
-      res.status(404).json({ error: '酒店不存在' });
+      res.status(404).json({ error: '酒店不存在或已下线' });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 恢复已删除的酒店
+exports.restoreHotel = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const conn = await pool.getConnection();
+    // 恢复：将 deleted_at 设为 NULL
+    const [result] = await conn.query(
+      'UPDATE hotels SET deleted_at = NULL WHERE id = ? AND deleted_at IS NOT NULL',
+      [id]
+    );
+    conn.release();
+
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: '酒店已恢复' });
+    } else {
+      res.status(404).json({ error: '酒店不存在或未被删除' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取已删除的酒店列表
+exports.getDeletedHotels = async (req, res) => {
+  try {
+    const conn = await pool.getConnection();
+    const query = `
+      SELECT h.*, MIN(rt.price) as price
+      FROM hotels h
+      LEFT JOIN room_types rt ON h.id = rt.hotelId
+      WHERE h.deleted_at IS NOT NULL
+      GROUP BY h.id
+      ORDER BY h.deleted_at DESC
+    `;
+    
+    const [rows] = await conn.query(query);
+    conn.release();
+    
+    // 解析 JSON 字段
+    const parsedRows = rows.map(row => ({
+      ...row,
+      tags: row.tags ? (typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags) : [],
+      images: row.images ? (typeof row.images === 'string' ? JSON.parse(row.images) : row.images) : []
+    }));
+
+    res.json(parsedRows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

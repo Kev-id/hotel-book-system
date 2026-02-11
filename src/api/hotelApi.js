@@ -65,7 +65,7 @@ export const addHotel = async (hotelData) => {
   }
 };
 
-// 删除酒店
+// 删除酒店（软删除/下线）
 export const deleteHotel = async (id) => {
   try {
     const res = await fetch(`${baseUrl}/hotels/${id}`, {
@@ -76,6 +76,33 @@ export const deleteHotel = async (id) => {
   } catch (err) {
     console.error('删除酒店失败', err);
     return false;
+  }
+};
+
+// 恢复已删除的酒店
+export const restoreHotel = async (id) => {
+  try {
+    const res = await fetch(`${baseUrl}/hotels/${id}/restore`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!res.ok) throw new Error('恢复失败');
+    return await res.json();
+  } catch (err) {
+    console.error('恢复酒店失败', err);
+    return null;
+  }
+};
+
+// 获取已删除的酒店列表
+export const getDeletedHotels = async () => {
+  try {
+    const res = await fetch(`${baseUrl}/hotels/deleted/list`);
+    if (!res.ok) throw new Error('请求失败');
+    return await res.json();
+  } catch (err) {
+    console.error('获取已删除酒店列表失败：', err);
+    return [];
   }
 };
 

@@ -49,6 +49,7 @@ const initDB = async () => {
         tags JSON,
         description TEXT,
         images JSON,
+        deleted_at TIMESTAMP NULL DEFAULT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (merchantId) REFERENCES users(id)
       )

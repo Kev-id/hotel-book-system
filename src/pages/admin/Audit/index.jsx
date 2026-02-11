@@ -1,15 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
-import { getHotelList, updateHotel, deleteHotel } from '../../../api/hotelApi';
-import { Table, Button, Space, Tag, Popconfirm, message, Modal, Input, Form } from 'antd';
-import { DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { getHotelList, updateHotel, deleteHotel, getDeletedHotels, restoreHotel } from '../../../api/hotelApi';
+import { Table, Button, Space, Tag, Popconfirm, message, Modal, Input, Form, Tabs } from 'antd';
+import { DeleteOutlined, CheckOutlined, CloseOutlined, RollbackOutlined } from '@ant-design/icons';
 
 const Audit = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [hotelList, setHotelList] = useState([]);
+  const [deletedHotels, setDeletedHotels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletedLoading, setDeletedLoading] = useState(false);
   const [rejectModalVisible, setRejectModalVisible] = useState(false);
   const [selectedHotelId, setSelectedHotelId] = useState(null);
   const [rejectReason, setRejectReason] = useState('');
@@ -25,6 +27,14 @@ const Audit = () => {
     });
     setHotelList(sorted);
     setLoading(false);
+  };
+
+  // 获取已删除的酒店
+  const fetchDeletedHotels = async () => {
+    setDeletedLoading(true);
+    const data = await getDeletedHotels();
+    setDeletedHotels(data);
+    setDeletedLoading(false);
   };
 
   useEffect(() => {
@@ -68,14 +78,26 @@ const Audit = () => {
     }
   };
 
-  // 删除酒店
+  // 删除酒店（软删除/下线）
   const handleDelete = async (id) => {
     const res = await deleteHotel(id);
     if (res) {
-      message.success('删除成功');
+      message.success('酒店已下线');
       fetchAllHotels();
     } else {
-      message.error('删除失败');
+      message.error('下线失败');
+    }
+  };
+
+  // 恢复酒店
+  const handleRestore = async (id) => {
+    const res = await restoreHotel(id);
+    if (res && res.success) {
+      message.success('酒店已恢复');
+      fetchDeletedHotels();
+      fetchAllHotels();
+    } else {
+      message.error('恢复失败');
     }
   };
 
@@ -186,14 +208,14 @@ const Audit = () => {
           )}
           {record.status !== 'pending' && (
             <Popconfirm
-              title="确认删除？"
-              description="删除后无法恢复"
+              title="确认下线？"
+              description="下线后可在回收站恢复"
               onConfirm={() => handleDelete(record.id)}
               okText="确认"
               cancelText="取消"
             >
               <Button danger size="small" icon={<DeleteOutlined />}>
-                删除
+                下线
               </Button>
             </Popconfirm>
           )}
@@ -202,29 +224,116 @@ const Audit = () => {
     }
   ];
 
+  // 已删除酒店的列定义
+  const deletedColumns = [
+    {
+      title: '酒店名称',
+      dataIndex: 'name',
+      key: 'name',
+      width: 150
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      key: 'address',
+      width: 200
+    },
+    {
+      title: '星级',
+      dataIndex: 'stars',
+      key: 'stars',
+      width: 80,
+      render: (stars) => stars ? `${stars}星` : '-'
+    },
+    {
+      title: '价格/晚',
+      dataIndex: 'price',
+      key: 'price',
+      width: 100,
+      render: (price) => `¥${price}`
+    },
+    {
+      title: '删除时间',
+      dataIndex: 'deleted_at',
+      key: 'deleted_at',
+      width: 180,
+      render: (time) => time ? new Date(time).toLocaleString('zh-CN') : '-'
+    },
+    {
+      title: '操作',
+      key: 'action',
+      width: 120,
+      render: (_, record) => (
+        <Popconfirm
+          title="确认恢复？"
+          description="恢复后酒店将重新上线"
+          onConfirm={() => handleRestore(record.id)}
+          okText="确认"
+          cancelText="取消"
+        >
+          <Button type="primary" size="small" icon={<RollbackOutlined />}>
+            恢复
+          </Button>
+        </Popconfirm>
+      )
+    }
+  ];
+
   return (
     <div style={{ padding: '20px' }}>
       <h2 style={{ marginBottom: '20px', color: '#333' }}>酒店信息审核管理</h2>
-      <Table
-        columns={columns}
-        dataSource={hotelList}
-        loading={loading}
-        rowKey="id"
-        pagination={{ pageSize: 10 }}
-        scroll={{ x: 1400 }}
-        expandable={{
-          expandedRowRender: (record) => (
-            <div style={{ padding: '12px 24px', background: '#fafafa' }}>
-              <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: '#333' }}>
-                酒店介绍：
-              </p>
-              <p style={{ margin: 0, color: '#666', lineHeight: '1.6' }}>
-                {record.description || '暂无介绍'}
-              </p>
-            </div>
-          ),
-          rowExpandable: (record) => !!record.description,
+      
+      <Tabs
+        defaultActiveKey="active"
+        onChange={(key) => {
+          if (key === 'deleted') {
+            fetchDeletedHotels();
+          }
         }}
+        items={[
+          {
+            key: 'active',
+            label: '在线酒店',
+            children: (
+              <Table
+                columns={columns}
+                dataSource={hotelList}
+                loading={loading}
+                rowKey="id"
+                pagination={{ pageSize: 10 }}
+                scroll={{ x: 1400 }}
+                expandable={{
+                  expandedRowRender: (record) => (
+                    <div style={{ padding: '12px 24px', background: '#fafafa' }}>
+                      <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: '#333' }}>
+                        酒店介绍：
+                      </p>
+                      <p style={{ margin: 0, color: '#666', lineHeight: '1.6' }}>
+                        {record.description || '暂无介绍'}
+                      </p>
+                    </div>
+                  ),
+                  rowExpandable: (record) => !!record.description,
+                }}
+              />
+            )
+          },
+          {
+            key: 'deleted',
+            label: `回收站 ${deletedHotels.length > 0 ? `(${deletedHotels.length})` : ''}`,
+            children: (
+              <Table
+                columns={deletedColumns}
+                dataSource={deletedHotels}
+                loading={deletedLoading}
+                rowKey="id"
+                pagination={{ pageSize: 10 }}
+                scroll={{ x: 1000 }}
+                locale={{ emptyText: '回收站为空' }}
+              />
+            )
+          }
+        ]}
       />
 
       <Modal
