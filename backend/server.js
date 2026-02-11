@@ -133,7 +133,15 @@ const initDatabase = async () => {
 };
 
 // 中间件
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://hotel-book-system-production.up.railway.app',
+    /\.vercel\.app$/  // 允许所有 vercel.app 域名
+  ],
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
