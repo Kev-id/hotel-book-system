@@ -8,6 +8,7 @@ import Register from '../pages/admin/Register';
 import HotelForm from '../pages/admin/HotelForm';
 import Audit from '../pages/admin/Audit';
 import MerchantStatus from '../pages/admin/MerchantStatus';
+import PriceCalendar from '../pages/admin/PriceCalendar';
 import AuthGuard from '../components/AuthGuard';
 import Navigation from '../components/Navigation';
 
@@ -46,6 +47,17 @@ const router = createBrowserRouter([
       <Layout>
         <AuthGuard allowedRoles={['merchant']}>
           <MerchantStatus />
+        </AuthGuard>
+      </Layout>
+    )
+  },
+  // 商户：价格日历管理
+  {
+    path: '/admin/price-calendar',
+    element: (
+      <Layout>
+        <AuthGuard allowedRoles={['merchant']}>
+          <PriceCalendar />
         </AuthGuard>
       </Layout>
     )

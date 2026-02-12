@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Select, InputNumber, Button, Card, Carousel } from 'antd';
-import { SearchOutlined, EnvironmentOutlined, DollarOutlined, StarOutlined } from '@ant-design/icons';
+import { Select, InputNumber, Button, Card, Carousel, DatePicker } from 'antd';
+import { SearchOutlined, EnvironmentOutlined, DollarOutlined, StarOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getHotelList } from '../../../api/hotelApi';
+import dayjs from 'dayjs';
 import './styles.css';
+
+const { RangePicker } = DatePicker;
 
 const Home = () => {
   const [city, setCity] = useState('shanghai');
   const [stars, setStars] = useState('');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [dateRange, setDateRange] = useState([dayjs(), dayjs().add(1, 'day')]);
   const [featuredHotels, setFeaturedHotels] = useState([]);
   const navigate = useNavigate();
 
@@ -28,7 +32,13 @@ const Home = () => {
       alert('请选择城市！');
       return;
     }
-    navigate(`/list?city=${city}&minPrice=${minPrice}&maxPrice=${maxPrice}&stars=${stars}`);
+    if (!dateRange || dateRange.length !== 2) {
+      alert('请选择入住和退房日期！');
+      return;
+    }
+    const checkIn = dateRange[0].format('YYYY-MM-DD');
+    const checkOut = dateRange[1].format('YYYY-MM-DD');
+    navigate(`/list?city=${city}&minPrice=${minPrice}&maxPrice=${maxPrice}&stars=${stars}&checkIn=${checkIn}&checkOut=${checkOut}`);
   };
 
   // 点击轮播图跳转到酒店详情
@@ -124,6 +134,22 @@ const Home = () => {
                 <Select.Option value="guangzhou">广州</Select.Option>
                 <Select.Option value="shenzhen">深圳</Select.Option>
               </Select>
+            </div>
+
+            {/* 日期选择 */}
+            <div className="form-group">
+              <label className="form-label">
+                <CalendarOutlined /> 入住时间
+              </label>
+              <RangePicker
+                value={dateRange}
+                onChange={setDateRange}
+                size="large"
+                className="form-select"
+                placeholder={['入住日期', '退房日期']}
+                disabledDate={(current) => current && current < dayjs().startOf('day')}
+                format="YYYY-MM-DD"
+              />
             </div>
 
             {/* 价格区间 */}

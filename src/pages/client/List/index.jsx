@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getHotelList } from '../../../api/hotelApi';
+import { getHotelList, calculatePeriodPrice } from '../../../api/hotelApi';
 import { 
   Card, Empty, Spin, Tag, Pagination, Button, Select, 
-  InputNumber, Form, Row, Col, Space,  // 新增：表单相关组件
+  InputNumber, Form, Row, Col, Space,
   Input
 } from 'antd';
 import { 
@@ -21,8 +21,9 @@ const HotelList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('default');
   const [selectedTags, setSelectedTags] = useState([]);
-  const [keyword,setKeyword]=useState('');
-  const [form] = Form.useForm(); // 新增：创建表单实例管理筛选条件
+  const [keyword, setKeyword] = useState('');
+  const [hotelPrices, setHotelPrices] = useState({});
+  const [form] = Form.useForm();
   const pageSize = 10;
   const location = useLocation();
   const navigate = useNavigate();
@@ -48,7 +49,6 @@ const HotelList = () => {
 
   const parseSearchParams = () => {
     const params = new URLSearchParams(location.search);
-    // 支持 ?tag=WiFi,健身房 或 ?tag=WiFi&tag=健身房 两种形式
     const tagParams = params.getAll('tag');
     let tags = [];
     if (tagParams.length > 0) {
@@ -63,6 +63,8 @@ const HotelList = () => {
       maxPrice: params.get('maxPrice'),
       stars: params.get('stars'),
       keyword: params.get('keyword'),
+      checkIn: params.get('checkIn'),
+      checkOut: params.get('checkOut'),
       tags
     };
   };
@@ -102,7 +104,7 @@ const HotelList = () => {
 
   const fetchHotels = async () => {
     setLoading(true);
-    const { city, minPrice, maxPrice, stars, tags,keyword} = parseSearchParams();
+    const { city, minPrice, maxPrice, stars, tags, keyword, checkIn, checkOut } = parseSearchParams();
 
     const filterParams = {};
     if (city) filterParams.city = city;
@@ -115,12 +117,38 @@ const HotelList = () => {
 
     let data = await getHotelList(filterParams);
     
-    // 调试：打印第一个酒店的数据
-    if (data && data.length > 0) {
-      console.log('第一个酒店数据:', data[0]);
-      console.log('images 字段:', data[0].images);
-      console.log('images 类型:', typeof data[0].images);
-      console.log('是否为数组:', Array.isArray(data[0].images));
+    // 如果有日期范围，计算每个酒店的价格
+    if (checkIn && checkOut && data.length > 0) {
+      const pricePromises = data.map(async (hotel) => {
+        // 确保酒店有房型数据
+        if (hotel.roomTypes && hotel.roomTypes.length > 0) {
+          try {
+            const roomTypeId = hotel.roomTypes[0].id;
+            const priceData = await calculatePeriodPrice({
+              hotelId: hotel.id,
+              roomTypeId,
+              checkIn,
+              checkOut
+            });
+            return { hotelId: hotel.id, ...priceData };
+          } catch (error) {
+            console.error(`计算酒店 ${hotel.id} 价格失败:`, error);
+            return { hotelId: hotel.id, totalPrice: hotel.price, minPrice: hotel.price, nights: 1 };
+          }
+        }
+        // 如果没有房型数据，使用默认价格
+        return { hotelId: hotel.id, totalPrice: hotel.price, minPrice: hotel.price, nights: 1 };
+      });
+      
+      const prices = await Promise.all(pricePromises);
+      const priceMap = {};
+      prices.forEach(p => {
+        if (p) priceMap[p.hotelId] = p;
+      });
+      setHotelPrices(priceMap);
+    } else {
+      // 没有日期范围时，清空价格映射
+      setHotelPrices({});
     }
     
     // 排序
@@ -468,11 +496,26 @@ const HotelList = () => {
 
                   {/* Right: Price */}
                   <div className="hotel-price-section">
-                    <div className="price-label">每晚低至</div>
-                    <div className="price-value">
-                      <span className="price-currency">¥</span>
-                      <span className="price-amount">{hotel.price}</span>
-                    </div>
+                    {hotelPrices[hotel.id] ? (
+                      <>
+                        <div className="price-label">总价</div>
+                        <div className="price-value">
+                          <span className="price-currency">¥</span>
+                          <span className="price-amount">{hotelPrices[hotel.id].totalPrice}</span>
+                        </div>
+                        <div className="price-detail">
+                          每晚低至 ¥{hotelPrices[hotel.id].minPrice}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="price-label">每晚低至</div>
+                        <div className="price-value">
+                          <span className="price-currency">¥</span>
+                          <span className="price-amount">{hotel.price}</span>
+                        </div>
+                      </>
+                    )}
                     <Button type="primary" className="book-button">
                       查看详情
                     </Button>

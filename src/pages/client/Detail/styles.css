@@ -123,7 +123,7 @@
 }
 
 .price-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2190ff 0%, #3a8fff 100%);
   padding: var(--space-xl);
   border-radius: 12px;
   text-align: center;
@@ -630,4 +630,18 @@
   .carousel-controls {
     padding: 0 var(--space-sm);
   }
+}
+
+.price-detail-info {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.room-price-detail {
+  display: block;
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
 }

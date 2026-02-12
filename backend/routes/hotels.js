@@ -30,4 +30,16 @@ router.post('/:id/restore', hotelController.restoreHotel);
 // DELETE /api/hotels/:id/images - 删除酒店图片
 router.delete('/:id/images', hotelController.deleteHotelImage);
 
+// POST /api/hotels/price-calendar - 设置单日价格
+router.post('/price-calendar', hotelController.setPriceCalendar);
+
+// POST /api/hotels/price-calendar/batch - 批量设置价格
+router.post('/price-calendar/batch', hotelController.setBatchPriceCalendar);
+
+// GET /api/hotels/price-calendar/query - 获取价格日历
+router.get('/price-calendar/query', hotelController.getPriceCalendar);
+
+// GET /api/hotels/price-calendar/calculate - 计算时间段总价
+router.get('/price-calendar/calculate', hotelController.calculatePeriodPrice);
+
 module.exports = router;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { getHotelDetail, getHotelRoomTypes } from '../../../api/hotelApi';
+import { getHotelDetail, getHotelRoomTypes, calculatePeriodPrice } from '../../../api/hotelApi';
 import { Card, Button, Tag, Spin, Empty, Divider, message, Carousel } from 'antd';
 import { 
   StarFilled, 
@@ -20,14 +20,58 @@ const HotelDetail = () => {
   const { id } = useParams();
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [roomPrices, setRoomPrices] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
   const [carouselRef, setCarouselRef] = useState(null);
+
+  const getSearchParams = () => {
+    const params = new URLSearchParams(location.search);
+    return {
+      checkIn: params.get('checkIn'),
+      checkOut: params.get('checkOut')
+    };
+  };
 
   const fetchHotelDetail = async () => {
     setLoading(true);
     const data = await getHotelDetail(id);
     setHotel(data);
+    
+    // 如果有日期范围，计算每个房型的价格
+    const { checkIn, checkOut } = getSearchParams();
+    if (checkIn && checkOut && data?.roomTypes && data.roomTypes.length > 0) {
+      try {
+        const pricePromises = data.roomTypes.map(async (room) => {
+          try {
+            const priceData = await calculatePeriodPrice({
+              hotelId: id,
+              roomTypeId: room.id,
+              checkIn,
+              checkOut
+            });
+            return { roomTypeId: room.id, ...priceData };
+          } catch (error) {
+            console.error(`计算房型 ${room.id} 价格失败:`, error);
+            return { roomTypeId: room.id, totalPrice: room.price, minPrice: room.price, nights: 1 };
+          }
+        });
+        
+        const prices = await Promise.all(pricePromises);
+        const priceMap = {};
+        prices.forEach(p => {
+          if (p) priceMap[p.roomTypeId] = p;
+        });
+        setRoomPrices(priceMap);
+      } catch (error) {
+        console.error('计算价格失败:', error);
+        setRoomPrices({});
+      }
+    } else {
+      // 没有日期范围时，清空价格映射
+      setRoomPrices({});
+    }
+    
     setLoading(false);
   };
 
@@ -162,11 +206,26 @@ const HotelDetail = () => {
 
           <div className="hero-right">
             <div className="price-card">
-              <div className="price-label">每晚低至</div>
-              <div className="price-value">
-                <span className="currency">¥</span>
-                <span className="amount">{hotel.price}</span>
-              </div>
+              {roomPrices[hotel.roomTypes?.[0]?.id] ? (
+                <>
+                  <div className="price-label">总价</div>
+                  <div className="price-value">
+                    <span className="currency">¥</span>
+                    <span className="amount">{roomPrices[hotel.roomTypes[0].id].totalPrice}</span>
+                  </div>
+                  <div className="price-detail-info">
+                    {roomPrices[hotel.roomTypes[0].id].nights} 晚 · 每晚低至 ¥{roomPrices[hotel.roomTypes[0].id].minPrice}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="price-label">每晚低至</div>
+                  <div className="price-value">
+                    <span className="currency">¥</span>
+                    <span className="amount">{hotel.price}</span>
+                  </div>
+                </>
+              )}
               <Button 
                 type="primary" 
                 size="large" 
@@ -268,10 +327,20 @@ const HotelDetail = () => {
                 <Divider style={{ margin: '12px 0' }} />
                 
                 <div className="room-type-footer">
-                  <div className="room-price">
-                    <span className="room-price-label">每晚</span>
-                    <span className="room-price-value">¥{room.price}</span>
-                  </div>
+                  {roomPrices[room.id] ? (
+                    <div className="room-price">
+                      <span className="room-price-label">总价</span>
+                      <span className="room-price-value">¥{roomPrices[room.id].totalPrice}</span>
+                      <span className="room-price-detail">
+                        {roomPrices[room.id].nights}晚 · 每晚¥{roomPrices[room.id].minPrice}起
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="room-price">
+                      <span className="room-price-label">每晚</span>
+                      <span className="room-price-value">¥{room.price}</span>
+                    </div>
+                  )}
                   <Button type="primary" size="small" onClick={handleBook}>
                     预订
                   </Button>
@@ -296,10 +365,17 @@ const HotelDetail = () => {
       {/* Fixed Bottom Bar */}
       <div className="fixed-bottom-bar">
         <div className="bottom-bar-content">
-          <div className="bottom-price">
-            <span className="bottom-price-label">每晚</span>
-            <span className="bottom-price-value">¥{hotel.price}</span>
-          </div>
+          {roomPrices[hotel.roomTypes?.[0]?.id] ? (
+            <div className="bottom-price">
+              <span className="bottom-price-label">总价</span>
+              <span className="bottom-price-value">¥{roomPrices[hotel.roomTypes[0].id].totalPrice}</span>
+            </div>
+          ) : (
+            <div className="bottom-price">
+              <span className="bottom-price-label">每晚</span>
+              <span className="bottom-price-value">¥{hotel.price}</span>
+            </div>
+          )}
           <Button 
             type="primary" 
             size="large" 

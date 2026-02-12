@@ -69,6 +69,23 @@ const initDB = async () => {
     `);
     console.log('✓ room_types 表创建成功');
 
+    // 创建价格日历表
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS price_calendar (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        hotelId INT NOT NULL,
+        roomTypeId INT NOT NULL,
+        date DATE NOT NULL,
+        price INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE KEY unique_room_date (hotelId, roomTypeId, date),
+        FOREIGN KEY (hotelId) REFERENCES hotels(id) ON DELETE CASCADE,
+        FOREIGN KEY (roomTypeId) REFERENCES room_types(id) ON DELETE CASCADE
+      )
+    `);
+    console.log('✓ price_calendar 表创建成功');
+
     // 插入用户数据
     await conn.query(`
       INSERT IGNORE INTO users (id, username, password, email, phone, role) VALUES
@@ -126,11 +143,76 @@ const initDB = async () => {
     `);
     console.log('✓ 房型数据插入成功（每个酒店2种房型）');
 
+    // 插入测试价格数据
+    console.log('\n📅 开始插入价格日历测试数据...');
+    
+    // 获取今天的日期
+    const today = new Date();
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    const priceData = [];
+    
+    // 酒店1，房型1：未来7-10天涨价（周末）
+    for (let i = 7; i <= 10; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      priceData.push({
+        hotelId: 1,
+        roomTypeId: 1,
+        date: formatDate(date),
+        price: 1288  // 周末涨价
+      });
+    }
+
+    // 酒店1，房型2：未来15-20天促销
+    for (let i = 15; i <= 20; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      priceData.push({
+        hotelId: 1,
+        roomTypeId: 2,
+        date: formatDate(date),
+        price: 999  // 促销价
+      });
+    }
+
+    // 酒店2，房型3：未来5-8天涨价
+    for (let i = 5; i <= 8; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      priceData.push({
+        hotelId: 2,
+        roomTypeId: 3,
+        date: formatDate(date),
+        price: 1688  // 特殊活动价
+      });
+    }
+
+    // 插入价格数据
+    for (const data of priceData) {
+      await conn.query(
+        `INSERT IGNORE INTO price_calendar (hotelId, roomTypeId, date, price) 
+         VALUES (?, ?, ?, ?)`,
+        [data.hotelId, data.roomTypeId, data.date, data.price]
+      );
+    }
+
+    console.log(`✓ 价格日历数据插入成功（${priceData.length} 条记录）`);
+    console.log('   - 酒店1房型1：未来7-10天周末价 ¥1288');
+    console.log('   - 酒店1房型2：未来15-20天促销价 ¥999');
+    console.log('   - 酒店2房型3：未来5-8天活动价 ¥1688');
+
     console.log('\n✅ 数据库初始化完成！');
     console.log('📊 数据统计：');
     console.log('   - 用户：5 个');
     console.log('   - 酒店：4 家');
     console.log('   - 房型：8 种（每家酒店2种）');
+    console.log(`   - 价格日历：${priceData.length} 条测试数据`);
     process.exit(0);
   } catch (error) {
     console.error('❌ 初始化失败:', error.message);

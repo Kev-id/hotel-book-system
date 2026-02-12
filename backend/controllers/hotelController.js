@@ -42,7 +42,6 @@ exports.getHotels = async (req, res) => {
     query += ' GROUP BY h.id';
 
     const [rows] = await conn.query(query, params);
-    conn.release();
     
     // 解析 JSON 字段并处理标签筛选
     let parsedRows = rows.map(row => ({
@@ -66,6 +65,17 @@ exports.getHotels = async (req, res) => {
         );
       }
     }
+
+    // 为每个酒店获取房型信息（用于价格计算）
+    for (const hotel of parsedRows) {
+      const [roomTypes] = await conn.query(
+        'SELECT id, roomType, price FROM room_types WHERE hotelId = ? ORDER BY price ASC',
+        [hotel.id]
+      );
+      hotel.roomTypes = roomTypes;
+    }
+    
+    conn.release();
 
     res.json(parsedRows);
   } catch (error) {
@@ -291,6 +301,186 @@ exports.deleteHotelImage = async (req, res) => {
     }
     
     res.json({ success: true, images });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 设置价格日历
+exports.setPriceCalendar = async (req, res) => {
+  try {
+    const { hotelId, roomTypeId, date, price } = req.body;
+    const conn = await pool.getConnection();
+    
+    await conn.query(
+      `INSERT INTO price_calendar (hotelId, roomTypeId, date, price) 
+       VALUES (?, ?, ?, ?) 
+       ON DUPLICATE KEY UPDATE price = ?`,
+      [hotelId, roomTypeId, date, price, price]
+    );
+    
+    conn.release();
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 批量设置价格日历
+exports.setBatchPriceCalendar = async (req, res) => {
+  try {
+    const { hotelId, roomTypeId, startDate, endDate, price } = req.body;
+    const conn = await pool.getConnection();
+    
+    // 生成日期范围 - 使用本地日期格式，避免时区问题
+    const dates = [];
+    const start = new Date(startDate + 'T00:00:00'); // 明确指定本地时间
+    const end = new Date(endDate + 'T00:00:00');
+    
+    // 使用更安全的日期迭代方式
+    const currentDate = new Date(start);
+    while (currentDate <= end) {
+      // 直接使用 YYYY-MM-DD 格式，不经过 toISOString
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      dates.push(`${year}-${month}-${day}`);
+      
+      // 安全地增加一天
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    // 批量插入
+    for (const date of dates) {
+      await conn.query(
+        `INSERT INTO price_calendar (hotelId, roomTypeId, date, price) 
+         VALUES (?, ?, ?, ?) 
+         ON DUPLICATE KEY UPDATE price = ?`,
+        [hotelId, roomTypeId, date, price, price]
+      );
+    }
+    
+    conn.release();
+    res.json({ success: true, count: dates.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取价格日历
+exports.getPriceCalendar = async (req, res) => {
+  try {
+    const { hotelId, startDate, endDate } = req.query;
+    const conn = await pool.getConnection();
+    
+    let query = 'SELECT * FROM price_calendar WHERE hotelId = ?';
+    const params = [hotelId];
+    
+    if (startDate) {
+      query += ' AND date >= ?';
+      params.push(startDate);
+    }
+    if (endDate) {
+      query += ' AND date <= ?';
+      params.push(endDate);
+    }
+    
+    query += ' ORDER BY date ASC';
+    
+    const [rows] = await conn.query(query, params);
+    conn.release();
+    
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 计算时间段总价
+exports.calculatePeriodPrice = async (req, res) => {
+  try {
+    const { hotelId, roomTypeId, checkIn, checkOut } = req.query;
+    const conn = await pool.getConnection();
+    
+    // 获取房型基础价格
+    const [roomType] = await conn.query(
+      'SELECT price FROM room_types WHERE id = ? AND hotelId = ?',
+      [roomTypeId, hotelId]
+    );
+    
+    if (roomType.length === 0) {
+      conn.release();
+      return res.status(404).json({ error: '房型不存在' });
+    }
+    
+    const basePrice = roomType[0].price;
+    
+    // 获取日期范围内的特殊价格
+    const [priceRows] = await conn.query(
+      `SELECT date, price FROM price_calendar 
+       WHERE hotelId = ? AND roomTypeId = ? AND date >= ? AND date < ?`,
+      [hotelId, roomTypeId, checkIn, checkOut]
+    );
+    
+    conn.release();
+    
+    // 计算总价 - 使用本地日期，避免时区问题
+    const start = new Date(checkIn + 'T00:00:00');
+    const end = new Date(checkOut + 'T00:00:00');
+    const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    
+    let totalPrice = 0;
+    let minPrice = null; // 初始化为null，从实际价格中找最小值
+    const priceMap = {};
+    
+    // 构建价格映射 - 直接使用数据库返回的日期字符串
+    priceRows.forEach(row => {
+      // MySQL DATE类型返回的是 Date对象，需要格式化为 YYYY-MM-DD
+      let dateStr;
+      if (row.date instanceof Date) {
+        const year = row.date.getFullYear();
+        const month = String(row.date.getMonth() + 1).padStart(2, '0');
+        const day = String(row.date.getDate()).padStart(2, '0');
+        dateStr = `${year}-${month}-${day}`;
+      } else {
+        dateStr = row.date;
+      }
+      priceMap[dateStr] = row.price;
+    });
+    
+    // 遍历每一天计算价格
+    const currentDate = new Date(start);
+    while (currentDate < end) {
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const dateStr = `${year}-${month}-${day}`;
+      
+      const dayPrice = priceMap[dateStr] || basePrice;
+      totalPrice += dayPrice;
+      
+      // 更新最低价格（从实际使用的价格中找）
+      if (minPrice === null) {
+        minPrice = dayPrice;
+      } else {
+        minPrice = Math.min(minPrice, dayPrice);
+      }
+      
+      // 安全地增加一天
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    // 如果没有遍历任何天（不应该发生），使用基础价格
+    if (minPrice === null) {
+      minPrice = basePrice;
+    }
+    
+    res.json({ 
+      totalPrice, 
+      nights, 
+      minPrice,
+      avgPrice: Math.round(totalPrice / nights)
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

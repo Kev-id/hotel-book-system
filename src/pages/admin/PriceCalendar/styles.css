@@ -1,0 +1,15 @@
+.price-calendar-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.price-calendar-container h1 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.price-calendar-container label {
+  font-weight: 500;
+}

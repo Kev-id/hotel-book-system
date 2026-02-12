@@ -117,3 +117,61 @@ export const getHotelRoomTypes = async (id) => {
     return [];
   }
 };
+
+// 设置单日价格
+export const setPriceCalendar = async (data) => {
+  try {
+    const res = await fetch(`${baseUrl}/hotels/price-calendar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('设置失败');
+    return await res.json();
+  } catch (err) {
+    console.error('设置价格失败', err);
+    return null;
+  }
+};
+
+// 批量设置价格
+export const setBatchPriceCalendar = async (data) => {
+  try {
+    const res = await fetch(`${baseUrl}/hotels/price-calendar/batch`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('批量设置失败');
+    return await res.json();
+  } catch (err) {
+    console.error('批量设置价格失败', err);
+    return null;
+  }
+};
+
+// 获取价格日历
+export const getPriceCalendar = async (params) => {
+  try {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${baseUrl}/hotels/price-calendar/query?${query}`);
+    if (!res.ok) throw new Error('请求失败');
+    return await res.json();
+  } catch (err) {
+    console.error('获取价格日历失败：', err);
+    return [];
+  }
+};
+
+// 计算时间段总价
+export const calculatePeriodPrice = async (params) => {
+  try {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${baseUrl}/hotels/price-calendar/calculate?${query}`);
+    if (!res.ok) throw new Error('请求失败');
+    return await res.json();
+  } catch (err) {
+    console.error('计算价格失败：', err);
+    return null;
+  }
+};

@@ -29,6 +29,7 @@ const Navigation = () => {
   if (user?.role === 'merchant') {
     baseItems.push({ path: '/admin/hotel-form', label: '酒店录入' });
     baseItems.push({ path: '/admin/merchant-status', label: '审核状态' });
+    baseItems.push({ path: '/admin/price-calendar', label: '价格管理' });
   }
 
   if (!user) {
