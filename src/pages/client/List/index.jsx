@@ -4,16 +4,20 @@ import { getHotelList, calculatePeriodPrice } from '../../../api/hotelApi';
 import { 
   Card, Empty, Spin, Tag, Pagination, Button, Select, 
   InputNumber, Form, Row, Col, Space,
-  Input
+  Input, DatePicker
 } from 'antd';
 import { 
   StarFilled, 
   EnvironmentOutlined, 
   ArrowLeftOutlined,
   FilterOutlined,
-  SortAscendingOutlined
+  SortAscendingOutlined,
+  CalendarOutlined
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import './styles.css';
+
+const { RangePicker } = DatePicker;
 
 const HotelList = () => {
   const [hotels, setHotels] = useState([]);
@@ -72,19 +76,27 @@ const HotelList = () => {
   // 新增：处理筛选表单提交（更新URL参数）
   const handleFilterSubmit = (values) => {
     const params = new URLSearchParams(location.search);
-    // 清空原有城市/价格/星级参数
+    // 清空原有筛选参数
     params.delete('city');
     params.delete('minPrice');
     params.delete('maxPrice');
     params.delete('stars');
     params.delete('keyword');
+    params.delete('checkIn');
+    params.delete('checkOut');
 
     // 添加新的筛选参数
     if (values.city) params.set('city', values.city);
     if (values.minPrice) params.set('minPrice', values.minPrice);
     if (values.maxPrice) params.set('maxPrice', values.maxPrice);
     if (values.stars) params.set('stars', values.stars);
-    if(values.keyword) params.set('keyword',keyword);
+    if (values.keyword) params.set('keyword', keyword);
+    
+    // 添加日期参数
+    if (values.dateRange && values.dateRange.length === 2) {
+      params.set('checkIn', values.dateRange[0].format('YYYY-MM-DD'));
+      params.set('checkOut', values.dateRange[1].format('YYYY-MM-DD'));
+    }
 
     // 更新URL触发数据刷新
     navigate(`?${params.toString()}`);
@@ -98,6 +110,8 @@ const HotelList = () => {
     params.delete('maxPrice');
     params.delete('stars');
     params.delete('keyword');
+    params.delete('checkIn');
+    params.delete('checkOut');
     form.resetFields(); // 重置表单显示
     navigate(`?${params.toString()}`);
   };
@@ -166,15 +180,24 @@ const HotelList = () => {
   };
 
   useEffect(() => {
-    const { tags, city, minPrice, maxPrice, stars, keyword } = parseSearchParams();
+    const { tags, city, minPrice, maxPrice, stars, keyword, checkIn, checkOut } = parseSearchParams();
     setSelectedTags(tags || []);
-    // 新增：表单回显当前URL中的筛选条件
-    form.setFieldsValue({
+    
+    // 表单回显当前URL中的筛选条件
+    const formValues = {
       city: city || '',
       minPrice: minPrice ? Number(minPrice) : undefined,
       maxPrice: maxPrice ? Number(maxPrice) : undefined,
       stars: stars || '',
-    });
+      keyword: keyword || '',
+    };
+    
+    // 回显日期范围
+    if (checkIn && checkOut) {
+      formValues.dateRange = [dayjs(checkIn), dayjs(checkOut)];
+    }
+    
+    form.setFieldsValue(formValues);
     fetchHotels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, sortBy]);
@@ -294,6 +317,16 @@ const HotelList = () => {
                   options={starOptions} 
                   placeholder="选择星级"
                   allowClear
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8}>
+              <Form.Item name="dateRange" label={<><CalendarOutlined /> 入住时间</>}>
+                <RangePicker
+                  placeholder={['入住日期', '退房日期']}
+                  style={{ width: '100%' }}
+                  disabledDate={(current) => current && current < dayjs().startOf('day')}
+                  format="YYYY-MM-DD"
                 />
               </Form.Item>
             </Col>

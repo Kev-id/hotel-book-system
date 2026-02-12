@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getHotelDetail, getHotelRoomTypes, calculatePeriodPrice } from '../../../api/hotelApi';
-import { Card, Button, Tag, Spin, Empty, Divider, message, Carousel } from 'antd';
+import { Card, Button, Tag, Spin, Empty, Divider, message, Carousel, DatePicker } from 'antd';
 import { 
   StarFilled, 
   ArrowLeftOutlined,
@@ -14,13 +14,17 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import './styles.css';
+
+const { RangePicker } = DatePicker;
 
 const HotelDetail = () => {
   const { id } = useParams();
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [roomPrices, setRoomPrices] = useState({});
+  const [dateRange, setDateRange] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [carouselRef, setCarouselRef] = useState(null);
@@ -31,6 +35,22 @@ const HotelDetail = () => {
       checkIn: params.get('checkIn'),
       checkOut: params.get('checkOut')
     };
+  };
+
+  // 处理日期变更
+  const handleDateChange = (dates) => {
+    setDateRange(dates);
+    if (dates && dates.length === 2) {
+      const params = new URLSearchParams(location.search);
+      params.set('checkIn', dates[0].format('YYYY-MM-DD'));
+      params.set('checkOut', dates[1].format('YYYY-MM-DD'));
+      navigate(`?${params.toString()}`, { replace: true });
+    } else {
+      const params = new URLSearchParams(location.search);
+      params.delete('checkIn');
+      params.delete('checkOut');
+      navigate(`?${params.toString()}`, { replace: true });
+    }
   };
 
   const fetchHotelDetail = async () => {
@@ -76,9 +96,15 @@ const HotelDetail = () => {
   };
 
   useEffect(() => {
+    // 初始化日期范围
+    const { checkIn, checkOut } = getSearchParams();
+    if (checkIn && checkOut) {
+      setDateRange([dayjs(checkIn), dayjs(checkOut)]);
+    }
+    
     fetchHotelDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, location.search]);
 
   const handleBook = () => {
     message.success('预订功能开发中，敬请期待！');
@@ -144,6 +170,27 @@ const HotelDetail = () => {
           返回列表
         </Button>
       </div>
+
+      {/* 日期选择器 */}
+      <Card className="date-selector-card" style={{ marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <CalendarOutlined style={{ fontSize: '20px', color: '#1890ff' }} />
+          <span style={{ fontWeight: 500 }}>选择入住时间：</span>
+          <RangePicker
+            value={dateRange}
+            onChange={handleDateChange}
+            placeholder={['入住日期', '退房日期']}
+            disabledDate={(current) => current && current < dayjs().startOf('day')}
+            format="YYYY-MM-DD"
+            style={{ flex: 1, maxWidth: 400 }}
+          />
+          {dateRange && dateRange.length === 2 && (
+            <span style={{ color: '#666' }}>
+              共 {Math.ceil((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24))} 晚
+            </span>
+          )}
+        </div>
+      </Card>
 
       {/* Hero Section */}
       <Card className="hero-card">
