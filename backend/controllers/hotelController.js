@@ -46,6 +46,7 @@ exports.getHotels = async (req, res) => {
     // 解析 JSON 字段并处理标签筛选
     let parsedRows = rows.map(row => ({
       ...row,
+      price: row.price || 0, // 确保 price 不为 null
       tags: row.tags ? (typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags) : [],
       images: row.images ? (typeof row.images === 'string' ? JSON.parse(row.images) : row.images) : []
     }));

@@ -24,3 +24,13 @@ backend/.env
 *.njsproj
 *.sln
 *.sw?
+
+# Private documents (不上传到 git)
+documents/更新记录_v2.1-v2.2.md
+documents/开发者必备技能指南.md
+documents/实战练习项目/
+
+# Large data files (原始CSV文件太大，不上传)
+data/raw/*.csv
+data/raw/Hotel_Reviews.csv
+data/raw/hotel_bookings.csv

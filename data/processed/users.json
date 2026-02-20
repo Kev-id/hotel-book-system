@@ -1,0 +1,3050 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@hotel.com",
+    "phone": "13800138000",
+    "password": "admin123",
+    "role": "admin",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [],
+    "createTime": "2024-02-21T11:19:01.206728"
+  },
+  {
+    "id": 2,
+    "username": "merchant2",
+    "email": "jiachao@example.net",
+    "phone": "15088784776",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-05-02T11:19:01.206728"
+  },
+  {
+    "id": 3,
+    "username": "merchant3",
+    "email": "min38@example.net",
+    "phone": "13789486728",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-07-30T11:19:01.206728"
+  },
+  {
+    "id": 4,
+    "username": "merchant4",
+    "email": "najia@example.com",
+    "phone": "13650598307",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2024-11-16T11:19:01.206728"
+  },
+  {
+    "id": 5,
+    "username": "merchant5",
+    "email": "ganggao@example.org",
+    "phone": "18068234406",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2024-12-17T11:19:01.208216"
+  },
+  {
+    "id": 6,
+    "username": "merchant6",
+    "email": "yang91@example.org",
+    "phone": "13752153942",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-01-08T11:19:01.208216"
+  },
+  {
+    "id": 7,
+    "username": "merchant7",
+    "email": "qinmin@example.org",
+    "phone": "15939420971",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-04-04T11:19:01.208216"
+  },
+  {
+    "id": 8,
+    "username": "merchant8",
+    "email": "xiulan22@example.com",
+    "phone": "14593693527",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-05-12T11:19:01.208216"
+  },
+  {
+    "id": 9,
+    "username": "merchant9",
+    "email": "wmo@example.org",
+    "phone": "15527564682",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-05-27T11:19:01.208216"
+  },
+  {
+    "id": 10,
+    "username": "merchant10",
+    "email": "gliang@example.org",
+    "phone": "15851830634",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2024-06-18T11:19:01.208216"
+  },
+  {
+    "id": 11,
+    "username": "merchant11",
+    "email": "caiyan@example.net",
+    "phone": "13757727076",
+    "password": "merchant123",
+    "role": "merchant",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-07-23T11:19:01.208216"
+  },
+  {
+    "id": 12,
+    "username": "xiuying26",
+    "email": "yan56@example.org",
+    "phone": "14598713570",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      4,
+      72,
+      26,
+      70,
+      54,
+      29,
+      58,
+      36,
+      1
+    ],
+    "createTime": "2025-09-09T11:19:01.208216"
+  },
+  {
+    "id": 13,
+    "username": "kbai",
+    "email": "yong35@example.net",
+    "phone": "18651941113",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      44,
+      14,
+      12
+    ],
+    "createTime": "2025-01-26T11:19:01.208216"
+  },
+  {
+    "id": 14,
+    "username": "yanghao",
+    "email": "zgong@example.net",
+    "phone": "18671965942",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      6,
+      59,
+      69,
+      16
+    ],
+    "createTime": "2025-01-28T11:19:01.208216"
+  },
+  {
+    "id": 15,
+    "username": "weitian",
+    "email": "gangyuan@example.org",
+    "phone": "13785884031",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      47,
+      74,
+      25,
+      9,
+      6,
+      30,
+      38,
+      11,
+      75
+    ],
+    "createTime": "2025-11-08T11:19:01.209218"
+  },
+  {
+    "id": 16,
+    "username": "qiangluo",
+    "email": "ctan@example.org",
+    "phone": "15668634247",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      48,
+      46
+    ],
+    "createTime": "2025-07-20T11:19:01.209218"
+  },
+  {
+    "id": 17,
+    "username": "fangzheng",
+    "email": "jie64@example.net",
+    "phone": "15116558784",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      10,
+      78,
+      22,
+      69,
+      32,
+      21,
+      60,
+      49,
+      35,
+      29
+    ],
+    "createTime": "2024-03-20T11:19:01.209218"
+  },
+  {
+    "id": 18,
+    "username": "chao58",
+    "email": "xiulan41@example.com",
+    "phone": "15141715668",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      5,
+      41,
+      52
+    ],
+    "createTime": "2025-05-21T11:19:01.209218"
+  },
+  {
+    "id": 19,
+    "username": "chaoshi",
+    "email": "minzou@example.net",
+    "phone": "15655187499",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      28,
+      64,
+      51,
+      59,
+      19
+    ],
+    "createTime": "2025-05-24T11:19:01.209725"
+  },
+  {
+    "id": 20,
+    "username": "cren",
+    "email": "haoyan@example.org",
+    "phone": "15980784484",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      75,
+      55,
+      52,
+      47
+    ],
+    "createTime": "2025-07-10T11:19:01.209725"
+  },
+  {
+    "id": 21,
+    "username": "fangdai",
+    "email": "tangjun@example.org",
+    "phone": "14597799739",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      7
+    ],
+    "createTime": "2025-10-30T11:19:01.209725"
+  },
+  {
+    "id": 22,
+    "username": "kgong",
+    "email": "lei44@example.net",
+    "phone": "18581991152",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      77,
+      9,
+      50,
+      49,
+      60,
+      68
+    ],
+    "createTime": "2025-06-07T11:19:01.209725"
+  },
+  {
+    "id": 23,
+    "username": "taoyang",
+    "email": "fang63@example.org",
+    "phone": "18534626382",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      15,
+      69,
+      35,
+      44,
+      80,
+      38,
+      56,
+      21,
+      59,
+      1
+    ],
+    "createTime": "2025-05-26T11:19:01.209725"
+  },
+  {
+    "id": 24,
+    "username": "yan41",
+    "email": "duanfang@example.org",
+    "phone": "15606913263",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      39
+    ],
+    "createTime": "2024-05-06T11:19:01.209725"
+  },
+  {
+    "id": 25,
+    "username": "ping97",
+    "email": "fangfan@example.org",
+    "phone": "15557932165",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      70,
+      68
+    ],
+    "createTime": "2026-02-19T11:19:01.210736"
+  },
+  {
+    "id": 26,
+    "username": "fang03",
+    "email": "nafang@example.com",
+    "phone": "18549472036",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      40,
+      31,
+      8,
+      73,
+      11
+    ],
+    "createTime": "2025-11-24T11:19:01.210736"
+  },
+  {
+    "id": 27,
+    "username": "junfu",
+    "email": "yan59@example.net",
+    "phone": "15758071919",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      17,
+      61
+    ],
+    "createTime": "2024-08-06T11:19:01.210736"
+  },
+  {
+    "id": 28,
+    "username": "hanjing",
+    "email": "yancai@example.org",
+    "phone": "18516612696",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      28,
+      70,
+      26,
+      40,
+      52,
+      48
+    ],
+    "createTime": "2024-11-28T11:19:01.210736"
+  },
+  {
+    "id": 29,
+    "username": "kdai",
+    "email": "zhaoxia@example.org",
+    "phone": "13506258428",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      9,
+      44,
+      3
+    ],
+    "createTime": "2024-06-27T11:19:01.210736"
+  },
+  {
+    "id": 30,
+    "username": "xluo",
+    "email": "tangxia@example.com",
+    "phone": "15728101302",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      8
+    ],
+    "createTime": "2025-06-30T11:19:01.210736"
+  },
+  {
+    "id": 31,
+    "username": "xiashen",
+    "email": "xumin@example.net",
+    "phone": "18028604475",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      66
+    ],
+    "createTime": "2025-06-21T11:19:01.210736"
+  },
+  {
+    "id": 32,
+    "username": "xiuyingchang",
+    "email": "laifang@example.com",
+    "phone": "15836876384",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      74,
+      61
+    ],
+    "createTime": "2025-06-16T11:19:01.210736"
+  },
+  {
+    "id": 33,
+    "username": "jing44",
+    "email": "yanwen@example.com",
+    "phone": "15624641578",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      13
+    ],
+    "createTime": "2024-04-16T11:19:01.210736"
+  },
+  {
+    "id": 34,
+    "username": "ndeng",
+    "email": "gyang@example.com",
+    "phone": "13276284385",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2024-04-01T11:19:01.210736"
+  },
+  {
+    "id": 35,
+    "username": "nhu",
+    "email": "fuyong@example.org",
+    "phone": "14559990100",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      44,
+      14,
+      32,
+      25,
+      77,
+      69
+    ],
+    "createTime": "2024-11-17T11:19:01.211734"
+  },
+  {
+    "id": 36,
+    "username": "xiulan13",
+    "email": "jun74@example.com",
+    "phone": "15376898716",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      10,
+      57,
+      71
+    ],
+    "createTime": "2025-11-11T11:19:01.211734"
+  },
+  {
+    "id": 37,
+    "username": "cyin",
+    "email": "yan08@example.org",
+    "phone": "13000598606",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      31
+    ],
+    "createTime": "2025-09-02T11:19:01.211734"
+  },
+  {
+    "id": 38,
+    "username": "gangyu",
+    "email": "wentao@example.org",
+    "phone": "15277086362",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-09-04T11:19:01.211734"
+  },
+  {
+    "id": 39,
+    "username": "weihe",
+    "email": "kmao@example.com",
+    "phone": "15091048969",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      37,
+      55,
+      72,
+      63,
+      20,
+      25,
+      38
+    ],
+    "createTime": "2025-07-12T11:19:01.211734"
+  },
+  {
+    "id": 40,
+    "username": "wuli",
+    "email": "ilong@example.com",
+    "phone": "14544990370",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [],
+    "createTime": "2025-04-04T11:19:01.211734"
+  },
+  {
+    "id": 41,
+    "username": "guiyingqian",
+    "email": "guoli@example.net",
+    "phone": "15560941765",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      21,
+      8,
+      66,
+      11,
+      24,
+      9,
+      75,
+      31
+    ],
+    "createTime": "2025-01-02T11:19:01.211734"
+  },
+  {
+    "id": 42,
+    "username": "yan68",
+    "email": "xiulan82@example.net",
+    "phone": "15314030616",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      77,
+      6,
+      11,
+      54,
+      75,
+      73,
+      67,
+      41,
+      34
+    ],
+    "createTime": "2025-07-25T11:19:01.211734"
+  },
+  {
+    "id": 43,
+    "username": "xuxiuying",
+    "email": "yxia@example.org",
+    "phone": "15385822803",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      17,
+      39,
+      59,
+      41,
+      10,
+      2
+    ],
+    "createTime": "2024-11-07T11:19:01.211734"
+  },
+  {
+    "id": 44,
+    "username": "qiangdeng",
+    "email": "pingwan@example.net",
+    "phone": "13099620743",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      69
+    ],
+    "createTime": "2025-07-16T11:19:01.211734"
+  },
+  {
+    "id": 45,
+    "username": "chao60",
+    "email": "dzeng@example.net",
+    "phone": "15179029352",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      32
+    ],
+    "createTime": "2025-02-06T11:19:01.211734"
+  },
+  {
+    "id": 46,
+    "username": "haofang",
+    "email": "jdai@example.net",
+    "phone": "13116110571",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      79,
+      68,
+      2,
+      71
+    ],
+    "createTime": "2025-04-19T11:19:01.212737"
+  },
+  {
+    "id": 47,
+    "username": "osong",
+    "email": "yluo@example.com",
+    "phone": "13783794482",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      15,
+      14,
+      71,
+      20
+    ],
+    "createTime": "2025-05-17T11:19:01.212737"
+  },
+  {
+    "id": 48,
+    "username": "mingcui",
+    "email": "xiuyingwei@example.com",
+    "phone": "15644894470",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      34,
+      65,
+      63
+    ],
+    "createTime": "2025-06-07T11:19:01.212737"
+  },
+  {
+    "id": 49,
+    "username": "qiang98",
+    "email": "ming56@example.org",
+    "phone": "18565228199",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      55,
+      36,
+      6,
+      1,
+      43,
+      17,
+      34,
+      21,
+      57,
+      71
+    ],
+    "createTime": "2024-02-28T11:19:01.212737"
+  },
+  {
+    "id": 50,
+    "username": "junwei",
+    "email": "bshi@example.com",
+    "phone": "15325688699",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      70,
+      5
+    ],
+    "createTime": "2025-02-06T11:19:01.212737"
+  },
+  {
+    "id": 51,
+    "username": "fqiao",
+    "email": "lei60@example.net",
+    "phone": "18106511839",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [],
+    "createTime": "2025-04-10T11:19:01.212737"
+  },
+  {
+    "id": 52,
+    "username": "tao47",
+    "email": "dyuan@example.org",
+    "phone": "15592954286",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      27,
+      32,
+      14,
+      46,
+      72
+    ],
+    "createTime": "2024-12-30T11:19:01.212737"
+  },
+  {
+    "id": 53,
+    "username": "xiulanfu",
+    "email": "hulei@example.com",
+    "phone": "18789450489",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      23,
+      53
+    ],
+    "createTime": "2026-01-25T11:19:01.212737"
+  },
+  {
+    "id": 54,
+    "username": "jun44",
+    "email": "chengchao@example.net",
+    "phone": "13649913676",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      32,
+      35,
+      21,
+      14,
+      49,
+      5,
+      61,
+      29,
+      26,
+      59
+    ],
+    "createTime": "2025-02-26T11:19:01.212737"
+  },
+  {
+    "id": 55,
+    "username": "ndai",
+    "email": "yan27@example.org",
+    "phone": "14771939477",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      4,
+      25,
+      52
+    ],
+    "createTime": "2025-03-20T11:19:01.212737"
+  },
+  {
+    "id": 56,
+    "username": "xiuying25",
+    "email": "gangchen@example.net",
+    "phone": "15924665198",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      66,
+      52,
+      69,
+      43,
+      4
+    ],
+    "createTime": "2025-10-24T11:19:01.212737"
+  },
+  {
+    "id": 57,
+    "username": "jding",
+    "email": "tianli@example.com",
+    "phone": "13243198354",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      5,
+      14,
+      77,
+      56
+    ],
+    "createTime": "2025-03-03T11:19:01.212737"
+  },
+  {
+    "id": 58,
+    "username": "stan",
+    "email": "xiulanma@example.net",
+    "phone": "18948356967",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      15,
+      50,
+      74,
+      25,
+      33,
+      6,
+      56,
+      1
+    ],
+    "createTime": "2024-09-05T11:19:01.212737"
+  },
+  {
+    "id": 59,
+    "username": "xiuyingyao",
+    "email": "xuexiuying@example.net",
+    "phone": "15749265145",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      26,
+      47,
+      56,
+      9,
+      43,
+      41,
+      16,
+      39,
+      65,
+      40
+    ],
+    "createTime": "2024-04-08T11:19:01.212737"
+  },
+  {
+    "id": 60,
+    "username": "wye",
+    "email": "lsun@example.com",
+    "phone": "13534356371",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      17,
+      25,
+      54,
+      49,
+      23,
+      73,
+      39,
+      52
+    ],
+    "createTime": "2024-08-07T11:19:01.212737"
+  },
+  {
+    "id": 61,
+    "username": "yan41",
+    "email": "gangye@example.com",
+    "phone": "13320824850",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      75,
+      78,
+      42,
+      60,
+      57,
+      76
+    ],
+    "createTime": "2024-03-30T11:19:01.213736"
+  },
+  {
+    "id": 62,
+    "username": "gang83",
+    "email": "fulei@example.com",
+    "phone": "15939371679",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      11,
+      37
+    ],
+    "createTime": "2024-09-10T11:19:01.213736"
+  },
+  {
+    "id": 63,
+    "username": "yzhang",
+    "email": "yang07@example.net",
+    "phone": "18607670986",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      40,
+      29,
+      26
+    ],
+    "createTime": "2025-09-22T11:19:01.213736"
+  },
+  {
+    "id": 64,
+    "username": "li00",
+    "email": "zyang@example.net",
+    "phone": "18683636204",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      10,
+      59,
+      54,
+      74,
+      25,
+      50,
+      64,
+      52,
+      32
+    ],
+    "createTime": "2025-09-21T11:19:01.213736"
+  },
+  {
+    "id": 65,
+    "username": "bqiao",
+    "email": "mingxie@example.org",
+    "phone": "18918042981",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      29,
+      23,
+      67,
+      60,
+      7,
+      72
+    ],
+    "createTime": "2025-06-09T11:19:01.213736"
+  },
+  {
+    "id": 66,
+    "username": "qiang60",
+    "email": "kongjuan@example.net",
+    "phone": "18743827775",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      68,
+      72,
+      77,
+      41,
+      57,
+      65,
+      55
+    ],
+    "createTime": "2024-08-07T11:19:01.214734"
+  },
+  {
+    "id": 67,
+    "username": "ping70",
+    "email": "ashi@example.com",
+    "phone": "15052577891",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      34,
+      32,
+      36,
+      67,
+      63,
+      31,
+      78
+    ],
+    "createTime": "2024-11-26T11:19:01.214734"
+  },
+  {
+    "id": 68,
+    "username": "xfu",
+    "email": "na24@example.net",
+    "phone": "18870159953",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      41,
+      70,
+      11,
+      18,
+      20
+    ],
+    "createTime": "2025-06-28T11:19:01.214734"
+  },
+  {
+    "id": 69,
+    "username": "ping93",
+    "email": "guiying31@example.net",
+    "phone": "15982762230",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      54
+    ],
+    "createTime": "2024-12-29T11:19:01.214734"
+  },
+  {
+    "id": 70,
+    "username": "yong11",
+    "email": "yong30@example.org",
+    "phone": "18611125625",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      54,
+      50,
+      75
+    ],
+    "createTime": "2024-03-09T11:19:01.215243"
+  },
+  {
+    "id": 71,
+    "username": "huangjie",
+    "email": "qqian@example.net",
+    "phone": "14575999785",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      62,
+      1,
+      46,
+      39,
+      50,
+      54
+    ],
+    "createTime": "2024-08-17T11:19:01.215243"
+  },
+  {
+    "id": 72,
+    "username": "gangmo",
+    "email": "chenli@example.org",
+    "phone": "15868942744",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      63,
+      29,
+      35
+    ],
+    "createTime": "2024-11-30T11:19:01.215243"
+  },
+  {
+    "id": 73,
+    "username": "gaofang",
+    "email": "wqiu@example.com",
+    "phone": "13838535446",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      52,
+      22,
+      60,
+      17,
+      69,
+      4,
+      51,
+      73,
+      75,
+      11
+    ],
+    "createTime": "2024-05-02T11:19:01.215243"
+  },
+  {
+    "id": 74,
+    "username": "pzou",
+    "email": "juanyan@example.com",
+    "phone": "18009649403",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [],
+    "createTime": "2025-05-29T11:19:01.215243"
+  },
+  {
+    "id": 75,
+    "username": "zhengtao",
+    "email": "guiying63@example.com",
+    "phone": "14532569690",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      49,
+      36,
+      54,
+      33,
+      11
+    ],
+    "createTime": "2024-10-26T11:19:01.215243"
+  },
+  {
+    "id": 76,
+    "username": "fang99",
+    "email": "phu@example.net",
+    "phone": "18925916909",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      9,
+      6,
+      4
+    ],
+    "createTime": "2025-06-11T11:19:01.215749"
+  },
+  {
+    "id": 77,
+    "username": "shixiulan",
+    "email": "sxu@example.org",
+    "phone": "18138181677",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      17,
+      61,
+      15
+    ],
+    "createTime": "2024-07-22T11:19:01.215749"
+  },
+  {
+    "id": 78,
+    "username": "jgong",
+    "email": "gsu@example.net",
+    "phone": "18217485132",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      22,
+      78,
+      15,
+      21,
+      40
+    ],
+    "createTime": "2025-11-01T11:19:01.215749"
+  },
+  {
+    "id": 79,
+    "username": "qiang41",
+    "email": "ping96@example.net",
+    "phone": "18234575062",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      49,
+      51,
+      26,
+      10,
+      76,
+      32,
+      14,
+      39,
+      16,
+      6
+    ],
+    "createTime": "2025-03-01T11:19:01.215749"
+  },
+  {
+    "id": 80,
+    "username": "hmao",
+    "email": "chaosu@example.org",
+    "phone": "13451049160",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      44,
+      2,
+      54,
+      63,
+      14,
+      56,
+      47,
+      59
+    ],
+    "createTime": "2024-02-26T11:19:01.215749"
+  },
+  {
+    "id": 81,
+    "username": "li09",
+    "email": "chenlei@example.net",
+    "phone": "14525487007",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      35,
+      79,
+      69,
+      62,
+      60,
+      56,
+      80,
+      42,
+      32,
+      12
+    ],
+    "createTime": "2025-05-10T11:19:01.215749"
+  },
+  {
+    "id": 82,
+    "username": "myin",
+    "email": "dduan@example.net",
+    "phone": "15274491784",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      79,
+      49,
+      44,
+      4,
+      64,
+      42,
+      24,
+      63,
+      28
+    ],
+    "createTime": "2025-02-21T11:19:01.215749"
+  },
+  {
+    "id": 83,
+    "username": "nafang",
+    "email": "hkang@example.net",
+    "phone": "18530853585",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      72,
+      2,
+      67,
+      25
+    ],
+    "createTime": "2025-11-24T11:19:01.215749"
+  },
+  {
+    "id": 84,
+    "username": "caona",
+    "email": "xieguiying@example.net",
+    "phone": "18912615807",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      61,
+      63,
+      58
+    ],
+    "createTime": "2026-02-02T11:19:01.215749"
+  },
+  {
+    "id": 85,
+    "username": "tao17",
+    "email": "yanyin@example.net",
+    "phone": "13291787860",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      40,
+      75,
+      48
+    ],
+    "createTime": "2024-10-23T11:19:01.215749"
+  },
+  {
+    "id": 86,
+    "username": "jun07",
+    "email": "jiemao@example.com",
+    "phone": "18919633752",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      43,
+      46,
+      59,
+      35,
+      40,
+      33,
+      30,
+      16
+    ],
+    "createTime": "2025-08-06T11:19:01.215749"
+  },
+  {
+    "id": 87,
+    "username": "ming85",
+    "email": "qiujuan@example.org",
+    "phone": "15177648484",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      25,
+      28
+    ],
+    "createTime": "2024-10-12T11:19:01.215749"
+  },
+  {
+    "id": 88,
+    "username": "tao02",
+    "email": "yang29@example.org",
+    "phone": "13985963594",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      37,
+      13,
+      25,
+      38,
+      30,
+      47,
+      23,
+      39,
+      2
+    ],
+    "createTime": "2024-02-25T11:19:01.215749"
+  },
+  {
+    "id": 89,
+    "username": "jing23",
+    "email": "luofang@example.net",
+    "phone": "15292028492",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      38,
+      17,
+      63,
+      14,
+      2,
+      74,
+      37,
+      61
+    ],
+    "createTime": "2024-10-17T11:19:01.215749"
+  },
+  {
+    "id": 90,
+    "username": "tianjun",
+    "email": "fanggu@example.net",
+    "phone": "13601432816",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      62,
+      15,
+      9,
+      52
+    ],
+    "createTime": "2024-10-04T11:19:01.215749"
+  },
+  {
+    "id": 91,
+    "username": "jiewen",
+    "email": "jiali@example.net",
+    "phone": "18027221397",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      20,
+      73
+    ],
+    "createTime": "2025-04-14T11:19:01.215749"
+  },
+  {
+    "id": 92,
+    "username": "tanli",
+    "email": "nkang@example.net",
+    "phone": "13160935840",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      78,
+      77,
+      29,
+      67,
+      49,
+      58
+    ],
+    "createTime": "2024-11-23T11:19:01.215749"
+  },
+  {
+    "id": 93,
+    "username": "tcao",
+    "email": "jingwei@example.com",
+    "phone": "18666351722",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      73,
+      80,
+      8,
+      79
+    ],
+    "createTime": "2025-11-10T11:19:01.215749"
+  },
+  {
+    "id": 94,
+    "username": "maona",
+    "email": "lei07@example.net",
+    "phone": "13120342303",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      11,
+      21,
+      31,
+      23
+    ],
+    "createTime": "2024-08-03T11:19:01.215749"
+  },
+  {
+    "id": 95,
+    "username": "xiulanmao",
+    "email": "rzhou@example.org",
+    "phone": "18526769428",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      61,
+      38,
+      5,
+      30,
+      37,
+      76,
+      59,
+      10,
+      77
+    ],
+    "createTime": "2025-05-25T11:19:01.216897"
+  },
+  {
+    "id": 96,
+    "username": "mingwu",
+    "email": "tao89@example.org",
+    "phone": "15158806070",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      55,
+      15,
+      70
+    ],
+    "createTime": "2025-07-04T11:19:01.216897"
+  },
+  {
+    "id": 97,
+    "username": "chao53",
+    "email": "juan12@example.org",
+    "phone": "18261204022",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      8
+    ],
+    "createTime": "2025-09-03T11:19:01.216897"
+  },
+  {
+    "id": 98,
+    "username": "ilei",
+    "email": "qqiu@example.org",
+    "phone": "13468828118",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      57,
+      16,
+      60,
+      39
+    ],
+    "createTime": "2024-03-05T11:19:01.216897"
+  },
+  {
+    "id": 99,
+    "username": "yan55",
+    "email": "jing67@example.net",
+    "phone": "13410407915",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      57,
+      11,
+      77,
+      6,
+      56,
+      42,
+      33
+    ],
+    "createTime": "2026-01-24T11:19:01.216897"
+  },
+  {
+    "id": 100,
+    "username": "gcai",
+    "email": "leifu@example.com",
+    "phone": "13414454367",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      3,
+      35,
+      74,
+      6,
+      23,
+      61,
+      67,
+      57,
+      36
+    ],
+    "createTime": "2025-08-18T11:19:01.216897"
+  },
+  {
+    "id": 101,
+    "username": "yan20",
+    "email": "jing69@example.net",
+    "phone": "15192452410",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      61
+    ],
+    "createTime": "2025-02-28T11:19:01.216897"
+  },
+  {
+    "id": 102,
+    "username": "xiangtao",
+    "email": "junxiao@example.net",
+    "phone": "14502282570",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      43,
+      53
+    ],
+    "createTime": "2024-03-11T11:19:01.216897"
+  },
+  {
+    "id": 103,
+    "username": "bwu",
+    "email": "ming62@example.net",
+    "phone": "15101711927",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      5,
+      59,
+      12,
+      41,
+      33,
+      42,
+      15,
+      52
+    ],
+    "createTime": "2024-09-11T11:19:01.216897"
+  },
+  {
+    "id": 104,
+    "username": "min40",
+    "email": "izheng@example.net",
+    "phone": "14599347938",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      53,
+      7,
+      25,
+      67,
+      47,
+      64,
+      57
+    ],
+    "createTime": "2025-12-29T11:19:01.217440"
+  },
+  {
+    "id": 105,
+    "username": "jiayan",
+    "email": "mingxie@example.net",
+    "phone": "15838582545",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      63,
+      16,
+      4,
+      31,
+      21,
+      40,
+      71
+    ],
+    "createTime": "2026-02-05T11:19:01.217440"
+  },
+  {
+    "id": 106,
+    "username": "vli",
+    "email": "chao58@example.org",
+    "phone": "18706866818",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      16,
+      20,
+      64,
+      38,
+      66,
+      35,
+      54
+    ],
+    "createTime": "2024-10-13T11:19:01.217440"
+  },
+  {
+    "id": 107,
+    "username": "xiuying58",
+    "email": "oshao@example.com",
+    "phone": "13296775353",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      50,
+      25
+    ],
+    "createTime": "2024-06-16T11:19:01.217440"
+  },
+  {
+    "id": 108,
+    "username": "sxiao",
+    "email": "yankong@example.net",
+    "phone": "15720274120",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      54,
+      44,
+      65,
+      35
+    ],
+    "createTime": "2026-02-17T11:19:01.217440"
+  },
+  {
+    "id": 109,
+    "username": "xiulan60",
+    "email": "li23@example.net",
+    "phone": "13267026026",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      63,
+      20,
+      58,
+      69,
+      62,
+      45,
+      43,
+      71,
+      70
+    ],
+    "createTime": "2025-01-29T11:19:01.217440"
+  },
+  {
+    "id": 110,
+    "username": "gangxiong",
+    "email": "fangyao@example.com",
+    "phone": "15356044510",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      74,
+      50,
+      30
+    ],
+    "createTime": "2024-12-26T11:19:01.217440"
+  },
+  {
+    "id": 111,
+    "username": "fkong",
+    "email": "mingye@example.com",
+    "phone": "13529214471",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      50,
+      20,
+      64,
+      5,
+      17,
+      65
+    ],
+    "createTime": "2024-06-25T11:19:01.217440"
+  },
+  {
+    "id": 112,
+    "username": "wangyong",
+    "email": "maqiang@example.org",
+    "phone": "18571034493",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      68
+    ],
+    "createTime": "2024-11-09T11:19:01.217440"
+  },
+  {
+    "id": 113,
+    "username": "nzhang",
+    "email": "li11@example.org",
+    "phone": "15991254417",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      10,
+      61
+    ],
+    "createTime": "2025-05-24T11:19:01.217440"
+  },
+  {
+    "id": 114,
+    "username": "kzhang",
+    "email": "mwei@example.com",
+    "phone": "14596830137",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      43
+    ],
+    "createTime": "2024-03-31T11:19:01.217440"
+  },
+  {
+    "id": 115,
+    "username": "jfu",
+    "email": "ifeng@example.org",
+    "phone": "14501111785",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      63,
+      70,
+      5,
+      9,
+      31,
+      37,
+      30,
+      12,
+      56,
+      13
+    ],
+    "createTime": "2024-05-12T11:19:01.217440"
+  },
+  {
+    "id": 116,
+    "username": "wshao",
+    "email": "limeng@example.net",
+    "phone": "13902170436",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      4,
+      6,
+      42,
+      8
+    ],
+    "createTime": "2025-04-25T11:19:01.217440"
+  },
+  {
+    "id": 117,
+    "username": "yan42",
+    "email": "fangfu@example.org",
+    "phone": "15282048017",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      53,
+      73,
+      24,
+      22,
+      23,
+      11,
+      49,
+      31
+    ],
+    "createTime": "2024-09-28T11:19:01.217440"
+  },
+  {
+    "id": 118,
+    "username": "leilu",
+    "email": "weidai@example.net",
+    "phone": "15390866829",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      33,
+      59,
+      80,
+      2,
+      60,
+      37,
+      70,
+      21,
+      10,
+      57
+    ],
+    "createTime": "2025-03-03T11:19:01.217440"
+  },
+  {
+    "id": 119,
+    "username": "jing97",
+    "email": "na35@example.com",
+    "phone": "18580039334",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      59,
+      39,
+      26,
+      50
+    ],
+    "createTime": "2024-10-13T11:19:01.217440"
+  },
+  {
+    "id": 120,
+    "username": "caixiulan",
+    "email": "lyan@example.com",
+    "phone": "13710383340",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      38,
+      80,
+      3,
+      51,
+      36,
+      2,
+      73,
+      7,
+      64
+    ],
+    "createTime": "2025-05-02T11:19:01.217440"
+  },
+  {
+    "id": 121,
+    "username": "liangxia",
+    "email": "xiaochao@example.net",
+    "phone": "13585843670",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      25,
+      80,
+      33
+    ],
+    "createTime": "2024-03-27T11:19:01.218459"
+  },
+  {
+    "id": 122,
+    "username": "luoxiuying",
+    "email": "yongxia@example.org",
+    "phone": "13694626981",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      13,
+      6
+    ],
+    "createTime": "2025-04-09T11:19:01.218459"
+  },
+  {
+    "id": 123,
+    "username": "jgu",
+    "email": "min89@example.org",
+    "phone": "13765513711",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      12,
+      38
+    ],
+    "createTime": "2025-03-22T11:19:01.218459"
+  },
+  {
+    "id": 124,
+    "username": "ming91",
+    "email": "guyong@example.com",
+    "phone": "18845736431",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      47,
+      68,
+      65,
+      35,
+      22,
+      33,
+      62,
+      38
+    ],
+    "createTime": "2025-03-10T11:19:01.218459"
+  },
+  {
+    "id": 125,
+    "username": "yang32",
+    "email": "guiying57@example.net",
+    "phone": "18711407344",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      29,
+      51
+    ],
+    "createTime": "2024-07-29T11:19:01.218459"
+  },
+  {
+    "id": 126,
+    "username": "qhou",
+    "email": "yancai@example.com",
+    "phone": "18175870236",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      69,
+      16,
+      59,
+      48
+    ],
+    "createTime": "2024-04-02T11:19:01.218459"
+  },
+  {
+    "id": 127,
+    "username": "xiazou",
+    "email": "gujun@example.com",
+    "phone": "14511491069",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      48,
+      14,
+      30,
+      61,
+      4,
+      72,
+      42,
+      29,
+      9,
+      60
+    ],
+    "createTime": "2024-03-04T11:19:01.218459"
+  },
+  {
+    "id": 128,
+    "username": "min59",
+    "email": "guiyingchang@example.net",
+    "phone": "18710136120",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [],
+    "createTime": "2026-01-12T11:19:01.218459"
+  },
+  {
+    "id": 129,
+    "username": "wei18",
+    "email": "ydong@example.org",
+    "phone": "18037785640",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      69,
+      18,
+      50
+    ],
+    "createTime": "2024-11-12T11:19:01.218459"
+  },
+  {
+    "id": 130,
+    "username": "ucui",
+    "email": "pinggu@example.org",
+    "phone": "15981546451",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      54,
+      76,
+      20,
+      80,
+      13,
+      63,
+      53,
+      36
+    ],
+    "createTime": "2026-01-17T11:19:01.218459"
+  },
+  {
+    "id": 131,
+    "username": "nazhang",
+    "email": "mingjia@example.com",
+    "phone": "18140666654",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      47,
+      13,
+      48
+    ],
+    "createTime": "2024-08-11T11:19:01.218459"
+  },
+  {
+    "id": 132,
+    "username": "vqian",
+    "email": "gangye@example.com",
+    "phone": "13315614480",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      36,
+      25,
+      16,
+      59,
+      12,
+      28
+    ],
+    "createTime": "2024-05-03T11:19:01.218459"
+  },
+  {
+    "id": 133,
+    "username": "min62",
+    "email": "chao92@example.com",
+    "phone": "18791348017",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      32,
+      17,
+      73,
+      27,
+      9
+    ],
+    "createTime": "2024-08-01T11:19:01.218459"
+  },
+  {
+    "id": 134,
+    "username": "ping87",
+    "email": "pantao@example.com",
+    "phone": "18509827479",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "economy"
+    },
+    "favorites": [
+      19,
+      77,
+      1,
+      36,
+      17
+    ],
+    "createTime": "2024-08-15T11:19:01.218459"
+  },
+  {
+    "id": 135,
+    "username": "xiadong",
+    "email": "ming30@example.com",
+    "phone": "18137709775",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [],
+    "createTime": "2025-10-08T11:19:01.218459"
+  },
+  {
+    "id": 136,
+    "username": "wei06",
+    "email": "yong50@example.net",
+    "phone": "15574123914",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "economy"
+    },
+    "favorites": [
+      42,
+      3,
+      23,
+      34,
+      7,
+      17,
+      54,
+      68,
+      15
+    ],
+    "createTime": "2025-12-16T11:19:01.218459"
+  },
+  {
+    "id": 137,
+    "username": "njiang",
+    "email": "jhe@example.com",
+    "phone": "13238163684",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      14,
+      58,
+      65,
+      29,
+      6,
+      67,
+      39,
+      59,
+      4
+    ],
+    "createTime": "2025-12-19T11:19:01.218459"
+  },
+  {
+    "id": 138,
+    "username": "mingluo",
+    "email": "liaojie@example.org",
+    "phone": "15952145989",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      14,
+      63,
+      57,
+      10,
+      11,
+      42,
+      19,
+      9,
+      17,
+      36
+    ],
+    "createTime": "2024-05-21T11:19:01.218459"
+  },
+  {
+    "id": 139,
+    "username": "lmeng",
+    "email": "taofan@example.org",
+    "phone": "18615301447",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      77,
+      68,
+      38,
+      59,
+      65,
+      56
+    ],
+    "createTime": "2025-11-10T11:19:01.219556"
+  },
+  {
+    "id": 140,
+    "username": "yanjing",
+    "email": "wei57@example.org",
+    "phone": "15600207052",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      71,
+      28,
+      56,
+      58,
+      30,
+      53,
+      44,
+      59,
+      52,
+      54
+    ],
+    "createTime": "2025-11-14T11:19:01.219556"
+  },
+  {
+    "id": 141,
+    "username": "chengna",
+    "email": "fxiong@example.net",
+    "phone": "18234873042",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      20,
+      61,
+      9,
+      12,
+      11
+    ],
+    "createTime": "2025-11-16T11:19:01.219556"
+  },
+  {
+    "id": 142,
+    "username": "kangping",
+    "email": "wei07@example.com",
+    "phone": "18023592979",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      72,
+      8
+    ],
+    "createTime": "2024-06-29T11:19:01.219556"
+  },
+  {
+    "id": 143,
+    "username": "bhu",
+    "email": "twang@example.org",
+    "phone": "18294405870",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "luxury"
+    },
+    "favorites": [
+      53
+    ],
+    "createTime": "2025-02-22T11:19:01.219556"
+  },
+  {
+    "id": 144,
+    "username": "jye",
+    "email": "tsu@example.net",
+    "phone": "13206629307",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-05-01T11:19:01.219556"
+  },
+  {
+    "id": 145,
+    "username": "nhao",
+    "email": "xiulanwan@example.com",
+    "phone": "15808046018",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      28,
+      20,
+      62,
+      29,
+      14,
+      45,
+      72,
+      48
+    ],
+    "createTime": "2025-10-25T11:19:01.219556"
+  },
+  {
+    "id": 146,
+    "username": "yan96",
+    "email": "yshen@example.org",
+    "phone": "15096114574",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      80,
+      79,
+      72,
+      4,
+      35,
+      77,
+      24,
+      76
+    ],
+    "createTime": "2024-03-02T11:19:01.219556"
+  },
+  {
+    "id": 147,
+    "username": "guiyingshen",
+    "email": "xialiao@example.net",
+    "phone": "18654415363",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [],
+    "createTime": "2025-08-18T11:19:01.219556"
+  },
+  {
+    "id": 148,
+    "username": "jiecao",
+    "email": "kqin@example.net",
+    "phone": "15645276519",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": true,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      19
+    ],
+    "createTime": "2024-05-12T11:19:01.219556"
+  },
+  {
+    "id": 149,
+    "username": "zhengtao",
+    "email": "txie@example.com",
+    "phone": "15990049628",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": true,
+      "leisure": false,
+      "budget": "luxury"
+    },
+    "favorites": [
+      49,
+      54,
+      59
+    ],
+    "createTime": "2025-03-07T11:19:01.219556"
+  },
+  {
+    "id": 150,
+    "username": "yhan",
+    "email": "vzeng@example.org",
+    "phone": "13085525751",
+    "password": "user123",
+    "role": "user",
+    "preferences": {
+      "business": false,
+      "leisure": false,
+      "budget": "mid-range"
+    },
+    "favorites": [
+      77,
+      11,
+      7,
+      20,
+      21,
+      78,
+      79,
+      35,
+      57
+    ],
+    "createTime": "2024-04-13T11:19:01.219556"
+  }
+]

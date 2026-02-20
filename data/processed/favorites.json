@@ -1,0 +1,3002 @@
+[
+  {
+    "id": 1000,
+    "userId": 64,
+    "hotelId": 529,
+    "hotelName": "Holiday Inn London Bloomsbury",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "适合带家人来",
+    "createTime": "2025-09-11T11:57:55.314120"
+  },
+  {
+    "id": 1001,
+    "userId": 8,
+    "hotelId": 1178,
+    "hotelName": "Radisson Blu Edwardian Mercer Street",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-15T11:57:55.314120"
+  },
+  {
+    "id": 1002,
+    "userId": 117,
+    "hotelId": 1186,
+    "hotelName": "Rafayel Hotel Spa",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "位置很好",
+    "createTime": "2025-09-24T11:57:55.314120"
+  },
+  {
+    "id": 1003,
+    "userId": 42,
+    "hotelId": 242,
+    "hotelName": "Copthorne Tara Hotel London Kensington",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-09-08T11:57:55.314120"
+  },
+  {
+    "id": 1004,
+    "userId": 99,
+    "hotelId": 537,
+    "hotelName": "Holiday Inn London Stratford City",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-30T11:57:55.314120"
+  },
+  {
+    "id": 1005,
+    "userId": 133,
+    "hotelId": 348,
+    "hotelName": "Glam Milano",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "性价比不错",
+    "createTime": "2025-12-17T11:57:55.314120"
+  },
+  {
+    "id": 1006,
+    "userId": 78,
+    "hotelId": 1174,
+    "hotelName": "Radisson Blu Edwardian Bloomsbury Street",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-14T11:57:55.314120"
+  },
+  {
+    "id": 1007,
+    "userId": 79,
+    "hotelId": 531,
+    "hotelName": "Holiday Inn London Camden Lock",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-28T11:57:55.314120"
+  },
+  {
+    "id": 1008,
+    "userId": 28,
+    "hotelId": 972,
+    "hotelName": "Mercure Hotel Amsterdam City South",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-23T11:57:55.314120"
+  },
+  {
+    "id": 1009,
+    "userId": 37,
+    "hotelId": 839,
+    "hotelName": "Jaz Amsterdam",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-11-10T11:57:55.314120"
+  },
+  {
+    "id": 1010,
+    "userId": 79,
+    "hotelId": 1291,
+    "hotelName": "Strand Palace Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-02-19T11:57:55.314120"
+  },
+  {
+    "id": 1011,
+    "userId": 25,
+    "hotelId": 1277,
+    "hotelName": "St James Court A Taj Hotel London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-05T11:57:55.314120"
+  },
+  {
+    "id": 1012,
+    "userId": 74,
+    "hotelId": 531,
+    "hotelName": "Holiday Inn London Camden Lock",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2026-01-03T11:57:55.314120"
+  },
+  {
+    "id": 1013,
+    "userId": 35,
+    "hotelId": 1181,
+    "hotelName": "Radisson Blu Edwardian Vanderbilt",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-27T11:57:55.314120"
+  },
+  {
+    "id": 1014,
+    "userId": 146,
+    "hotelId": 44,
+    "hotelName": "Amba Hotel Marble Arch",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "环境优美",
+    "createTime": "2026-01-04T11:57:55.314120"
+  },
+  {
+    "id": 1015,
+    "userId": 50,
+    "hotelId": 1182,
+    "hotelName": "Radisson Blu Hotel Amsterdam",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-13T11:57:55.314120"
+  },
+  {
+    "id": 1016,
+    "userId": 28,
+    "hotelId": 972,
+    "hotelName": "Mercure Hotel Amsterdam City South",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-15T11:57:55.314120"
+  },
+  {
+    "id": 1017,
+    "userId": 32,
+    "hotelId": 1179,
+    "hotelName": "Radisson Blu Edwardian New Providence Wharf",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "位置很好",
+    "createTime": "2025-12-21T11:57:55.314120"
+  },
+  {
+    "id": 1018,
+    "userId": 123,
+    "hotelId": 511,
+    "hotelName": "Hilton London Bankside",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "适合带家人来",
+    "createTime": "2026-02-18T11:57:55.314120"
+  },
+  {
+    "id": 1019,
+    "userId": 150,
+    "hotelId": 1131,
+    "hotelName": "Park Grand Paddington Court",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-15T11:57:55.314120"
+  },
+  {
+    "id": 1020,
+    "userId": 134,
+    "hotelId": 300,
+    "hotelName": "Durrants Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-21T11:57:55.314120"
+  },
+  {
+    "id": 1021,
+    "userId": 87,
+    "hotelId": 1128,
+    "hotelName": "Park Grand London Hyde Park",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "环境优美",
+    "createTime": "2025-11-24T11:57:55.314120"
+  },
+  {
+    "id": 1022,
+    "userId": 81,
+    "hotelId": 1166,
+    "hotelName": "Pullman London St Pancras",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-15T11:57:55.314120"
+  },
+  {
+    "id": 1023,
+    "userId": 15,
+    "hotelId": 202,
+    "hotelName": "Catalonia Atenas",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-02-19T11:57:55.314120"
+  },
+  {
+    "id": 1024,
+    "userId": 117,
+    "hotelId": 1178,
+    "hotelName": "Radisson Blu Edwardian Mercer Street",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-15T11:57:55.314120"
+  },
+  {
+    "id": 1025,
+    "userId": 7,
+    "hotelId": 1128,
+    "hotelName": "Park Grand London Hyde Park",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-12-10T11:57:55.314120"
+  },
+  {
+    "id": 1026,
+    "userId": 64,
+    "hotelId": 60,
+    "hotelName": "Apex City Of London Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-04T11:57:55.314120"
+  },
+  {
+    "id": 1027,
+    "userId": 122,
+    "hotelId": 1071,
+    "hotelName": "New Linden Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-19T11:57:55.314120"
+  },
+  {
+    "id": 1028,
+    "userId": 83,
+    "hotelId": 283,
+    "hotelName": "DoubleTree by Hilton Hotel London Tower of London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-28T11:57:55.314120"
+  },
+  {
+    "id": 1029,
+    "userId": 114,
+    "hotelId": 1050,
+    "hotelName": "NH Collection Amsterdam Grand Hotel Krasnapolsky",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-16T11:57:55.314120"
+  },
+  {
+    "id": 1030,
+    "userId": 21,
+    "hotelId": 289,
+    "hotelName": "DoubleTree by Hilton London Victoria",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-21T11:57:55.314120"
+  },
+  {
+    "id": 1031,
+    "userId": 26,
+    "hotelId": 531,
+    "hotelName": "Holiday Inn London Camden Lock",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2026-01-14T11:57:55.314120"
+  },
+  {
+    "id": 1032,
+    "userId": 134,
+    "hotelId": 127,
+    "hotelName": "Best Western Blue Tower Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-18T11:57:55.314120"
+  },
+  {
+    "id": 1033,
+    "userId": 128,
+    "hotelId": 634,
+    "hotelName": "Hotel Esther a",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-02T11:57:55.314120"
+  },
+  {
+    "id": 1034,
+    "userId": 120,
+    "hotelId": 1006,
+    "hotelName": "Mercure Paris Terminus Nord",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-10-19T11:57:55.314120"
+  },
+  {
+    "id": 1035,
+    "userId": 139,
+    "hotelId": 1166,
+    "hotelName": "Pullman London St Pancras",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "环境优美",
+    "createTime": "2025-08-24T11:57:55.314120"
+  },
+  {
+    "id": 1036,
+    "userId": 23,
+    "hotelId": 1188,
+    "hotelName": "Ramada Apollo Amsterdam Centre",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-02-12T11:57:55.314120"
+  },
+  {
+    "id": 1037,
+    "userId": 42,
+    "hotelId": 1386,
+    "hotelName": "The Queens Gate Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-12-25T11:57:55.314120"
+  },
+  {
+    "id": 1038,
+    "userId": 66,
+    "hotelId": 43,
+    "hotelName": "Amba Hotel Charing Cross",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-01T11:57:55.314120"
+  },
+  {
+    "id": 1039,
+    "userId": 32,
+    "hotelId": 43,
+    "hotelName": "Amba Hotel Charing Cross",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-09-10T11:57:55.314120"
+  },
+  {
+    "id": 1040,
+    "userId": 126,
+    "hotelId": 1404,
+    "hotelName": "The Tower A Guoman Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-25T11:57:55.314120"
+  },
+  {
+    "id": 1041,
+    "userId": 17,
+    "hotelId": 956,
+    "hotelName": "Megaro Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "环境优美",
+    "createTime": "2025-11-14T11:57:55.314120"
+  },
+  {
+    "id": 1042,
+    "userId": 144,
+    "hotelId": 234,
+    "hotelName": "Club Quarters Hotel Trafalgar Square",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-07T11:57:55.314120"
+  },
+  {
+    "id": 1043,
+    "userId": 23,
+    "hotelId": 350,
+    "hotelName": "Golden Tulip Amsterdam West",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "位置很好",
+    "createTime": "2026-01-02T11:57:55.314120"
+  },
+  {
+    "id": 1044,
+    "userId": 30,
+    "hotelId": 127,
+    "hotelName": "Best Western Blue Tower Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "适合带家人来",
+    "createTime": "2025-11-14T11:57:55.314120"
+  },
+  {
+    "id": 1045,
+    "userId": 148,
+    "hotelId": 920,
+    "hotelName": "London City Suites",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "位置很好",
+    "createTime": "2025-10-05T11:57:55.315178"
+  },
+  {
+    "id": 1046,
+    "userId": 49,
+    "hotelId": 261,
+    "hotelName": "Crowne Plaza London Kings Cross",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2025-08-30T11:57:55.315178"
+  },
+  {
+    "id": 1047,
+    "userId": 33,
+    "hotelId": 814,
+    "hotelName": "Hyatt Regency Paris Etoile",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-10-05T11:57:55.315178"
+  },
+  {
+    "id": 1048,
+    "userId": 118,
+    "hotelId": 1248,
+    "hotelName": "Shangri La Hotel at The Shard London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-06T11:57:55.315178"
+  },
+  {
+    "id": 1049,
+    "userId": 57,
+    "hotelId": 518,
+    "hotelName": "Hilton London Olympia",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2026-01-13T11:57:55.315178"
+  },
+  {
+    "id": 1050,
+    "userId": 9,
+    "hotelId": 144,
+    "hotelName": "Best Western Mornington Hotel Hyde Park",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "环境优美",
+    "createTime": "2026-01-19T11:57:55.315178"
+  },
+  {
+    "id": 1051,
+    "userId": 71,
+    "hotelId": 1219,
+    "hotelName": "Royal Passeig de Gracia",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-26T11:57:55.315178"
+  },
+  {
+    "id": 1052,
+    "userId": 127,
+    "hotelId": 545,
+    "hotelName": "Holiday Inn Paris Gare de l Est",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-04T11:57:55.315178"
+  },
+  {
+    "id": 1053,
+    "userId": 86,
+    "hotelId": 1488,
+    "hotelName": "citizenM London Bankside",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-12-24T11:57:55.315178"
+  },
+  {
+    "id": 1054,
+    "userId": 14,
+    "hotelId": 1388,
+    "hotelName": "The Rembrandt",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-11T11:57:55.315178"
+  },
+  {
+    "id": 1055,
+    "userId": 77,
+    "hotelId": 1486,
+    "hotelName": "art otel Amsterdam",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-10-02T11:57:55.315178"
+  },
+  {
+    "id": 1056,
+    "userId": 101,
+    "hotelId": 315,
+    "hotelName": "Eurostars Grand Marina Hotel GL",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-22T11:57:55.315178"
+  },
+  {
+    "id": 1057,
+    "userId": 101,
+    "hotelId": 1020,
+    "hotelName": "Millennium Hotel London Knightsbridge",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-09T11:57:55.315178"
+  },
+  {
+    "id": 1058,
+    "userId": 73,
+    "hotelId": 1178,
+    "hotelName": "Radisson Blu Edwardian Mercer Street",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-02T11:57:55.315178"
+  },
+  {
+    "id": 1059,
+    "userId": 101,
+    "hotelId": 158,
+    "hotelName": "Best Western Premier Hotel Couture",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "位置很好",
+    "createTime": "2026-02-06T11:57:55.315178"
+  },
+  {
+    "id": 1060,
+    "userId": 78,
+    "hotelId": 290,
+    "hotelName": "DoubleTree by Hilton London West End",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-10-29T11:57:55.315178"
+  },
+  {
+    "id": 1061,
+    "userId": 124,
+    "hotelId": 545,
+    "hotelName": "Holiday Inn Paris Gare de l Est",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "环境优美",
+    "createTime": "2025-12-31T11:57:55.315178"
+  },
+  {
+    "id": 1062,
+    "userId": 3,
+    "hotelId": 1138,
+    "hotelName": "Park Lane Mews Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2026-01-13T11:57:55.315178"
+  },
+  {
+    "id": 1063,
+    "userId": 97,
+    "hotelId": 238,
+    "hotelName": "Commodore Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2026-01-26T11:57:55.315178"
+  },
+  {
+    "id": 1064,
+    "userId": 92,
+    "hotelId": 288,
+    "hotelName": "DoubleTree by Hilton London Islington",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-20T11:57:55.315178"
+  },
+  {
+    "id": 1065,
+    "userId": 132,
+    "hotelId": 101,
+    "hotelName": "Ayre Hotel Gran V a",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-12T11:57:55.315178"
+  },
+  {
+    "id": 1066,
+    "userId": 104,
+    "hotelId": 529,
+    "hotelName": "Holiday Inn London Bloomsbury",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "性价比不错",
+    "createTime": "2025-10-17T11:57:55.315178"
+  },
+  {
+    "id": 1067,
+    "userId": 78,
+    "hotelId": 990,
+    "hotelName": "Mercure Paris Centre Tour Eiffel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-11-15T11:57:55.315178"
+  },
+  {
+    "id": 1068,
+    "userId": 23,
+    "hotelId": 556,
+    "hotelName": "Hotel 82 London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-06T11:57:55.315178"
+  },
+  {
+    "id": 1069,
+    "userId": 98,
+    "hotelId": 1179,
+    "hotelName": "Radisson Blu Edwardian New Providence Wharf",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-21T11:57:55.315178"
+  },
+  {
+    "id": 1070,
+    "userId": 22,
+    "hotelId": 1144,
+    "hotelName": "Park Plaza Victoria Amsterdam",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-12T11:57:55.315178"
+  },
+  {
+    "id": 1071,
+    "userId": 58,
+    "hotelId": 370,
+    "hotelName": "Grand Royale London Hyde Park",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "环境优美",
+    "createTime": "2026-01-26T11:57:55.315178"
+  },
+  {
+    "id": 1072,
+    "userId": 47,
+    "hotelId": 293,
+    "hotelName": "Doubletree by Hilton London Kensington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-08-24T11:57:55.315178"
+  },
+  {
+    "id": 1073,
+    "userId": 112,
+    "hotelId": 1381,
+    "hotelName": "The Piccadilly London West End",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-10-05T11:57:55.315178"
+  },
+  {
+    "id": 1074,
+    "userId": 48,
+    "hotelId": 292,
+    "hotelName": "Doubletree By Hilton London Greenwich",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "位置很好",
+    "createTime": "2025-10-05T11:57:55.315178"
+  },
+  {
+    "id": 1075,
+    "userId": 136,
+    "hotelId": 1387,
+    "hotelName": "The RE London Shoreditch",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-23T11:57:55.315178"
+  },
+  {
+    "id": 1076,
+    "userId": 138,
+    "hotelId": 847,
+    "hotelName": "K West Hotel Spa",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-09-04T11:57:55.315178"
+  },
+  {
+    "id": 1077,
+    "userId": 31,
+    "hotelId": 1476,
+    "hotelName": "WestCord Fashion Hotel Amsterdam",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "性价比不错",
+    "createTime": "2025-12-01T11:57:55.315178"
+  },
+  {
+    "id": 1078,
+    "userId": 32,
+    "hotelId": 1131,
+    "hotelName": "Park Grand Paddington Court",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-05T11:57:55.315178"
+  },
+  {
+    "id": 1079,
+    "userId": 42,
+    "hotelId": 634,
+    "hotelName": "Hotel Esther a",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-02-11T11:57:55.315178"
+  },
+  {
+    "id": 1080,
+    "userId": 22,
+    "hotelId": 1144,
+    "hotelName": "Park Plaza Victoria Amsterdam",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "位置很好",
+    "createTime": "2026-01-07T11:57:55.315178"
+  },
+  {
+    "id": 1081,
+    "userId": 109,
+    "hotelId": 1486,
+    "hotelName": "art otel Amsterdam",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-10-10T11:57:55.315178"
+  },
+  {
+    "id": 1082,
+    "userId": 76,
+    "hotelId": 1486,
+    "hotelName": "art otel Amsterdam",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "性价比不错",
+    "createTime": "2025-08-26T11:57:55.315178"
+  },
+  {
+    "id": 1083,
+    "userId": 81,
+    "hotelId": 814,
+    "hotelName": "Hyatt Regency Paris Etoile",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-10-12T11:57:55.315178"
+  },
+  {
+    "id": 1084,
+    "userId": 54,
+    "hotelId": 990,
+    "hotelName": "Mercure Paris Centre Tour Eiffel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2026-02-08T11:57:55.315178"
+  },
+  {
+    "id": 1085,
+    "userId": 61,
+    "hotelId": 837,
+    "hotelName": "Intercontinental London The O2",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "下次出差可以考虑",
+    "createTime": "2026-01-16T11:57:55.315178"
+  },
+  {
+    "id": 1086,
+    "userId": 142,
+    "hotelId": 280,
+    "hotelName": "DoubleTree by Hilton Amsterdam Centraal Station",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-09-13T11:57:55.315178"
+  },
+  {
+    "id": 1087,
+    "userId": 109,
+    "hotelId": 613,
+    "hotelName": "Hotel Da Vinci",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "性价比不错",
+    "createTime": "2025-09-06T11:57:55.315178"
+  },
+  {
+    "id": 1088,
+    "userId": 42,
+    "hotelId": 1394,
+    "hotelName": "The Royal Horseguards",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "适合带家人来",
+    "createTime": "2025-08-30T11:57:55.315178"
+  },
+  {
+    "id": 1089,
+    "userId": 109,
+    "hotelId": 46,
+    "hotelName": "Ambassadors Bloomsbury",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2026-02-01T11:57:55.315178"
+  },
+  {
+    "id": 1090,
+    "userId": 69,
+    "hotelId": 972,
+    "hotelName": "Mercure Hotel Amsterdam City South",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-16T11:57:55.315178"
+  },
+  {
+    "id": 1091,
+    "userId": 145,
+    "hotelId": 1486,
+    "hotelName": "art otel Amsterdam",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2026-01-11T11:57:55.315178"
+  },
+  {
+    "id": 1092,
+    "userId": 81,
+    "hotelId": 234,
+    "hotelName": "Club Quarters Hotel Trafalgar Square",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "位置很好",
+    "createTime": "2025-12-18T11:57:55.315178"
+  },
+  {
+    "id": 1093,
+    "userId": 20,
+    "hotelId": 381,
+    "hotelName": "Grange St Paul s Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-08-28T11:57:55.315178"
+  },
+  {
+    "id": 1094,
+    "userId": 141,
+    "hotelId": 1321,
+    "hotelName": "The Chamberlain",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-19T11:57:55.315178"
+  },
+  {
+    "id": 1095,
+    "userId": 86,
+    "hotelId": 556,
+    "hotelName": "Hotel 82 London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-12-11T11:57:55.315178"
+  },
+  {
+    "id": 1096,
+    "userId": 3,
+    "hotelId": 1331,
+    "hotelName": "The Cumberland A Guoman Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-25T11:57:55.315178"
+  },
+  {
+    "id": 1097,
+    "userId": 97,
+    "hotelId": 1378,
+    "hotelName": "The Park Grand London Paddington",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "环境优美",
+    "createTime": "2025-12-03T11:57:55.315178"
+  },
+  {
+    "id": 1098,
+    "userId": 126,
+    "hotelId": 158,
+    "hotelName": "Best Western Premier Hotel Couture",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "位置很好",
+    "createTime": "2025-12-09T11:57:55.315178"
+  },
+  {
+    "id": 1099,
+    "userId": 142,
+    "hotelId": 381,
+    "hotelName": "Grange St Paul s Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-07T11:57:55.315178"
+  },
+  {
+    "id": 1100,
+    "userId": 82,
+    "hotelId": 1226,
+    "hotelName": "Saint Georges Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "环境优美",
+    "createTime": "2025-08-30T11:57:55.315178"
+  },
+  {
+    "id": 1101,
+    "userId": 137,
+    "hotelId": 954,
+    "hotelName": "Mayflower Hotel Apartments",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-18T11:57:55.315178"
+  },
+  {
+    "id": 1102,
+    "userId": 67,
+    "hotelId": 1147,
+    "hotelName": "Park Plaza Westminster Bridge London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-11T11:57:55.315178"
+  },
+  {
+    "id": 1103,
+    "userId": 33,
+    "hotelId": 512,
+    "hotelName": "Hilton London Canary Wharf",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-13T11:57:55.315178"
+  },
+  {
+    "id": 1104,
+    "userId": 14,
+    "hotelId": 497,
+    "hotelName": "Hampshire Hotel Rembrandt Square Amsterdam",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-18T11:57:55.315178"
+  },
+  {
+    "id": 1105,
+    "userId": 108,
+    "hotelId": 1219,
+    "hotelName": "Royal Passeig de Gracia",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2025-10-23T11:57:55.315178"
+  },
+  {
+    "id": 1106,
+    "userId": 129,
+    "hotelId": 271,
+    "hotelName": "De Vere Devonport House",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-09T11:57:55.315178"
+  },
+  {
+    "id": 1107,
+    "userId": 59,
+    "hotelId": 1420,
+    "hotelName": "TheWesley",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-03T11:57:55.315178"
+  },
+  {
+    "id": 1108,
+    "userId": 105,
+    "hotelId": 93,
+    "hotelName": "Austria Trend Hotel Savoyen Vienna",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-10T11:57:55.315178"
+  },
+  {
+    "id": 1109,
+    "userId": 21,
+    "hotelId": 613,
+    "hotelName": "Hotel Da Vinci",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-08T11:57:55.315178"
+  },
+  {
+    "id": 1110,
+    "userId": 148,
+    "hotelId": 1141,
+    "hotelName": "Park Plaza London Riverbank",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-01T11:57:55.315178"
+  },
+  {
+    "id": 1111,
+    "userId": 127,
+    "hotelId": 1147,
+    "hotelName": "Park Plaza Westminster Bridge London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-16T11:57:55.315178"
+  },
+  {
+    "id": 1112,
+    "userId": 123,
+    "hotelId": 518,
+    "hotelName": "Hilton London Olympia",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-09-15T11:57:55.315178"
+  },
+  {
+    "id": 1113,
+    "userId": 49,
+    "hotelId": 1341,
+    "hotelName": "The Grand at Trafalgar Square",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-08-24T11:57:55.315178"
+  },
+  {
+    "id": 1114,
+    "userId": 137,
+    "hotelId": 326,
+    "hotelName": "Fielding Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "环境优美",
+    "createTime": "2025-09-03T11:57:55.315178"
+  },
+  {
+    "id": 1115,
+    "userId": 136,
+    "hotelId": 1113,
+    "hotelName": "Olivia Plaza Hotel",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2026-01-07T11:57:55.315178"
+  },
+  {
+    "id": 1116,
+    "userId": 135,
+    "hotelId": 1087,
+    "hotelName": "Novotel London Wembley",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-10-11T11:57:55.315178"
+  },
+  {
+    "id": 1117,
+    "userId": 91,
+    "hotelId": 176,
+    "hotelName": "Blakemore Hyde Park",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-07T11:57:55.315178"
+  },
+  {
+    "id": 1118,
+    "userId": 96,
+    "hotelId": 350,
+    "hotelName": "Golden Tulip Amsterdam West",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-12-18T11:57:55.315178"
+  },
+  {
+    "id": 1119,
+    "userId": 139,
+    "hotelId": 1032,
+    "hotelName": "Montcalm Royal London House City of London",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "性价比不错",
+    "createTime": "2025-12-06T11:57:55.315178"
+  },
+  {
+    "id": 1120,
+    "userId": 68,
+    "hotelId": 44,
+    "hotelName": "Amba Hotel Marble Arch",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-27T11:57:55.315178"
+  },
+  {
+    "id": 1121,
+    "userId": 101,
+    "hotelId": 280,
+    "hotelName": "DoubleTree by Hilton Amsterdam Centraal Station",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-08T11:57:55.315178"
+  },
+  {
+    "id": 1122,
+    "userId": 132,
+    "hotelId": 837,
+    "hotelName": "Intercontinental London The O2",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-18T11:57:55.315178"
+  },
+  {
+    "id": 1123,
+    "userId": 15,
+    "hotelId": 202,
+    "hotelName": "Catalonia Atenas",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-27T11:57:55.315178"
+  },
+  {
+    "id": 1124,
+    "userId": 77,
+    "hotelId": 1371,
+    "hotelName": "The Montcalm Marble Arch",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "环境优美",
+    "createTime": "2026-01-03T11:57:55.315178"
+  },
+  {
+    "id": 1125,
+    "userId": 103,
+    "hotelId": 1371,
+    "hotelName": "The Montcalm Marble Arch",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "性价比不错",
+    "createTime": "2025-12-31T11:57:55.315178"
+  },
+  {
+    "id": 1126,
+    "userId": 22,
+    "hotelId": 830,
+    "hotelName": "Inntel Hotels Amsterdam Centre",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-06T11:57:55.315178"
+  },
+  {
+    "id": 1127,
+    "userId": 32,
+    "hotelId": 511,
+    "hotelName": "Hilton London Bankside",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "环境优美",
+    "createTime": "2025-12-17T11:57:55.315178"
+  },
+  {
+    "id": 1128,
+    "userId": 58,
+    "hotelId": 1207,
+    "hotelName": "Room Mate Aitana",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2025-11-02T11:57:55.315178"
+  },
+  {
+    "id": 1129,
+    "userId": 47,
+    "hotelId": 1184,
+    "hotelName": "Radisson Blu Portman Hotel London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "性价比不错",
+    "createTime": "2025-09-04T11:57:55.315178"
+  },
+  {
+    "id": 1130,
+    "userId": 113,
+    "hotelId": 929,
+    "hotelName": "London Marriott Hotel West India Quay",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "性价比不错",
+    "createTime": "2026-02-18T11:57:55.315178"
+  },
+  {
+    "id": 1131,
+    "userId": 92,
+    "hotelId": 947,
+    "hotelName": "Malmaison London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "适合带家人来",
+    "createTime": "2026-02-09T11:57:55.315178"
+  },
+  {
+    "id": 1132,
+    "userId": 35,
+    "hotelId": 537,
+    "hotelName": "Holiday Inn London Stratford City",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-02-11T11:57:55.315178"
+  },
+  {
+    "id": 1133,
+    "userId": 42,
+    "hotelId": 43,
+    "hotelName": "Amba Hotel Charing Cross",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-09-02T11:57:55.315178"
+  },
+  {
+    "id": 1134,
+    "userId": 69,
+    "hotelId": 233,
+    "hotelName": "Club Quarters Hotel St Paul s",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-16T11:57:55.315178"
+  },
+  {
+    "id": 1135,
+    "userId": 33,
+    "hotelId": 1386,
+    "hotelName": "The Queens Gate Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-12T11:57:55.315178"
+  },
+  {
+    "id": 1136,
+    "userId": 34,
+    "hotelId": 350,
+    "hotelName": "Golden Tulip Amsterdam West",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-18T11:57:55.315178"
+  },
+  {
+    "id": 1137,
+    "userId": 40,
+    "hotelId": 1446,
+    "hotelName": "Urban Lodge Hotel",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-12-21T11:57:55.315178"
+  },
+  {
+    "id": 1138,
+    "userId": 14,
+    "hotelId": 1436,
+    "hotelName": "Twenty Nevern Square Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-20T11:57:55.315178"
+  },
+  {
+    "id": 1139,
+    "userId": 3,
+    "hotelId": 234,
+    "hotelName": "Club Quarters Hotel Trafalgar Square",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "性价比不错",
+    "createTime": "2026-01-29T11:57:55.315178"
+  },
+  {
+    "id": 1140,
+    "userId": 110,
+    "hotelId": 1421,
+    "hotelName": "Thistle Euston",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "位置很好",
+    "createTime": "2026-01-03T11:57:55.315178"
+  },
+  {
+    "id": 1141,
+    "userId": 64,
+    "hotelId": 1280,
+    "hotelName": "St Pancras Renaissance Hotel London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-08-24T11:57:55.315178"
+  },
+  {
+    "id": 1142,
+    "userId": 64,
+    "hotelId": 43,
+    "hotelName": "Amba Hotel Charing Cross",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "环境优美",
+    "createTime": "2026-01-24T11:57:55.315178"
+  },
+  {
+    "id": 1143,
+    "userId": 129,
+    "hotelId": 97,
+    "hotelName": "Avenida Palace",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "位置很好",
+    "createTime": "2025-09-11T11:57:55.315178"
+  },
+  {
+    "id": 1144,
+    "userId": 39,
+    "hotelId": 291,
+    "hotelName": "DoubleTree by Hilton London Westminster",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-11T11:57:55.315178"
+  },
+  {
+    "id": 1145,
+    "userId": 50,
+    "hotelId": 1075,
+    "hotelName": "Norfolk Towers Paddington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "下次出差可以考虑",
+    "createTime": "2026-01-27T11:57:55.315178"
+  },
+  {
+    "id": 1146,
+    "userId": 14,
+    "hotelId": 1312,
+    "hotelName": "The Bailey s Hotel London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-08-24T11:57:55.315178"
+  },
+  {
+    "id": 1147,
+    "userId": 60,
+    "hotelId": 1021,
+    "hotelName": "Millennium Hotel London Mayfair",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-04T11:57:55.315178"
+  },
+  {
+    "id": 1148,
+    "userId": 131,
+    "hotelId": 238,
+    "hotelName": "Commodore Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "适合带家人来",
+    "createTime": "2025-11-18T11:57:55.315178"
+  },
+  {
+    "id": 1149,
+    "userId": 72,
+    "hotelId": 289,
+    "hotelName": "DoubleTree by Hilton London Victoria",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-30T11:57:55.315178"
+  },
+  {
+    "id": 1150,
+    "userId": 13,
+    "hotelId": 1476,
+    "hotelName": "WestCord Fashion Hotel Amsterdam",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "环境优美",
+    "createTime": "2025-11-29T11:57:55.315178"
+  },
+  {
+    "id": 1151,
+    "userId": 55,
+    "hotelId": 271,
+    "hotelName": "De Vere Devonport House",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "位置很好",
+    "createTime": "2026-01-25T11:57:55.315178"
+  },
+  {
+    "id": 1152,
+    "userId": 111,
+    "hotelId": 1175,
+    "hotelName": "Radisson Blu Edwardian Grafton",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-18T11:57:55.315178"
+  },
+  {
+    "id": 1153,
+    "userId": 86,
+    "hotelId": 804,
+    "hotelName": "Hotel degli Arcimboldi",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-08-29T11:57:55.315178"
+  },
+  {
+    "id": 1154,
+    "userId": 142,
+    "hotelId": 93,
+    "hotelName": "Austria Trend Hotel Savoyen Vienna",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "环境优美",
+    "createTime": "2025-11-19T11:57:55.315178"
+  },
+  {
+    "id": 1155,
+    "userId": 136,
+    "hotelId": 1128,
+    "hotelName": "Park Grand London Hyde Park",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2025-12-28T11:57:55.315178"
+  },
+  {
+    "id": 1156,
+    "userId": 150,
+    "hotelId": 293,
+    "hotelName": "Doubletree by Hilton London Kensington",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-17T11:57:55.317545"
+  },
+  {
+    "id": 1157,
+    "userId": 31,
+    "hotelId": 1131,
+    "hotelName": "Park Grand Paddington Court",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-05T11:57:55.317545"
+  },
+  {
+    "id": 1158,
+    "userId": 49,
+    "hotelId": 1370,
+    "hotelName": "The Montcalm At Brewery London City",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-25T11:57:55.317545"
+  },
+  {
+    "id": 1159,
+    "userId": 20,
+    "hotelId": 1424,
+    "hotelName": "Thistle Kensington Gardens",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "性价比不错",
+    "createTime": "2025-12-30T11:57:55.317545"
+  },
+  {
+    "id": 1160,
+    "userId": 137,
+    "hotelId": 928,
+    "hotelName": "London Marriott Hotel Regents Park",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-11-04T11:57:55.317545"
+  },
+  {
+    "id": 1161,
+    "userId": 141,
+    "hotelId": 847,
+    "hotelName": "K West Hotel Spa",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-29T11:57:55.317545"
+  },
+  {
+    "id": 1162,
+    "userId": 89,
+    "hotelId": 586,
+    "hotelName": "Hotel Berna",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-20T11:57:55.317545"
+  },
+  {
+    "id": 1163,
+    "userId": 112,
+    "hotelId": 1277,
+    "hotelName": "St James Court A Taj Hotel London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-14T11:57:55.317545"
+  },
+  {
+    "id": 1164,
+    "userId": 6,
+    "hotelId": 278,
+    "hotelName": "DoubleTree By Hilton London Excel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-12-07T11:57:55.317545"
+  },
+  {
+    "id": 1165,
+    "userId": 12,
+    "hotelId": 1364,
+    "hotelName": "The Mandeville Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-08-26T11:57:55.317545"
+  },
+  {
+    "id": 1166,
+    "userId": 49,
+    "hotelId": 1213,
+    "hotelName": "Rosa Grand Milano Starhotels Collezione",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-06T11:57:55.317545"
+  },
+  {
+    "id": 1167,
+    "userId": 132,
+    "hotelId": 613,
+    "hotelName": "Hotel Da Vinci",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-12T11:57:55.317545"
+  },
+  {
+    "id": 1168,
+    "userId": 99,
+    "hotelId": 749,
+    "hotelName": "Hotel SB Diagonal Zero Barcelona 4 Sup",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-12-12T11:57:55.317545"
+  },
+  {
+    "id": 1169,
+    "userId": 53,
+    "hotelId": 1175,
+    "hotelName": "Radisson Blu Edwardian Grafton",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-09-21T11:57:55.317545"
+  },
+  {
+    "id": 1170,
+    "userId": 3,
+    "hotelId": 1071,
+    "hotelName": "New Linden Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-10-08T11:57:55.317545"
+  },
+  {
+    "id": 1171,
+    "userId": 67,
+    "hotelId": 804,
+    "hotelName": "Hotel degli Arcimboldi",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "适合带家人来",
+    "createTime": "2025-10-01T11:57:55.317545"
+  },
+  {
+    "id": 1172,
+    "userId": 31,
+    "hotelId": 1006,
+    "hotelName": "Mercure Paris Terminus Nord",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-12-07T11:57:55.317545"
+  },
+  {
+    "id": 1173,
+    "userId": 11,
+    "hotelId": 1407,
+    "hotelName": "The Waldorf Hilton",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-10T11:57:55.317545"
+  },
+  {
+    "id": 1174,
+    "userId": 35,
+    "hotelId": 381,
+    "hotelName": "Grange St Paul s Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-18T11:57:55.317545"
+  },
+  {
+    "id": 1175,
+    "userId": 54,
+    "hotelId": 581,
+    "hotelName": "Hotel Barcelona Catedral",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "适合带家人来",
+    "createTime": "2025-09-11T11:57:55.317545"
+  },
+  {
+    "id": 1176,
+    "userId": 95,
+    "hotelId": 1386,
+    "hotelName": "The Queens Gate Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-02T11:57:55.317545"
+  },
+  {
+    "id": 1177,
+    "userId": 68,
+    "hotelId": 928,
+    "hotelName": "London Marriott Hotel Regents Park",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-16T11:57:55.317545"
+  },
+  {
+    "id": 1178,
+    "userId": 76,
+    "hotelId": 1386,
+    "hotelName": "The Queens Gate Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-02-17T11:57:55.317545"
+  },
+  {
+    "id": 1179,
+    "userId": 92,
+    "hotelId": 1021,
+    "hotelName": "Millennium Hotel London Mayfair",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-10-05T11:57:55.317545"
+  },
+  {
+    "id": 1180,
+    "userId": 150,
+    "hotelId": 1188,
+    "hotelName": "Ramada Apollo Amsterdam Centre",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-14T11:57:55.317545"
+  },
+  {
+    "id": 1181,
+    "userId": 66,
+    "hotelId": 63,
+    "hotelName": "Apollo Hotel Amsterdam",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-29T11:57:55.317545"
+  },
+  {
+    "id": 1182,
+    "userId": 114,
+    "hotelId": 1021,
+    "hotelName": "Millennium Hotel London Mayfair",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "位置很好",
+    "createTime": "2025-09-11T11:57:55.317545"
+  },
+  {
+    "id": 1183,
+    "userId": 102,
+    "hotelId": 1488,
+    "hotelName": "citizenM London Bankside",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "环境优美",
+    "createTime": "2025-10-31T11:57:55.317545"
+  },
+  {
+    "id": 1184,
+    "userId": 95,
+    "hotelId": 1075,
+    "hotelName": "Norfolk Towers Paddington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-10-25T11:57:55.317545"
+  },
+  {
+    "id": 1185,
+    "userId": 48,
+    "hotelId": 1385,
+    "hotelName": "The Principal London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-04T11:57:55.317545"
+  },
+  {
+    "id": 1186,
+    "userId": 73,
+    "hotelId": 370,
+    "hotelName": "Grand Royale London Hyde Park",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-11-11T11:57:55.317545"
+  },
+  {
+    "id": 1187,
+    "userId": 49,
+    "hotelId": 1277,
+    "hotelName": "St James Court A Taj Hotel London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-10-26T11:57:55.317545"
+  },
+  {
+    "id": 1188,
+    "userId": 104,
+    "hotelId": 1331,
+    "hotelName": "The Cumberland A Guoman Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2026-02-16T11:57:55.317545"
+  },
+  {
+    "id": 1189,
+    "userId": 26,
+    "hotelId": 1243,
+    "hotelName": "Shaftesbury Hyde Park International",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-08T11:57:55.317545"
+  },
+  {
+    "id": 1190,
+    "userId": 12,
+    "hotelId": 258,
+    "hotelName": "Crowne Plaza London Docklands",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-12-13T11:57:55.317545"
+  },
+  {
+    "id": 1191,
+    "userId": 37,
+    "hotelId": 63,
+    "hotelName": "Apollo Hotel Amsterdam",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-23T11:57:55.317545"
+  },
+  {
+    "id": 1192,
+    "userId": 139,
+    "hotelId": 920,
+    "hotelName": "London City Suites",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-29T11:57:55.317545"
+  },
+  {
+    "id": 1193,
+    "userId": 52,
+    "hotelId": 1245,
+    "hotelName": "Shaftesbury Premier London Paddington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-29T11:57:55.317545"
+  },
+  {
+    "id": 1194,
+    "userId": 42,
+    "hotelId": 1420,
+    "hotelName": "TheWesley",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-12-19T11:57:55.317545"
+  },
+  {
+    "id": 1195,
+    "userId": 15,
+    "hotelId": 1424,
+    "hotelName": "Thistle Kensington Gardens",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-19T11:57:55.317545"
+  },
+  {
+    "id": 1196,
+    "userId": 6,
+    "hotelId": 521,
+    "hotelName": "Hilton London Wembley",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2026-01-24T11:57:55.317545"
+  },
+  {
+    "id": 1197,
+    "userId": 131,
+    "hotelId": 213,
+    "hotelName": "Catalonia Plaza Catalunya",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "下次出差可以考虑",
+    "createTime": "2026-02-13T11:57:55.317545"
+  },
+  {
+    "id": 1198,
+    "userId": 59,
+    "hotelId": 238,
+    "hotelName": "Commodore Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "环境优美",
+    "createTime": "2025-12-08T11:57:55.317545"
+  },
+  {
+    "id": 1199,
+    "userId": 58,
+    "hotelId": 1113,
+    "hotelName": "Olivia Plaza Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-22T11:57:55.317545"
+  },
+  {
+    "id": 1200,
+    "userId": 126,
+    "hotelId": 1006,
+    "hotelName": "Mercure Paris Terminus Nord",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "适合带家人来",
+    "createTime": "2025-11-20T11:57:55.317545"
+  },
+  {
+    "id": 1201,
+    "userId": 20,
+    "hotelId": 342,
+    "hotelName": "Gainsborough Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-08T11:57:55.317545"
+  },
+  {
+    "id": 1202,
+    "userId": 39,
+    "hotelId": 1385,
+    "hotelName": "The Principal London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-19T11:57:55.317545"
+  },
+  {
+    "id": 1203,
+    "userId": 47,
+    "hotelId": 1436,
+    "hotelName": "Twenty Nevern Square Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "环境优美",
+    "createTime": "2025-08-28T11:57:55.317545"
+  },
+  {
+    "id": 1204,
+    "userId": 78,
+    "hotelId": 1336,
+    "hotelName": "The Exhibitionist Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-12-12T11:57:55.317545"
+  },
+  {
+    "id": 1205,
+    "userId": 128,
+    "hotelId": 1153,
+    "hotelName": "Petit Palace Boqueria Garden",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-31T11:57:55.317545"
+  },
+  {
+    "id": 1206,
+    "userId": 1,
+    "hotelId": 1342,
+    "hotelName": "The Grosvenor",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-11-12T11:57:55.317545"
+  },
+  {
+    "id": 1207,
+    "userId": 115,
+    "hotelId": 928,
+    "hotelName": "London Marriott Hotel Regents Park",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-22T11:57:55.317545"
+  },
+  {
+    "id": 1208,
+    "userId": 148,
+    "hotelId": 238,
+    "hotelName": "Commodore Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2026-01-18T11:57:55.317545"
+  },
+  {
+    "id": 1209,
+    "userId": 47,
+    "hotelId": 1032,
+    "hotelName": "Montcalm Royal London House City of London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "性价比不错",
+    "createTime": "2025-11-03T11:57:55.317545"
+  },
+  {
+    "id": 1210,
+    "userId": 124,
+    "hotelId": 46,
+    "hotelName": "Ambassadors Bloomsbury",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-10T11:57:55.317545"
+  },
+  {
+    "id": 1211,
+    "userId": 86,
+    "hotelId": 1245,
+    "hotelName": "Shaftesbury Premier London Paddington",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-13T11:57:55.317545"
+  },
+  {
+    "id": 1212,
+    "userId": 108,
+    "hotelId": 968,
+    "hotelName": "Mercure Amsterdam Sloterdijk Station",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-16T11:57:55.317545"
+  },
+  {
+    "id": 1213,
+    "userId": 137,
+    "hotelId": 1184,
+    "hotelName": "Radisson Blu Portman Hotel London",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "位置很好",
+    "createTime": "2025-11-04T11:57:55.317545"
+  },
+  {
+    "id": 1214,
+    "userId": 135,
+    "hotelId": 750,
+    "hotelName": "Hotel SB Icaria Barcelona",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-25T11:57:55.317545"
+  },
+  {
+    "id": 1215,
+    "userId": 23,
+    "hotelId": 496,
+    "hotelName": "Hampshire Hotel Amsterdam American",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-19T11:57:55.317545"
+  },
+  {
+    "id": 1216,
+    "userId": 143,
+    "hotelId": 288,
+    "hotelName": "DoubleTree by Hilton London Islington",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-02-04T11:57:55.317545"
+  },
+  {
+    "id": 1217,
+    "userId": 90,
+    "hotelId": 1138,
+    "hotelName": "Park Lane Mews Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-10-01T11:57:55.317545"
+  },
+  {
+    "id": 1218,
+    "userId": 108,
+    "hotelId": 529,
+    "hotelName": "Holiday Inn London Bloomsbury",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-02-05T11:57:55.317545"
+  },
+  {
+    "id": 1219,
+    "userId": 36,
+    "hotelId": 233,
+    "hotelName": "Club Quarters Hotel St Paul s",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-15T11:57:55.317545"
+  },
+  {
+    "id": 1220,
+    "userId": 7,
+    "hotelId": 1178,
+    "hotelName": "Radisson Blu Edwardian Mercer Street",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "环境优美",
+    "createTime": "2026-01-23T11:57:55.317545"
+  },
+  {
+    "id": 1221,
+    "userId": 149,
+    "hotelId": 1129,
+    "hotelName": "Park Grand London Kensington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-10T11:57:55.317545"
+  },
+  {
+    "id": 1222,
+    "userId": 8,
+    "hotelId": 1075,
+    "hotelName": "Norfolk Towers Paddington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "下次出差可以考虑",
+    "createTime": "2026-01-31T11:57:55.317545"
+  },
+  {
+    "id": 1223,
+    "userId": 4,
+    "hotelId": 1169,
+    "hotelName": "Pullman Paris Tour Eiffel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-10-22T11:57:55.317545"
+  },
+  {
+    "id": 1224,
+    "userId": 36,
+    "hotelId": 326,
+    "hotelName": "Fielding Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-25T11:57:55.317545"
+  },
+  {
+    "id": 1225,
+    "userId": 114,
+    "hotelId": 1367,
+    "hotelName": "The May Fair Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-11T11:57:55.317545"
+  },
+  {
+    "id": 1226,
+    "userId": 16,
+    "hotelId": 956,
+    "hotelName": "Megaro Hotel",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-06T11:57:55.317545"
+  },
+  {
+    "id": 1227,
+    "userId": 129,
+    "hotelId": 929,
+    "hotelName": "London Marriott Hotel West India Quay",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "性价比不错",
+    "createTime": "2025-08-29T11:57:55.317545"
+  },
+  {
+    "id": 1228,
+    "userId": 117,
+    "hotelId": 954,
+    "hotelName": "Mayflower Hotel Apartments",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-10-14T11:57:55.317545"
+  },
+  {
+    "id": 1229,
+    "userId": 79,
+    "hotelId": 947,
+    "hotelName": "Malmaison London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-10T11:57:55.317545"
+  },
+  {
+    "id": 1230,
+    "userId": 70,
+    "hotelId": 1404,
+    "hotelName": "The Tower A Guoman Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-18T11:57:55.317545"
+  },
+  {
+    "id": 1231,
+    "userId": 55,
+    "hotelId": 1394,
+    "hotelName": "The Royal Horseguards",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-09-29T11:57:55.317545"
+  },
+  {
+    "id": 1232,
+    "userId": 20,
+    "hotelId": 46,
+    "hotelName": "Ambassadors Bloomsbury",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-05T11:57:55.317545"
+  },
+  {
+    "id": 1233,
+    "userId": 104,
+    "hotelId": 1312,
+    "hotelName": "The Bailey s Hotel London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "适合带家人来",
+    "createTime": "2025-09-07T11:57:55.317545"
+  },
+  {
+    "id": 1234,
+    "userId": 109,
+    "hotelId": 1370,
+    "hotelName": "The Montcalm At Brewery London City",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-19T11:57:55.317545"
+  },
+  {
+    "id": 1235,
+    "userId": 86,
+    "hotelId": 517,
+    "hotelName": "Hilton London Metropole",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "位置很好",
+    "createTime": "2026-01-23T11:57:55.317545"
+  },
+  {
+    "id": 1236,
+    "userId": 17,
+    "hotelId": 44,
+    "hotelName": "Amba Hotel Marble Arch",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2026-01-02T11:57:55.317545"
+  },
+  {
+    "id": 1237,
+    "userId": 142,
+    "hotelId": 1088,
+    "hotelName": "Novotel London West",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-20T11:57:55.317545"
+  },
+  {
+    "id": 1238,
+    "userId": 69,
+    "hotelId": 516,
+    "hotelName": "Hilton London Kensington Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-10-19T11:57:55.317545"
+  },
+  {
+    "id": 1239,
+    "userId": 12,
+    "hotelId": 1139,
+    "hotelName": "Park Plaza County Hall London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "适合带家人来",
+    "createTime": "2026-02-17T11:57:55.317545"
+  },
+  {
+    "id": 1240,
+    "userId": 92,
+    "hotelId": 1226,
+    "hotelName": "Saint Georges Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-14T11:57:55.317545"
+  },
+  {
+    "id": 1241,
+    "userId": 50,
+    "hotelId": 1248,
+    "hotelName": "Shangri La Hotel at The Shard London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-17T11:57:55.317545"
+  },
+  {
+    "id": 1242,
+    "userId": 25,
+    "hotelId": 231,
+    "hotelName": "Club Quarters Hotel Gracechurch",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-14T11:57:55.317545"
+  },
+  {
+    "id": 1243,
+    "userId": 26,
+    "hotelId": 1174,
+    "hotelName": "Radisson Blu Edwardian Bloomsbury Street",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "性价比不错",
+    "createTime": "2025-10-20T11:57:55.317545"
+  },
+  {
+    "id": 1244,
+    "userId": 10,
+    "hotelId": 545,
+    "hotelName": "Holiday Inn Paris Gare de l Est",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "性价比不错",
+    "createTime": "2026-01-30T11:57:55.317545"
+  },
+  {
+    "id": 1245,
+    "userId": 24,
+    "hotelId": 1348,
+    "hotelName": "The Hoxton Holborn",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-08-29T11:57:55.317545"
+  },
+  {
+    "id": 1246,
+    "userId": 37,
+    "hotelId": 1032,
+    "hotelName": "Montcalm Royal London House City of London",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-10-14T11:57:55.317545"
+  },
+  {
+    "id": 1247,
+    "userId": 133,
+    "hotelId": 155,
+    "hotelName": "Best Western Plus Seraphine Hammersmith Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-17T11:57:55.317545"
+  },
+  {
+    "id": 1248,
+    "userId": 87,
+    "hotelId": 545,
+    "hotelName": "Holiday Inn Paris Gare de l Est",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-01T11:57:55.317545"
+  },
+  {
+    "id": 1249,
+    "userId": 11,
+    "hotelId": 847,
+    "hotelName": "K West Hotel Spa",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-09-16T11:57:55.317545"
+  },
+  {
+    "id": 1250,
+    "userId": 20,
+    "hotelId": 1488,
+    "hotelName": "citizenM London Bankside",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2026-01-14T11:57:55.317545"
+  },
+  {
+    "id": 1251,
+    "userId": 80,
+    "hotelId": 968,
+    "hotelName": "Mercure Amsterdam Sloterdijk Station",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-26T11:57:55.317545"
+  },
+  {
+    "id": 1252,
+    "userId": 81,
+    "hotelId": 1006,
+    "hotelName": "Mercure Paris Terminus Nord",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "适合带家人来",
+    "createTime": "2025-09-25T11:57:55.317545"
+  },
+  {
+    "id": 1253,
+    "userId": 94,
+    "hotelId": 1371,
+    "hotelName": "The Montcalm Marble Arch",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": "环境优美",
+    "createTime": "2025-10-25T11:57:55.317545"
+  },
+  {
+    "id": 1254,
+    "userId": 67,
+    "hotelId": 288,
+    "hotelName": "DoubleTree by Hilton London Islington",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-29T11:57:55.317545"
+  },
+  {
+    "id": 1255,
+    "userId": 36,
+    "hotelId": 1144,
+    "hotelName": "Park Plaza Victoria Amsterdam",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-11-18T11:57:55.317545"
+  },
+  {
+    "id": 1256,
+    "userId": 74,
+    "hotelId": 1394,
+    "hotelName": "The Royal Horseguards",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-08-29T11:57:55.317545"
+  },
+  {
+    "id": 1257,
+    "userId": 34,
+    "hotelId": 287,
+    "hotelName": "DoubleTree by Hilton London Hyde Park",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-13T11:57:55.317545"
+  },
+  {
+    "id": 1258,
+    "userId": 81,
+    "hotelId": 62,
+    "hotelName": "Apex Temple Court Hotel",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-10-13T11:57:55.317545"
+  },
+  {
+    "id": 1259,
+    "userId": 116,
+    "hotelId": 519,
+    "hotelName": "Hilton London Paddington",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "环境优美",
+    "createTime": "2026-02-05T11:57:55.317545"
+  },
+  {
+    "id": 1260,
+    "userId": 63,
+    "hotelId": 1223,
+    "hotelName": "Rubens At The Palace",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-07T11:57:55.317545"
+  },
+  {
+    "id": 1261,
+    "userId": 97,
+    "hotelId": 533,
+    "hotelName": "Holiday Inn London Kensington Forum",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-12-24T11:57:55.317545"
+  },
+  {
+    "id": 1262,
+    "userId": 100,
+    "hotelId": 229,
+    "hotelName": "Clayton Hotel Chiswick",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "性价比不错",
+    "createTime": "2025-10-23T11:57:55.317545"
+  },
+  {
+    "id": 1263,
+    "userId": 137,
+    "hotelId": 601,
+    "hotelName": "Hotel Cavendish",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "环境优美",
+    "createTime": "2026-01-23T11:57:55.317545"
+  },
+  {
+    "id": 1264,
+    "userId": 102,
+    "hotelId": 1032,
+    "hotelName": "Montcalm Royal London House City of London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "适合带家人来",
+    "createTime": "2026-02-03T11:57:55.317545"
+  },
+  {
+    "id": 1265,
+    "userId": 82,
+    "hotelId": 228,
+    "hotelName": "Clayton Crown Hotel London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-08-24T11:57:55.317545"
+  },
+  {
+    "id": 1266,
+    "userId": 122,
+    "hotelId": 1490,
+    "hotelName": "citizenM Tower of London",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-10-03T11:57:55.317545"
+  },
+  {
+    "id": 1267,
+    "userId": 40,
+    "hotelId": 1207,
+    "hotelName": "Room Mate Aitana",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-11-30T11:57:55.317545"
+  },
+  {
+    "id": 1268,
+    "userId": 146,
+    "hotelId": 1019,
+    "hotelName": "Millennium Gloucester Hotel London",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-04T11:57:55.317545"
+  },
+  {
+    "id": 1269,
+    "userId": 93,
+    "hotelId": 148,
+    "hotelName": "Best Western Palm Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "下次出差可以考虑",
+    "createTime": "2026-02-14T11:57:55.317545"
+  },
+  {
+    "id": 1270,
+    "userId": 109,
+    "hotelId": 381,
+    "hotelName": "Grange St Paul s Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-29T11:57:55.317545"
+  },
+  {
+    "id": 1271,
+    "userId": 37,
+    "hotelId": 1277,
+    "hotelName": "St James Court A Taj Hotel London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-12-05T11:57:55.317545"
+  },
+  {
+    "id": 1272,
+    "userId": 116,
+    "hotelId": 1315,
+    "hotelName": "The Belgrave Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-12-15T11:57:55.317545"
+  },
+  {
+    "id": 1273,
+    "userId": 48,
+    "hotelId": 176,
+    "hotelName": "Blakemore Hyde Park",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-02T11:57:55.317545"
+  },
+  {
+    "id": 1274,
+    "userId": 88,
+    "hotelId": 1226,
+    "hotelName": "Saint Georges Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "适合带家人来",
+    "createTime": "2025-11-04T11:57:55.317545"
+  },
+  {
+    "id": 1275,
+    "userId": 124,
+    "hotelId": 288,
+    "hotelName": "DoubleTree by Hilton London Islington",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-09T11:57:55.317545"
+  },
+  {
+    "id": 1276,
+    "userId": 112,
+    "hotelId": 1371,
+    "hotelName": "The Montcalm Marble Arch",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-09-29T11:57:55.317545"
+  },
+  {
+    "id": 1277,
+    "userId": 51,
+    "hotelId": 613,
+    "hotelName": "Hotel Da Vinci",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-15T11:57:55.317545"
+  },
+  {
+    "id": 1278,
+    "userId": 38,
+    "hotelId": 503,
+    "hotelName": "Henry VIII",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": "性价比不错",
+    "createTime": "2026-01-13T11:57:55.317545"
+  },
+  {
+    "id": 1279,
+    "userId": 128,
+    "hotelId": 1046,
+    "hotelName": "NH Carlton Amsterdam",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": null,
+    "createTime": "2025-08-31T11:57:55.317545"
+  },
+  {
+    "id": 1280,
+    "userId": 105,
+    "hotelId": 519,
+    "hotelName": "Hilton London Paddington",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-10-27T11:57:55.317545"
+  },
+  {
+    "id": 1281,
+    "userId": 33,
+    "hotelId": 972,
+    "hotelName": "Mercure Hotel Amsterdam City South",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-24T11:57:55.317545"
+  },
+  {
+    "id": 1282,
+    "userId": 25,
+    "hotelId": 837,
+    "hotelName": "Intercontinental London The O2",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2026-01-02T11:57:55.317545"
+  },
+  {
+    "id": 1283,
+    "userId": 108,
+    "hotelId": 1178,
+    "hotelName": "Radisson Blu Edwardian Mercer Street",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-19T11:57:55.317545"
+  },
+  {
+    "id": 1284,
+    "userId": 97,
+    "hotelId": 280,
+    "hotelName": "DoubleTree by Hilton Amsterdam Centraal Station",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": "下次出差可以考虑",
+    "createTime": "2025-08-30T11:57:55.317545"
+  },
+  {
+    "id": 1285,
+    "userId": 148,
+    "hotelId": 242,
+    "hotelName": "Copthorne Tara Hotel London Kensington",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-15T11:57:55.317545"
+  },
+  {
+    "id": 1286,
+    "userId": 78,
+    "hotelId": 1420,
+    "hotelName": "TheWesley",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-01-19T11:57:55.317545"
+  },
+  {
+    "id": 1287,
+    "userId": 128,
+    "hotelId": 101,
+    "hotelName": "Ayre Hotel Gran V a",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-21T11:57:55.317545"
+  },
+  {
+    "id": 1288,
+    "userId": 91,
+    "hotelId": 248,
+    "hotelName": "Courthouse Hotel London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-11-26T11:57:55.317545"
+  },
+  {
+    "id": 1289,
+    "userId": 30,
+    "hotelId": 1385,
+    "hotelName": "The Principal London",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2026-01-05T11:57:55.317545"
+  },
+  {
+    "id": 1290,
+    "userId": 142,
+    "hotelId": 67,
+    "hotelName": "Arbor Hyde Park",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-11-14T11:57:55.317545"
+  },
+  {
+    "id": 1291,
+    "userId": 73,
+    "hotelId": 1486,
+    "hotelName": "art otel Amsterdam",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": null,
+    "createTime": "2025-08-24T11:57:55.317545"
+  },
+  {
+    "id": 1292,
+    "userId": 26,
+    "hotelId": 634,
+    "hotelName": "Hotel Esther a",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2025-09-15T11:57:55.317545"
+  },
+  {
+    "id": 1293,
+    "userId": 106,
+    "hotelId": 1378,
+    "hotelName": "The Park Grand London Paddington",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2025-09-13T11:57:55.317545"
+  },
+  {
+    "id": 1294,
+    "userId": 140,
+    "hotelId": 1331,
+    "hotelName": "The Cumberland A Guoman Hotel",
+    "category": "family",
+    "categoryName": "亲子出游",
+    "note": null,
+    "createTime": "2026-02-11T11:57:55.317545"
+  },
+  {
+    "id": 1295,
+    "userId": 75,
+    "hotelId": 1315,
+    "hotelName": "The Belgrave Hotel",
+    "category": "value",
+    "categoryName": "性价比",
+    "note": "性价比不错",
+    "createTime": "2025-10-01T11:57:55.317545"
+  },
+  {
+    "id": 1296,
+    "userId": 98,
+    "hotelId": 1490,
+    "hotelName": "citizenM Tower of London",
+    "category": "luxury",
+    "categoryName": "豪华享受",
+    "note": null,
+    "createTime": "2026-01-19T11:57:55.317545"
+  },
+  {
+    "id": 1297,
+    "userId": 90,
+    "hotelId": 229,
+    "hotelName": "Clayton Hotel Chiswick",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-09-07T11:57:55.317545"
+  },
+  {
+    "id": 1298,
+    "userId": 102,
+    "hotelId": 1291,
+    "hotelName": "Strand Palace Hotel",
+    "category": "vacation",
+    "categoryName": "度假休闲",
+    "note": null,
+    "createTime": "2025-10-13T11:57:55.317545"
+  },
+  {
+    "id": 1299,
+    "userId": 73,
+    "hotelId": 839,
+    "hotelName": "Jaz Amsterdam",
+    "category": "business",
+    "categoryName": "商务出行",
+    "note": "性价比不错",
+    "createTime": "2025-08-31T11:57:55.317545"
+  }
+]
