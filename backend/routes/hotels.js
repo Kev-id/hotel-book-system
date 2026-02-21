@@ -9,6 +9,12 @@ router.get('/', hotelController.getHotels);
 // GET /api/hotels/deleted/list - 获取已删除的酒店列表
 router.get('/deleted/list', hotelController.getDeletedHotels);
 
+// GET /api/hotels/price-calendar/query - 获取价格日历
+router.get('/price-calendar/query', hotelController.getPriceCalendar);
+
+// GET /api/hotels/price-calendar/calculate - 计算时间段总价
+router.get('/price-calendar/calculate', hotelController.calculatePeriodPrice);
+
 // GET /api/hotels/:id - 获取酒店详情
 router.get('/:id', hotelController.getHotelDetail);
 
@@ -35,11 +41,5 @@ router.post('/price-calendar', hotelController.setPriceCalendar);
 
 // POST /api/hotels/price-calendar/batch - 批量设置价格
 router.post('/price-calendar/batch', hotelController.setBatchPriceCalendar);
-
-// GET /api/hotels/price-calendar/query - 获取价格日历
-router.get('/price-calendar/query', hotelController.getPriceCalendar);
-
-// GET /api/hotels/price-calendar/calculate - 计算时间段总价
-router.get('/price-calendar/calculate', hotelController.calculatePeriodPrice);
 
 module.exports = router;

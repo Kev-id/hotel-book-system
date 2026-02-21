@@ -58,11 +58,18 @@ const MerchantStatus = () => {
       width: 100,
     },
     {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
+      title: '星级',
+      dataIndex: 'stars',
+      key: 'stars',
+      width: 80,
+      render: (stars) => stars ? `${stars}星` : '-'
+    },
+    {
+      title: '房型数量',
+      dataIndex: 'roomTypes',
+      key: 'roomTypes',
       width: 100,
-      render: (price) => `¥${price}`,
+      render: (roomTypes) => roomTypes?.length || 0
     },
     {
       title: '审核状态',
@@ -72,12 +79,25 @@ const MerchantStatus = () => {
       render: (status) => getStatusTag(status),
     },
     {
+      title: '提交时间',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 150,
+      render: (time) => time ? new Date(time).toLocaleString('zh-CN', { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      }) : '-'
+    },
+    {
       title: '操作',
       key: 'action',
       width: 100,
       render: (_, record) => (
         <Button 
-          type="link" 
+          type="primary"
           size="small"
           onClick={() => showDetails(record)}
         >
@@ -90,8 +110,17 @@ const MerchantStatus = () => {
   return (
     <div className="merchant-status-container">
       <div className="status-header">
-        <h2>我的酒店审核状态</h2>
-        <p>查看您发布的酒店审核进度和结果</p>
+        <div>
+          <h2>我的酒店审核状态</h2>
+          <p>查看您发布的酒店审核进度和结果</p>
+        </div>
+        <Button 
+          type="primary" 
+          size="large"
+          onClick={() => window.location.href = '/admin/hotel-form'}
+        >
+          发布新酒店
+        </Button>
       </div>
 
       <Spin spinning={loading}>
@@ -109,71 +138,107 @@ const MerchantStatus = () => {
       </Spin>
 
       <Modal
-        title="酒店审核详情"
+        title="酒店详情"
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
-        footer={null}
-        width={600}
+        footer={[
+          <Button key="close" onClick={() => setModalVisible(false)}>
+            关闭
+          </Button>
+        ]}
+        width={700}
       >
         {selectedHotel && (
           <div className="hotel-details">
-            <div className="detail-row">
-              <span className="label">酒店名称：</span>
-              <span className="value">{selectedHotel.name}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">地址：</span>
-              <span className="value">{selectedHotel.address}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">城市：</span>
-              <span className="value">{selectedHotel.city}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">价格：</span>
-              <span className="value">¥{selectedHotel.price}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">星级：</span>
-              <span className="value">{'⭐'.repeat(selectedHotel.stars)}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">房间类型：</span>
-              <span className="value">{selectedHotel.roomType}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">酒店标签：</span>
-              <span className="value">
-                {selectedHotel.tags && Array.isArray(selectedHotel.tags) && selectedHotel.tags.length > 0 ? (
-                  selectedHotel.tags.map((tag, index) => (
-                    <Tag key={index} color="blue" style={{ marginRight: '4px', marginBottom: '4px' }}>
-                      {tag}
-                    </Tag>
-                  ))
-                ) : (
-                  <span style={{ color: '#999' }}>无</span>
-                )}
-              </span>
-            </div>
-            <div className="detail-row">
-              <span className="label">酒店介绍：</span>
-              <span className="value" style={{ display: 'block', marginTop: '8px', lineHeight: '1.6' }}>
-                {selectedHotel.description || '暂无介绍'}
-              </span>
-            </div>
-            <div className="detail-row">
-              <span className="label">审核状态：</span>
-              <span className="value">{getStatusTag(selectedHotel.status)}</span>
-            </div>
-            {selectedHotel.status === 'rejected' && selectedHotel.rejectReason && (
-              <div className="detail-row reject-reason">
-                <span className="label">驳回原因：</span>
-                <span className="value">{selectedHotel.rejectReason}</span>
+            <div className="detail-section">
+              <h4 style={{ marginBottom: '16px', color: '#1890ff', borderBottom: '2px solid #1890ff', paddingBottom: '8px' }}>基本信息</h4>
+              <div className="detail-row">
+                <span className="label">酒店名称：</span>
+                <span className="value">{selectedHotel.name}</span>
               </div>
-            )}
-            <div className="detail-row">
-              <span className="label">提交时间：</span>
-              <span className="value">{new Date(selectedHotel.created_at).toLocaleString('zh-CN')}</span>
+              <div className="detail-row">
+                <span className="label">地址：</span>
+                <span className="value">{selectedHotel.address}</span>
+              </div>
+              <div className="detail-row">
+                <span className="label">城市：</span>
+                <span className="value">{selectedHotel.city}</span>
+              </div>
+              <div className="detail-row">
+                <span className="label">星级：</span>
+                <span className="value">{'⭐'.repeat(selectedHotel.stars)}</span>
+              </div>
+              <div className="detail-row">
+                <span className="label">开业时间：</span>
+                <span className="value">{selectedHotel.openingDate || '未填写'}</span>
+              </div>
+            </div>
+
+            <div className="detail-section" style={{ marginTop: '20px' }}>
+              <h4 style={{ marginBottom: '16px', color: '#1890ff', borderBottom: '2px solid #1890ff', paddingBottom: '8px' }}>房型信息</h4>
+              {selectedHotel.roomTypes && selectedHotel.roomTypes.length > 0 ? (
+                <div style={{ display: 'grid', gap: '12px' }}>
+                  {selectedHotel.roomTypes.map((room, index) => (
+                    <div key={index} style={{ 
+                      padding: '12px', 
+                      background: '#f5f5f5', 
+                      borderRadius: '6px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}>
+                      <span style={{ fontWeight: 500 }}>{room.roomType}</span>
+                      <span style={{ color: '#ff4d4f', fontWeight: 600 }}>¥{room.price}/晚</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <span style={{ color: '#999' }}>暂无房型信息</span>
+              )}
+            </div>
+
+            <div className="detail-section" style={{ marginTop: '20px' }}>
+              <h4 style={{ marginBottom: '16px', color: '#1890ff', borderBottom: '2px solid #1890ff', paddingBottom: '8px' }}>酒店设施</h4>
+              <div className="detail-row">
+                <span className="value">
+                  {selectedHotel.tags && Array.isArray(selectedHotel.tags) && selectedHotel.tags.length > 0 ? (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {selectedHotel.tags.map((tag, index) => (
+                        <Tag key={index} color="blue">
+                          {tag}
+                        </Tag>
+                      ))}
+                    </div>
+                  ) : (
+                    <span style={{ color: '#999' }}>无</span>
+                  )}
+                </span>
+              </div>
+            </div>
+
+            <div className="detail-section" style={{ marginTop: '20px' }}>
+              <h4 style={{ marginBottom: '16px', color: '#1890ff', borderBottom: '2px solid #1890ff', paddingBottom: '8px' }}>酒店介绍</h4>
+              <div style={{ lineHeight: '1.8', color: '#666', background: '#f9f9f9', padding: '12px', borderRadius: '6px' }}>
+                {selectedHotel.description || '暂无介绍'}
+              </div>
+            </div>
+
+            <div className="detail-section" style={{ marginTop: '20px' }}>
+              <h4 style={{ marginBottom: '16px', color: '#1890ff', borderBottom: '2px solid #1890ff', paddingBottom: '8px' }}>审核状态</h4>
+              <div className="detail-row">
+                <span className="label">当前状态：</span>
+                <span className="value">{getStatusTag(selectedHotel.status)}</span>
+              </div>
+              {selectedHotel.status === 'rejected' && selectedHotel.rejectReason && (
+                <div className="detail-row" style={{ marginTop: '12px', padding: '12px', background: '#fff2f0', borderLeft: '4px solid #ff4d4f', borderRadius: '4px' }}>
+                  <span className="label" style={{ color: '#ff4d4f', fontWeight: 600 }}>驳回原因：</span>
+                  <span className="value" style={{ display: 'block', marginTop: '8px', color: '#666' }}>{selectedHotel.rejectReason}</span>
+                </div>
+              )}
+              <div className="detail-row" style={{ marginTop: '12px' }}>
+                <span className="label">提交时间：</span>
+                <span className="value">{new Date(selectedHotel.created_at).toLocaleString('zh-CN')}</span>
+              </div>
             </div>
           </div>
         )}

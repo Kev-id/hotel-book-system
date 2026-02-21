@@ -1,0 +1,452 @@
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { getHotelDetail, calculatePeriodPrice } from '../../../api/hotelApi';
+import { orderApi } from '../../../api/orderApi';
+import { useAuth } from '../../../context/AuthContext';
+import dayjs from 'dayjs';
+import { DateFormatter, DateValidator } from '../../../utils/dateUtils';
+import './styles.css';
+
+const Booking = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
+  
+  const [hotel, setHotel] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  
+  // 从 URL 获取预订参数并标准化日期格式
+  const params = new URLSearchParams(location.search);
+  const hotelId = params.get('hotelId');
+  const roomTypeIdRaw = params.get('roomTypeId');
+  const checkInRaw = params.get('checkIn');
+  const checkOutRaw = params.get('checkOut');
+  
+  // 验证并清理 roomTypeId - 防止 [object Object] 问题
+  let roomTypeId = roomTypeIdRaw;
+  if (roomTypeIdRaw === '[object Object]' || roomTypeIdRaw === 'undefined' || roomTypeIdRaw === 'null') {
+    console.error('检测到无效的 roomTypeId:', roomTypeIdRaw);
+    roomTypeId = null;
+  }
+  
+  const checkIn = DateFormatter.normalize(checkInRaw);
+  const checkOut = DateFormatter.normalize(checkOutRaw);
+  
+  // 调试日志
+  console.log('URL 参数:', { hotelId, roomTypeId: roomTypeIdRaw, checkInRaw, checkOutRaw });
+  console.log('清理后的 roomTypeId:', roomTypeId);
+  console.log('标准化后的日期:', { checkIn, checkOut });
+  
+  // 表单数据
+  const [formData, setFormData] = useState({
+    adults: 1,
+    children: 0,
+    contactName: user?.username || '',
+    contactPhone: user?.phone || '',
+    specialRequests: ''
+  });
+  
+  const [priceInfo, setPriceInfo] = useState(null);
+
+  useEffect(() => {
+    // 调试日志
+    console.log('=== 预约页面初始化 ===');
+    console.log('URL 参数:', { hotelId, roomTypeId, checkIn, checkOut });
+    console.log('用户信息:', user);
+    
+    if (!hotelId) {
+      console.log('缺少酒店参数，跳转到列表页');
+      alert('缺少酒店信息，请从酒店列表重新选择');
+      navigate('/list');
+      return;
+    }
+    
+    if (!roomTypeId || roomTypeId === '[object Object]') {
+      console.log('缺少或无效的房型参数，跳转到详情页');
+      alert('房型信息无效，请从酒店详情页重新选择');
+      navigate(`/detail/${hotelId}`);
+      return;
+    }
+    
+    if (!checkIn || !checkOut) {
+      console.log('缺少日期参数，跳转到详情页');
+      alert('缺少入住和退房日期，请重新选择日期');
+      navigate(`/detail/${hotelId}`);
+      return;
+    }
+    
+    if (!user) {
+      console.log('用户未登录，跳转到登录页');
+      navigate(`/admin/login?redirect=${encodeURIComponent(location.pathname + location.search)}`);
+      return;
+    }
+    
+    fetchBookingInfo();
+  }, [hotelId, roomTypeId, checkIn, checkOut]);
+
+  const fetchBookingInfo = async () => {
+    try {
+      setLoading(true);
+      
+      console.log('=== 开始获取预订信息 ===');
+      console.log('hotelId:', hotelId);
+      console.log('roomTypeId:', roomTypeId);
+      console.log('checkIn:', checkIn);
+      console.log('checkOut:', checkOut);
+      
+      // 获取酒店信息
+      console.log('1. 获取酒店详情...');
+      const hotelData = await getHotelDetail(hotelId);
+      console.log('酒店数据:', hotelData);
+      
+      if (!hotelData) {
+        throw new Error('无法获取酒店信息');
+      }
+      
+      setHotel(hotelData);
+      
+      // 计算价格 - 使用简单的方式
+      console.log('2. 计算价格...');
+      console.log('价格计算参数:', { hotelId, roomTypeId, checkIn, checkOut });
+      
+      // 验证参数
+      if (!hotelId || !roomTypeId || !checkIn || !checkOut) {
+        throw new Error('价格计算参数不完整');
+      }
+      
+      // 验证 roomTypeId 是有效的数字
+      const validRoomTypeId = parseInt(roomTypeId);
+      if (isNaN(validRoomTypeId)) {
+        throw new Error(`房型ID无效: ${roomTypeId}`);
+      }
+      
+      // 直接使用 fetch 而不是封装的函数
+      const priceUrl = `http://localhost:5000/api/hotels/price-calendar/calculate?hotelId=${hotelId}&roomTypeId=${validRoomTypeId}&checkIn=${checkIn}&checkOut=${checkOut}`;
+      console.log('价格计算URL:', priceUrl);
+      console.log('URL 长度:', priceUrl.length);
+      
+      const priceResponse = await fetch(priceUrl);
+      console.log('价格响应状态:', priceResponse.status);
+      console.log('价格响应URL:', priceResponse.url);
+      
+      if (!priceResponse.ok) {
+        const errorText = await priceResponse.text();
+        console.error('价格计算失败:', errorText);
+        throw new Error(`价格计算失败: ${priceResponse.status}`);
+      }
+      
+      const priceData = await priceResponse.json();
+      console.log('价格数据:', priceData);
+      
+      setPriceInfo(priceData);
+      console.log('=== 预订信息获取完成 ===');
+      
+    } catch (error) {
+      console.error('获取预订信息失败:', error);
+      alert(`获取预订信息失败: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    console.log('=== 开始提交订单 ===');
+    
+    if (!formData.contactName || !formData.contactPhone) {
+      alert('请填写联系人信息');
+      return;
+    }
+    
+    // 验证日期
+    if (!DateValidator.isValidCheckInDate(checkIn)) {
+      alert('入住日期不能早于今天');
+      return;
+    }
+    
+    if (!DateValidator.isValidCheckOutDate(checkIn, checkOut)) {
+      alert('退房日期必须晚于入住日期');
+      return;
+    }
+    
+    try {
+      setSubmitting(true);
+      
+      const selectedRoom = hotel.roomTypes?.find(r => r.id === parseInt(roomTypeId));
+      console.log('选中的房型:', selectedRoom);
+      
+      const orderData = {
+        userId: user.id,
+        hotelId: parseInt(hotelId),
+        roomType: selectedRoom?.roomType || '标准间',
+        checkInDate: checkIn,
+        checkOutDate: checkOut,
+        nights: priceInfo.nights,
+        adults: formData.adults,
+        children: formData.children,
+        totalPrice: priceInfo.totalPrice,
+        cancelPolicy: {
+          free_before_hours: 24,
+          penalty_rate: 0.2
+        }
+      };
+      
+      console.log('订单数据:', orderData);
+      
+      // 直接使用 fetch，添加认证 token
+      const token = localStorage.getItem('token');
+      
+      const response = await fetch('http://localhost:5000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        body: JSON.stringify(orderData)
+      });
+      
+      console.log('订单响应状态:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('订单创建失败:', errorData);
+        throw new Error(errorData.error || '订单创建失败');
+      }
+      
+      const result = await response.json();
+      console.log('订单创建成功:', result);
+      
+      if (result.success) {
+        alert('订单创建成功！');
+        // 跳转到订单详情
+        navigate(`/orders/${result.orderId}`);
+      }
+    } catch (error) {
+      console.error('创建订单失败:', error);
+      alert(`创建订单失败: ${error.message}`);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="booking-page">
+        <div className="loading">加载中...</div>
+      </div>
+    );
+  }
+
+  if (!hotel || !priceInfo) {
+    return (
+      <div className="booking-page">
+        <div className="error">预订信息加载失败</div>
+      </div>
+    );
+  }
+
+  const selectedRoom = hotel.roomTypes?.find(r => r.id === parseInt(roomTypeId));
+
+  return (
+    <div className="booking-page">
+      <div className="booking-container">
+        {/* 返回按钮 */}
+        <button className="back-button" onClick={() => navigate(-1)}>
+          <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="15 18 9 12 15 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          返回
+        </button>
+
+        <h1 className="page-title">确认预订</h1>
+
+        <form onSubmit={handleSubmit}>
+          {/* 酒店信息卡片 */}
+          <div className="info-card">
+            <h3 className="card-title">酒店信息</h3>
+            <div className="hotel-info">
+              {(() => {
+                // 安全地获取酒店图片
+                let imageUrl = null;
+                if (hotel.images) {
+                  let imageArray = [];
+                  
+                  if (typeof hotel.images === 'string') {
+                    try {
+                      imageArray = JSON.parse(hotel.images);
+                    } catch (e) {
+                      console.error('解析图片JSON失败:', e);
+                    }
+                  } else if (Array.isArray(hotel.images)) {
+                    imageArray = hotel.images;
+                  }
+                  
+                  if (imageArray.length > 0) {
+                    const firstImage = imageArray[0];
+                    imageUrl = firstImage.startsWith('http') 
+                      ? firstImage 
+                      : `http://localhost:5000${firstImage}`;
+                  }
+                }
+                
+                return imageUrl ? (
+                  <img 
+                    src={imageUrl}
+                    alt={hotel.name} 
+                    className="hotel-image" 
+                  />
+                ) : null;
+              })()}
+              <div className="hotel-details">
+                <h2>{hotel.name}</h2>
+                <div className="info-row">
+                  <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" strokeWidth="2"/>
+                    <circle cx="12" cy="10" r="3" strokeWidth="2"/>
+                  </svg>
+                  <span>{hotel.address}</span>
+                </div>
+                {hotel.stars && (
+                  <div className="stars">
+                    {'⭐'.repeat(hotel.stars)}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* 预订信息卡片 */}
+          <div className="info-card">
+            <h3 className="card-title">预订信息</h3>
+            <div className="booking-info-grid">
+              <div className="info-item">
+                <span className="label">房型</span>
+                <span className="value">{selectedRoom?.roomType || '标准间'}</span>
+              </div>
+              <div className="info-item">
+                <span className="label">入住日期</span>
+                <span className="value">{DateFormatter.toDisplayFormat(checkIn, 'zh-CN')}</span>
+              </div>
+              <div className="info-item">
+                <span className="label">离店日期</span>
+                <span className="value">{DateFormatter.toDisplayFormat(checkOut, 'zh-CN')}</span>
+              </div>
+              <div className="info-item">
+                <span className="label">入住天数</span>
+                <span className="value">{priceInfo.nights} 晚</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 入住人信息 */}
+          <div className="info-card">
+            <h3 className="card-title">入住人信息</h3>
+            <div className="form-grid">
+              <div className="form-group">
+                <label>成人数量</label>
+                <select 
+                  value={formData.adults}
+                  onChange={(e) => setFormData({...formData, adults: parseInt(e.target.value)})}
+                  required
+                >
+                  {[1,2,3,4].map(n => (
+                    <option key={n} value={n}>{n} 位</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>儿童数量</label>
+                <select 
+                  value={formData.children}
+                  onChange={(e) => setFormData({...formData, children: parseInt(e.target.value)})}
+                >
+                  {[0,1,2,3].map(n => (
+                    <option key={n} value={n}>{n} 位</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* 联系人信息 */}
+          <div className="info-card">
+            <h3 className="card-title">联系人信息</h3>
+            <div className="form-grid">
+              <div className="form-group">
+                <label>联系人姓名 *</label>
+                <input
+                  type="text"
+                  value={formData.contactName}
+                  onChange={(e) => setFormData({...formData, contactName: e.target.value})}
+                  placeholder="请输入姓名"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>联系电话 *</label>
+                <input
+                  type="tel"
+                  value={formData.contactPhone}
+                  onChange={(e) => setFormData({...formData, contactPhone: e.target.value})}
+                  placeholder="请输入手机号"
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>特殊要求（可选）</label>
+              <textarea
+                value={formData.specialRequests}
+                onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}
+                placeholder="如需要加床、无烟房等特殊要求，请在此说明"
+                rows={3}
+              />
+            </div>
+          </div>
+
+          {/* 价格明细 */}
+          <div className="info-card">
+            <h3 className="card-title">价格明细</h3>
+            <div className="price-details">
+              <div className="price-row">
+                <span>房费 ({priceInfo.nights} 晚)</span>
+                <span>¥{priceInfo.totalPrice}</span>
+              </div>
+              <div className="price-row">
+                <span>每晚均价</span>
+                <span>¥{Math.round(priceInfo.totalPrice / priceInfo.nights)}</span>
+              </div>
+              <div className="price-row total">
+                <span>总计</span>
+                <span className="total-price">¥{priceInfo.totalPrice}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 取消政策 */}
+          <div className="info-card policy-card">
+            <h3 className="card-title">取消政策</h3>
+            <div className="policy-content">
+              <p>• 入住前24小时前取消，免费取消</p>
+              <p>• 入住前24小时内取消，收取20%手续费</p>
+              <p>• 未入住不退款</p>
+            </div>
+          </div>
+
+          {/* 提交按钮 */}
+          <button 
+            type="submit" 
+            className="submit-button"
+            disabled={submitting}
+          >
+            {submitting ? '提交中...' : '确认预订'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Booking;

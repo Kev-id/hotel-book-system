@@ -48,13 +48,29 @@ const Home = () => {
 
   // 获取酒店图片
   const getHotelImage = (hotel) => {
-    if (hotel.images && Array.isArray(hotel.images) && hotel.images.length > 0) {
-      const imageUrl = hotel.images[0];
-      // 如果是完整URL，直接使用；否则拼接后端地址
-      return imageUrl.startsWith('http') 
-        ? imageUrl 
-        : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imageUrl}`;
+    if (hotel.images) {
+      let imageArray = [];
+      
+      // 处理JSON字符串
+      if (typeof hotel.images === 'string') {
+        try {
+          imageArray = JSON.parse(hotel.images);
+        } catch (e) {
+          console.error('解析图片JSON失败:', e);
+        }
+      } else if (Array.isArray(hotel.images)) {
+        imageArray = hotel.images;
+      }
+      
+      // 如果有图片，返回第一张
+      if (imageArray.length > 0) {
+        const imageUrl = imageArray[0];
+        return imageUrl.startsWith('http') 
+          ? imageUrl 
+          : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imageUrl}`;
+      }
     }
+    
     // 默认图片
     return `https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=400&fit=crop`;
   };

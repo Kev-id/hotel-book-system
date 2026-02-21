@@ -477,22 +477,42 @@ const HotelList = () => {
                   {/* Hotel Image */}
                   <div className="hotel-image">
                     <img 
-                      src={
-                        hotel.images && Array.isArray(hotel.images) && hotel.images.length > 0 
-                          ? (hotel.images[0].startsWith('http') 
-                              ? hotel.images[0]  // 如果是完整URL，直接使用
-                              : `http://localhost:5000${hotel.images[0]}`)  // 如果是本地路径，拼接完整URL
-                          : `https://images.unsplash.com/photo-${
-                              hotel.stars >= 4 
-                                ? '1566073771259-6a8506099945' 
-                                : hotel.stars >= 3 
-                                ? '1551882547-ff40c63fe5fa'
-                                : '1445019980597-93fa8acb246c'
-                            }?w=300&h=200&fit=crop`  // 如果没有图片，使用默认图片
-                      }
+                      src={(() => {
+                        // 安全地处理图片URL
+                        if (hotel.images) {
+                          let imageArray = [];
+                          
+                          // 处理JSON字符串
+                          if (typeof hotel.images === 'string') {
+                            try {
+                              imageArray = JSON.parse(hotel.images);
+                            } catch (e) {
+                              console.error('解析图片JSON失败:', e);
+                            }
+                          } else if (Array.isArray(hotel.images)) {
+                            imageArray = hotel.images;
+                          }
+                          
+                          // 如果有图片，返回第一张
+                          if (imageArray.length > 0) {
+                            const firstImage = imageArray[0];
+                            return firstImage.startsWith('http') 
+                              ? firstImage 
+                              : `http://localhost:5000${firstImage}`;
+                          }
+                        }
+                        
+                        // 默认图片
+                        return `https://images.unsplash.com/photo-${
+                          hotel.stars >= 4 
+                            ? '1566073771259-6a8506099945' 
+                            : hotel.stars >= 3 
+                            ? '1551882547-ff40c63fe5fa'
+                            : '1445019980597-93fa8acb246c'
+                        }?w=300&h=200&fit=crop`;
+                      })()}
                       alt={hotel.name}
                       loading="lazy"
-                      
                     />
                   </div>
 

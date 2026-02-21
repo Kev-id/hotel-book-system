@@ -100,14 +100,80 @@ const HotelDetail = () => {
     const { checkIn, checkOut } = getSearchParams();
     if (checkIn && checkOut) {
       setDateRange([dayjs(checkIn), dayjs(checkOut)]);
+    } else {
+      // 如果没有日期参数，默认设置为今天和明天
+      const today = dayjs();
+      const tomorrow = dayjs().add(1, 'day');
+      setDateRange([today, tomorrow]);
+      
+      // 更新 URL 参数
+      const params = new URLSearchParams(location.search);
+      params.set('checkIn', today.format('YYYY-MM-DD'));
+      params.set('checkOut', tomorrow.format('YYYY-MM-DD'));
+      navigate(`?${params.toString()}`, { replace: true });
     }
     
     fetchHotelDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, location.search]);
+  }, [id]);
+  
+  // 监听 location.search 变化以重新计算价格
+  useEffect(() => {
+    if (hotel) {
+      fetchHotelDetail();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
-  const handleBook = () => {
-    message.success('预订功能开发中，敬请期待！');
+  const handleBook = (roomTypeId = null) => {
+    // 检查是否选择了日期
+    if (!dateRange || dateRange.length !== 2) {
+      message.warning('请先选择入住和退房日期');
+      return;
+    }
+    
+    // 检查是否登录（修复：使用正确的localStorage key）
+    const hotelUser = localStorage.getItem('hotelUser');
+    if (!hotelUser) {
+      message.warning('请先登录');
+      const currentPath = `/detail/${id}?checkIn=${dateRange[0].format('YYYY-MM-DD')}&checkOut=${dateRange[1].format('YYYY-MM-DD')}`;
+      navigate(`/admin/login?redirect=${encodeURIComponent(currentPath)}`);
+      return;
+    }
+    
+    // 验证房型数据
+    if (!hotel.roomTypes || hotel.roomTypes.length === 0) {
+      message.error('该酒店暂无可预订的房型');
+      return;
+    }
+    
+    // 使用传入的 roomTypeId 或默认使用第一个房型
+    let targetRoomTypeId = roomTypeId;
+    
+    // 如果没有传入 roomTypeId，使用第一个房型的 id
+    if (!targetRoomTypeId) {
+      targetRoomTypeId = hotel.roomTypes[0]?.id;
+    }
+    
+    // 验证 targetRoomTypeId 是有效的数字
+    if (!targetRoomTypeId || typeof targetRoomTypeId === 'object') {
+      console.error('无效的 roomTypeId:', targetRoomTypeId);
+      message.error('房型信息错误，请刷新页面重试');
+      return;
+    }
+    
+    // 确保 roomTypeId 是数字
+    const validRoomTypeId = parseInt(targetRoomTypeId);
+    if (isNaN(validRoomTypeId)) {
+      console.error('roomTypeId 不是有效数字:', targetRoomTypeId);
+      message.error('房型信息错误，请刷新页面重试');
+      return;
+    }
+    
+    // 跳转到预订页面
+    const bookingUrl = `/booking?hotelId=${id}&roomTypeId=${validRoomTypeId}&checkIn=${dateRange[0].format('YYYY-MM-DD')}&checkOut=${dateRange[1].format('YYYY-MM-DD')}`;
+    console.log('跳转到预订页面:', bookingUrl);
+    navigate(bookingUrl);
   };
 
   // 默认图片列表
@@ -124,10 +190,25 @@ const HotelDetail = () => {
 
   // 获取图片列表（优先使用上传的图片，否则使用默认图片）
   const getImageList = () => {
-    if (hotel.images && hotel.images.length > 0) {
-      return hotel.images.map(img => 
-        img.startsWith('http') ? img : `http://localhost:5000${img}`
-      );
+    if (hotel.images) {
+      let imageArray = [];
+      
+      // 处理JSON字符串或数组
+      if (typeof hotel.images === 'string') {
+        try {
+          imageArray = JSON.parse(hotel.images);
+        } catch (e) {
+          console.error('解析图片JSON失败:', e);
+        }
+      } else if (Array.isArray(hotel.images)) {
+        imageArray = hotel.images;
+      }
+      
+      if (imageArray.length > 0) {
+        return imageArray.map(img => 
+          img.startsWith('http') ? img : `http://localhost:5000${img}`
+        );
+      }
     }
     return getDefaultImages();
   };
@@ -258,10 +339,10 @@ const HotelDetail = () => {
                   <div className="price-label">总价</div>
                   <div className="price-value">
                     <span className="currency">¥</span>
-                    <span className="amount">{roomPrices[hotel.roomTypes[0].id].totalPrice}</span>
+                    <span className="amount">{roomPrices[hotel.roomTypes[0].id]?.totalPrice || 0}</span>
                   </div>
                   <div className="price-detail-info">
-                    {roomPrices[hotel.roomTypes[0].id].nights} 晚 · 每晚低至 ¥{roomPrices[hotel.roomTypes[0].id].minPrice}
+                    {roomPrices[hotel.roomTypes[0].id]?.nights || 0} 晚 · 每晚低至 ¥{roomPrices[hotel.roomTypes[0].id]?.minPrice || 0}
                   </div>
                 </>
               ) : (
@@ -377,9 +458,9 @@ const HotelDetail = () => {
                   {roomPrices[room.id] ? (
                     <div className="room-price">
                       <span className="room-price-label">总价</span>
-                      <span className="room-price-value">¥{roomPrices[room.id].totalPrice}</span>
+                      <span className="room-price-value">¥{roomPrices[room.id]?.totalPrice || 0}</span>
                       <span className="room-price-detail">
-                        {roomPrices[room.id].nights}晚 · 每晚¥{roomPrices[room.id].minPrice}起
+                        {roomPrices[room.id]?.nights || 0}晚 · 每晚¥{roomPrices[room.id]?.minPrice || 0}起
                       </span>
                     </div>
                   ) : (
@@ -388,7 +469,7 @@ const HotelDetail = () => {
                       <span className="room-price-value">¥{room.price}</span>
                     </div>
                   )}
-                  <Button type="primary" size="small" onClick={handleBook}>
+                  <Button type="primary" size="small" onClick={() => handleBook(room.id)}>
                     预订
                   </Button>
                 </div>
@@ -415,7 +496,7 @@ const HotelDetail = () => {
           {roomPrices[hotel.roomTypes?.[0]?.id] ? (
             <div className="bottom-price">
               <span className="bottom-price-label">总价</span>
-              <span className="bottom-price-value">¥{roomPrices[hotel.roomTypes[0].id].totalPrice}</span>
+              <span className="bottom-price-value">¥{roomPrices[hotel.roomTypes[0].id]?.totalPrice || 0}</span>
             </div>
           ) : (
             <div className="bottom-price">

@@ -2,6 +2,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from '../pages/client/Home';
 import HotelList from '../pages/client/List';
 import HotelDetail from '../pages/client/Detail';
+import Booking from '../pages/client/Booking';
+import Orders from '../pages/client/Orders';
+import OrderDetail from '../pages/client/OrderDetail';
 import Login from '../pages/admin/Login';
 import Register from '../pages/admin/Register';
 // 新增后台页面
@@ -9,6 +12,7 @@ import HotelForm from '../pages/admin/HotelForm';
 import Audit from '../pages/admin/Audit';
 import MerchantStatus from '../pages/admin/MerchantStatus';
 import PriceCalendar from '../pages/admin/PriceCalendar';
+import MerchantOrders from '../pages/admin/MerchantOrders';
 import AuthGuard from '../components/AuthGuard';
 import Navigation from '../components/Navigation';
 
@@ -25,6 +29,9 @@ const router = createBrowserRouter([
   { path: '/', element: <Layout><Home /></Layout> },
   { path: '/list', element: <Layout><HotelList /></Layout> },
   { path: '/detail/:id', element: <Layout><HotelDetail /></Layout> },
+  { path: '/booking', element: <Layout><Booking /></Layout> },
+  { path: '/orders', element: <Layout><Orders /></Layout> },
+  { path: '/orders/:id', element: <Layout><OrderDetail /></Layout> },
 
   // 管理后台
   { path: '/admin/login', element: <Layout><Login /></Layout> },
@@ -58,6 +65,17 @@ const router = createBrowserRouter([
       <Layout>
         <AuthGuard allowedRoles={['merchant']}>
           <PriceCalendar />
+        </AuthGuard>
+      </Layout>
+    )
+  },
+  // 商户：订单管理
+  {
+    path: '/admin/merchant-orders',
+    element: (
+      <Layout>
+        <AuthGuard allowedRoles={['merchant']}>
+          <MerchantOrders />
         </AuthGuard>
       </Layout>
     )

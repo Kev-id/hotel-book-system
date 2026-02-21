@@ -1,30 +1,36 @@
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { userLogin } from '../../../api/userApi';
-import { Form, Input, Select, Button, Card, message } from 'antd';
-import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Card, message, Radio } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './styles.css';
 
 const Login = () => {
   const [form] = Form.useForm();
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (values) => {
     const userInfo = await userLogin(values.username, values.password);
     if (userInfo) {
       login(userInfo);
       message.success('登录成功！');
-      if (values.role === 'merchant') {
+      
+      // 检查是否有重定向参数
+      const redirect = searchParams.get('redirect');
+      if (redirect) {
+        navigate(decodeURIComponent(redirect));
+      } else if (userInfo.role === 'merchant') {
         navigate('/admin/hotel-form');
-      } else if (values.role === 'admin') {
+      } else if (userInfo.role === 'admin') {
         navigate('/admin/audit');
       } else {
         navigate('/');
       }
     } else {
-      message.error('账号、密码或角色错误，请重试');
+      message.error('账号或密码错误，请重试');
     }
   };
 
@@ -63,9 +69,27 @@ const Login = () => {
             form={form}
             layout="vertical"
             onFinish={handleSubmit}
-            initialValues={{ role: 'merchant' }}
             className="login-form"
           >
+            <Form.Item
+              label="用户身份"
+              name="role"
+              rules={[{ required: true, message: '请选择用户身份' }]}
+              initialValue="user"
+            >
+              <Radio.Group>
+                <div className="role-option">
+                  <Radio value="user">👤 普通用户（浏览和预订酒店）</Radio>
+                </div>
+                <div className="role-option">
+                  <Radio value="merchant">🏢 商户（发布和管理酒店）</Radio>
+                </div>
+                <div className="role-option">
+                  <Radio value="admin">👨‍💼 管理员（审核酒店发布）</Radio>
+                </div>
+              </Radio.Group>
+            </Form.Item>
+
             <Form.Item
               label="用户名"
               name="username"
@@ -98,8 +122,6 @@ const Login = () => {
               />
             </Form.Item>
 
-            
-
             <Form.Item>
               <Button 
                 type="primary" 
@@ -126,8 +148,9 @@ const Login = () => {
         </Card>
 
         <div className="login-info">
-          <p className="info-text">💡 提示：商户可以发布和管理酒店信息</p>
-          <p className="info-text">🔒 管理员可以审核酒店发布申请</p>
+          <p className="info-text">👤 普通用户：浏览酒店、预订房间、查看订单</p>
+          <p className="info-text">🏢 商户：发布酒店、管理房型、查看订单</p>
+          <p className="info-text">👨‍💼 管理员：审核酒店、管理平台</p>
         </div>
       </div>
     </div>

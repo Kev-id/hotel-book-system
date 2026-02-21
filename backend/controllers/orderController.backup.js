@@ -1,4 +1,4 @@
-﻿const pool = require('../config/database');
+const pool = require('../config/database');
 
 // 差异化亮点2：取消智能提醒
 function getCancelCountdown(order) {
@@ -28,7 +28,6 @@ function getCancelCountdown(order) {
       : '已超过免费取消时间'
   };
 }
-
 // 差异化亮点3：行程小助手（简化版，后续升级接入天气API）
 function getTravelAssistant(order) {
   const tips = [];
@@ -141,7 +140,7 @@ exports.getOrders = async (req, res) => {
     const formattedOrders = orders.map(order => ({
       ...order,
       cancelPolicy: order.cancel_policy,
-      logs: (() => { const rawLogs = order.logs; if (!rawLogs) return []; if (typeof rawLogs === 'string') { try { const parsed = JSON.parse(rawLogs); return Array.isArray(parsed) ? parsed : []; } catch (e) { return []; } } return Array.isArray(rawLogs) ? rawLogs : []; })(),
+      logs: order.logs || [],
       riskFlags: order.risk_flags || [],
       images: order.images || [],
       cancelCountdown: getCancelCountdown(order)
@@ -198,11 +197,9 @@ exports.getOrderDetail = async (req, res) => {
     const order = {
       ...orders[0],
       cancelPolicy: orders[0].cancel_policy,
-      logs: (() => { const rawLogs = orders[0].logs; if (!rawLogs) return []; if (typeof rawLogs === 'string') { try { const parsed = JSON.parse(rawLogs); return Array.isArray(parsed) ? parsed : []; } catch (e) { return []; } } return Array.isArray(rawLogs) ? rawLogs : []; })(),
+      logs: orders[0].logs || [],
       riskFlags: orders[0].risk_flags || [],
-      images: orders[0].images || [],
-      cancelCountdown: getCancelCountdown(orders[0]),
-      travelAssistant: getTravelAssistant(orders[0])
+      images: orders[0].images || []
     };
     
     res.json(order);
@@ -234,9 +231,8 @@ exports.createOrder = async (req, res) => {
     }
     
     // 计算取消截止时间（入住前24小时）
-    const checkInDateObj = new Date(checkInDate);
-    checkInDateObj.setDate(checkInDateObj.getDate() - 1);
-    const formattedDeadline = checkInDateObj.toISOString().slice(0, 19).replace('T', ' ');
+    const cancelDeadline = new Date(checkInDate);
+    cancelDeadline.setHours(cancelDeadline.getHours() - 24);
     
     const logs = [{
       time: new Date().toISOString(),
@@ -254,7 +250,7 @@ exports.createOrder = async (req, res) => {
     `, [
       userId, hotelId, roomType,
       checkInDate, checkOutDate, nights, adults, children,
-      totalPrice, formattedDeadline,
+      totalPrice, cancelDeadline.toISOString(),
       JSON.stringify(cancelPolicy || {}),
       JSON.stringify(logs)
     ]);
@@ -270,7 +266,7 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// 更新订单状态 - 修复版
+// 更新订单状态
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -287,27 +283,7 @@ exports.updateOrderStatus = async (req, res) => {
       return res.status(404).json({ error: '订单不存在' });
     }
     
-    // 解析 logs - 修复版
-    let logs = [];
-    const rawLogs = orders[0].logs;
-    
-    if (rawLogs) {
-      if (typeof rawLogs === 'string') {
-        try {
-          logs = JSON.parse(rawLogs);
-          if (!Array.isArray(logs)) {
-            logs = [];
-          }
-        } catch (e) {
-          console.error('JSON 解析失败:', e);
-          logs = [];
-        }
-      } else if (Array.isArray(rawLogs)) {
-        logs = rawLogs;
-      }
-    }
-    
-    // 添加新日志
+    const logs = orders[0].logs || [];
     logs.push({
       time: new Date().toISOString(),
       action: status,
@@ -327,7 +303,7 @@ exports.updateOrderStatus = async (req, res) => {
   }
 };
 
-// 取消订单 - 修复版
+// 取消订单
 exports.cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
@@ -354,35 +330,12 @@ exports.cancelOrder = async (req, res) => {
       return res.status(400).json({ error: '已完成的订单无法取消' });
     }
     
-    if (order.status === 'checked_in' || order.status === 'checked_out') {
-      return res.status(400).json({ error: '已入住或已退房的订单无法取消' });
-    }
-    
     // 检查取消截止时间
     const now = new Date();
     const deadline = new Date(order.cancel_deadline);
     const canCancel = now < deadline;
     
-    // 解析 logs - 修复版
-    let logs = [];
-    const rawLogs = order.logs;
-    
-    if (rawLogs) {
-      if (typeof rawLogs === 'string') {
-        try {
-          logs = JSON.parse(rawLogs);
-          if (!Array.isArray(logs)) {
-            logs = [];
-          }
-        } catch (e) {
-          console.error('JSON 解析失败:', e);
-          logs = [];
-        }
-      } else if (Array.isArray(rawLogs)) {
-        logs = rawLogs;
-      }
-    }
-    
+    const logs = JSON.parse(order.logs || '[]');
     logs.push({
       time: new Date().toISOString(),
       action: 'cancelled',
@@ -445,6 +398,3 @@ exports.getOrderStats = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-
-

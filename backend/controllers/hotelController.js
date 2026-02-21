@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 const path = require('path');
 const fs = require('fs');
+const { DateCalculator, DateValidator } = require('../utils/dateUtils');
 
 // 获取酒店列表（带最低价格）
 exports.getHotels = async (req, res) => {
@@ -130,29 +131,46 @@ exports.addHotel = async (req, res) => {
     
     const conn = await pool.getConnection();
     
-    // 插入酒店
-    const [result] = await conn.query(
-      'INSERT INTO hotels (name, address, city, status, merchantId, openingDate, stars, tags, description, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [name, address, city, status || 'pending', merchantId, openingDate, stars, JSON.stringify(tags || []), description || '', JSON.stringify(images)]
-    );
-    
-    const hotelId = result.insertId;
-    
-    // 插入房型（如果提供）
-    if (roomTypes && Array.isArray(roomTypes)) {
-      const parsedRoomTypes = typeof roomTypes === 'string' ? JSON.parse(roomTypes) : roomTypes;
-      for (const room of parsedRoomTypes) {
-        await conn.query(
-          'INSERT INTO room_types (hotelId, roomType, price) VALUES (?, ?, ?)',
-          [hotelId, room.roomType, room.price]
-        );
+    try {
+      // 插入酒店
+      const [result] = await conn.query(
+        'INSERT INTO hotels (name, address, city, status, merchantId, openingDate, stars, tags, description, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [name, address, city, status || 'pending', merchantId, openingDate, stars, JSON.stringify(tags || []), description || '', JSON.stringify(images)]
+      );
+      
+      const hotelId = result.insertId;
+      
+      // 插入房型（如果提供）
+      if (roomTypes) {
+        // FormData 会将所有字段转为字符串，需要先解析
+        let parsedRoomTypes;
+        try {
+          parsedRoomTypes = typeof roomTypes === 'string' ? JSON.parse(roomTypes) : roomTypes;
+        } catch (parseError) {
+          conn.release();
+          return res.status(400).json({ error: '房型数据格式错误' });
+        }
+        
+        if (Array.isArray(parsedRoomTypes) && parsedRoomTypes.length > 0) {
+          for (const room of parsedRoomTypes) {
+            if (room.roomType && room.price) {
+              await conn.query(
+                'INSERT INTO room_types (hotelId, roomType, price) VALUES (?, ?, ?)',
+                [hotelId, room.roomType, Number(room.price)]
+              );
+            }
+          }
+        }
       }
+      
+      conn.release();
+      res.json({ id: hotelId, ...req.body, images });
+    } catch (dbError) {
+      conn.release();
+      throw dbError;
     }
-    
-    conn.release();
-
-    res.json({ id: hotelId, ...req.body, images });
   } catch (error) {
+    console.error('addHotel 错误:', error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -333,23 +351,8 @@ exports.setBatchPriceCalendar = async (req, res) => {
     const { hotelId, roomTypeId, startDate, endDate, price } = req.body;
     const conn = await pool.getConnection();
     
-    // 生成日期范围 - 使用本地日期格式，避免时区问题
-    const dates = [];
-    const start = new Date(startDate + 'T00:00:00'); // 明确指定本地时间
-    const end = new Date(endDate + 'T00:00:00');
-    
-    // 使用更安全的日期迭代方式
-    const currentDate = new Date(start);
-    while (currentDate <= end) {
-      // 直接使用 YYYY-MM-DD 格式，不经过 toISOString
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      dates.push(`${year}-${month}-${day}`);
-      
-      // 安全地增加一天
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
+    // 使用日期工具类生成日期范围，避免时区转换问题
+    const dates = DateCalculator.generateDateRange(startDate, endDate);
     
     // 批量插入
     for (const date of dates) {
@@ -425,13 +428,12 @@ exports.calculatePeriodPrice = async (req, res) => {
     
     conn.release();
     
-    // 计算总价 - 使用本地日期，避免时区问题
-    const start = new Date(checkIn + 'T00:00:00');
-    const end = new Date(checkOut + 'T00:00:00');
-    const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    // 使用日期工具类计算夜数和生成日期范围
+    const nights = DateCalculator.calculateNights(checkIn, checkOut);
+    const dates = DateCalculator.generateDateRange(checkIn, checkOut);
     
     let totalPrice = 0;
-    let minPrice = null; // 初始化为null，从实际价格中找最小值
+    let minPrice = null;
     const priceMap = {};
     
     // 构建价格映射 - 直接使用数据库返回的日期字符串
@@ -449,26 +451,17 @@ exports.calculatePeriodPrice = async (req, res) => {
       priceMap[dateStr] = row.price;
     });
     
-    // 遍历每一天计算价格
-    const currentDate = new Date(start);
-    while (currentDate < end) {
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      const dateStr = `${year}-${month}-${day}`;
-      
-      const dayPrice = priceMap[dateStr] || basePrice;
+    // 遍历每一天计算价格（使用生成的日期数组）
+    for (const date of dates) {
+      const dayPrice = priceMap[date] || basePrice;
       totalPrice += dayPrice;
       
-      // 更新最低价格（从实际使用的价格中找）
+      // 更新最低价格
       if (minPrice === null) {
         minPrice = dayPrice;
       } else {
         minPrice = Math.min(minPrice, dayPrice);
       }
-      
-      // 安全地增加一天
-      currentDate.setDate(currentDate.getDate() + 1);
     }
     
     // 如果没有遍历任何天（不应该发生），使用基础价格

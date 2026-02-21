@@ -62,10 +62,18 @@ const Register = () => {
               label="注册身份"
               name="role"
               rules={[{ required: true, message: '请选择注册身份' }]}
+              initialValue="user"
             >
               <Radio.Group>
-                <Radio value="admin">管理员（可审核酒店）</Radio>
-                <Radio value="merchant">商户（可发布酒店）</Radio>
+                <div className="role-option">
+                  <Radio value="user">👤 普通用户（浏览和预订酒店）</Radio>
+                </div>
+                <div className="role-option">
+                  <Radio value="merchant">🏢 商户（发布和管理酒店）</Radio>
+                </div>
+                <div className="role-option">
+                  <Radio value="admin">👨‍💼 管理员（审核酒店发布）</Radio>
+                </div>
               </Radio.Group>
             </Form.Item>
 
@@ -184,9 +192,9 @@ const Register = () => {
         </Card>
 
         <div className="register-info">
-          <p className="info-text">📝 普通用户可以浏览和查询酒店信息</p>
-          <p className="info-text">🏨 商户可以发布和管理酒店信息</p>
-          <p className="info-text">✅ 商户发布的酒店需经管理员审核后上线</p>
+          <p className="info-text">👤 普通用户：浏览酒店、预订房间、查看订单</p>
+          <p className="info-text">🏢 商户：发布酒店、管理房型、查看订单</p>
+          <p className="info-text">👨‍💼 管理员：审核酒店、管理平台</p>
         </div>
       </div>
     </div>

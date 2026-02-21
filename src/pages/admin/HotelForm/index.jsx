@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { addHotel } from '../../../api/hotelApi';
+import { DateFormatter, DateValidator } from '../../../utils/dateUtils';
 import { Form, Input, InputNumber, Select, DatePicker, Button, Card, message, Steps, Checkbox, Space, Tag, Upload } from 'antd';
 import { HomeOutlined, EnvironmentOutlined, DollarOutlined, CalendarOutlined, StarOutlined, CheckCircleOutlined, LogoutOutlined, TagsOutlined, FileTextOutlined, PictureOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import './styles.css';
@@ -44,6 +45,14 @@ const HotelForm = () => {
       return;
     }
 
+    // 格式化并验证开业日期
+    const openingDate = DateFormatter.toAPIFormat(values.openingDate);
+    
+    if (!DateValidator.isValidOpeningDate(openingDate)) {
+      message.error('开业日期不合理，请检查');
+      return;
+    }
+
     // 创建 FormData 对象
     const formData = new FormData();
     
@@ -52,7 +61,7 @@ const HotelForm = () => {
     formData.append('address', values.address);
     formData.append('city', values.city);
     formData.append('stars', Number(values.stars));
-    formData.append('openingDate', values.openingDate.format('YYYY-MM-DD'));
+    formData.append('openingDate', openingDate);
     formData.append('description', values.description);
     formData.append('merchantId', user.id);
     formData.append('status', 'pending');
@@ -160,7 +169,15 @@ const HotelForm = () => {
           <div className="logo"><img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=60&h=60&fit=crop" alt="Hotel" style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover' }} /></div>
           <div className="header-info"><h1 className="header-title">酒店管理系统</h1><p className="header-subtitle">商户：{user?.username}</p></div>
         </div>
-        <Button icon={<LogoutOutlined />} onClick={handleLogout} className="logout-button">退出登录</Button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Button 
+            size="large"
+            onClick={() => navigate('/admin/merchant-status')}
+          >
+            查看我的酒店
+          </Button>
+          <Button icon={<LogoutOutlined />} onClick={handleLogout} className="logout-button">退出登录</Button>
+        </div>
       </div>
       <Card className="steps-card"><Steps current={0} items={[{ title: '填写信息', icon: <HomeOutlined /> }, { title: '提交审核', icon: <CheckCircleOutlined /> }, { title: '等待审核', icon: <StarOutlined /> }]} /></Card>
       <Card className="form-card">
@@ -233,13 +250,22 @@ const HotelForm = () => {
               </Upload>
             </Form.Item>
           </div>
-          <div className="form-section"><h3 className="section-title"><FileTextOutlined /> 酒店介绍</h3><p className="section-desc">{selectedTags.length > 0 ? ' 根据您选择的标签，我们已为您生成默认介绍。您也可以自定义修改。' : '请先选择酒店标签，系统将自动生成介绍。您也可以手动编写。'}</p>
+          <div className="form-section"><h3 className="section-title"><FileTextOutlined /> 酒店介绍</h3>
             <Form.Item label="酒店介绍" name="description" rules={[{ required: true, message: '请输入酒店介绍' }, { min: 10, message: '介绍至少10个字符' }, { max: 500, message: '介绍最多500个字符' }]}><Input.TextArea placeholder="请输入酒店介绍，介绍您的酒店特色、服务等信息" rows={5} maxLength={500} showCount /></Form.Item>
           </div>
-          <Form.Item className="submit-section"><Button type="primary" htmlType="submit" size="large" block className="submit-button" icon={<CheckCircleOutlined />}>提交审核</Button></Form.Item>
+          <Form.Item className="submit-section">
+            <Space size="large" style={{ width: '100%', justifyContent: 'center' }}>
+              <Button size="large" onClick={() => form.resetFields()} style={{ minWidth: '120px' }}>
+                重置表单
+              </Button>
+              <Button type="primary" htmlType="submit" size="large" className="submit-button" icon={<CheckCircleOutlined />} style={{ minWidth: '120px' }}>
+                确认提交
+              </Button>
+            </Space>
+          </Form.Item>
         </Form>
       </Card>
-      <Card className="info-card"><h3 className="info-title"> 提交须知</h3><ul className="info-list"><li>请确保所有信息真实准确</li><li>选择酒店标签可以帮助用户快速了解酒店设施</li><li>系统会根据标签组合自动生成介绍，您也可以自定义修改</li><li>提交后将进入审核流程，通常1-3个工作日</li><li>审核通过后，酒店信息将在平台上线</li><li>如有疑问，请联系客服：400-123-4567</li></ul></Card>
+      <Card className="info-card"><h3 className="info-title">提交须知</h3><ul className="info-list"><li>请确保所有信息真实准确</li><li>提交后将进入审核流程，通常1-3个工作日</li><li>审核通过后，酒店信息将在平台上线</li><li>如有疑问，请联系客服：400-123-4567</li></ul></Card>
     </div>
   );
 };

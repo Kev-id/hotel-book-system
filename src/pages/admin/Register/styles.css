@@ -139,6 +139,24 @@
   box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
 }
 
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) 0;
+  margin: var(--space-xs) 0;
+}
+
+.role-option input[type="radio"] {
+  cursor: pointer;
+}
+
+.role-option label {
+  cursor: pointer;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
 .register-button {
   height: 48px;
   font-size: 1.125rem;

@@ -23,13 +23,19 @@ const Navigation = () => {
     { path: '/list', label: '酒店列表' },
   ];
 
+  // 普通用户和所有登录用户都可以看到"我的订单"
+  if (user) {
+    baseItems.push({ path: '/orders', label: '我的订单' });
+  }
+
   if (user?.role === 'admin') {
     baseItems.push({ path: '/admin/audit', label: '审核管理' });
   }
   if (user?.role === 'merchant') {
     baseItems.push({ path: '/admin/hotel-form', label: '酒店录入' });
-    baseItems.push({ path: '/admin/merchant-status', label: '审核状态' });
+    baseItems.push({ path: '/admin/merchant-orders', label: '订单管理' });
     baseItems.push({ path: '/admin/price-calendar', label: '价格管理' });
+    baseItems.push({ path: '/admin/merchant-status', label: '审核状态' });
   }
 
   if (!user) {
