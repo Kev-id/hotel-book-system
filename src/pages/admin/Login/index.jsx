@@ -71,7 +71,7 @@ const Login = () => {
             onFinish={handleSubmit}
             className="login-form"
           >
-            <Form.Item
+            {/* <Form.Item
               label="用户身份"
               name="role"
               rules={[{ required: true, message: '请选择用户身份' }]}
@@ -88,7 +88,7 @@ const Login = () => {
                   <Radio value="admin">👨‍💼 管理员（审核酒店发布）</Radio>
                 </div>
               </Radio.Group>
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item
               label="用户名"
