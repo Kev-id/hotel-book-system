@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Environment variables
 .env
 backend/.env
 
@@ -25,12 +27,17 @@ backend/.env
 *.sln
 *.sw?
 
-# Private documents (不上传到 git)
-documents/更新记录_v2.1-v2.2.md
-documents/开发者必备技能指南.md
-documents/实战练习项目/
-
-# Large data files (原始CSV文件太大，不上传)
+# Large data files
 data/raw/*.csv
 data/raw/Hotel_Reviews.csv
 data/raw/hotel_bookings.csv
+
+# Uploads
+backend/uploads/*
+!backend/uploads/hotels/
+backend/uploads/hotels/*
+!backend/uploads/hotels/*.png
+
+# Archive documents (optional)
+documents/archive/
+

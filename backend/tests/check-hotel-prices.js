@@ -2,7 +2,7 @@
  * 检查酒店价格数据
  */
 
-const pool = require('./config/database');
+const pool = require('../config/database');
 
 async function checkHotelPrices() {
   let conn;

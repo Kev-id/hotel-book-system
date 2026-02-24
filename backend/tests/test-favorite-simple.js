@@ -3,7 +3,7 @@
  */
 
 require('dotenv').config();
-const db = require('./config/database');
+const db = require('../config/database');
 
 async function testFavorite() {
   console.log('🧪 测试收藏功能...\n');

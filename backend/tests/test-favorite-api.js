@@ -6,7 +6,7 @@
 // 加载环境变量
 require('dotenv').config();
 
-const recommendationService = require('./services/ai/recommendation');
+const recommendationService = require('../services/ai/recommendation');
 
 async function testRecommendation() {
   console.log('\n========== 测试1: AI智能推荐 ==========\n');

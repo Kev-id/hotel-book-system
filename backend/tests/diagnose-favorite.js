@@ -3,7 +3,7 @@
  */
 
 require('dotenv').config();
-const db = require('./config/database');
+const db = require('../config/database');
 
 async function diagnose() {
   console.log('🔍 开始诊断收藏功能...\n');

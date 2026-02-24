@@ -21,12 +21,20 @@ DB_NAME=hotel_booking
 ### 3. 初始化数据库
 ```bash
 npm run init-db
+# 或者
+node sql/init.js
 ```
 
 此命令会：
 - 创建 `hotel_booking` 数据库
-- 创建 `users` 和 `hotels` 表
+- 创建所有必需的表：
+  - 核心表：users, hotels, room_types, price_calendar
+  - 业务表：orders, reviews, favorites, browse_history
+  - AI功能表：review_ai_cache, review_quality_flags, ai_call_logs
 - 插入初始测试数据
+- 设置所有索引和外键
+
+**注意：** 所有迁移逻辑已整合到 `init.js`，无需单独运行迁移脚本。
 
 ### 4. 启动开发服务器
 ```bash
@@ -59,3 +67,32 @@ npm run dev
 ## 前端配置
 
 已自动配置 Vite 代理，所有 `/api` 请求都会转发到 `http://localhost:5000`
+
+## 测试脚本
+
+所有测试脚本已移至 `tests/` 目录，详见 [tests/README.md](tests/README.md)
+
+常用测试命令：
+```bash
+node tests/test-all-features.js    # 测试所有功能
+node tests/test-ai-api.js          # 测试 AI 功能
+node tests/test-analytics-api.js   # 测试数据分析
+node tests/test-favorite-api.js    # 测试收藏功能
+```
+
+## 数据管理
+
+### 导入完整数据
+```bash
+node sql/import-complete-data.js
+```
+
+### 数据生成工具
+```bash
+node sql/generate-all-hotel-prices.js  # 生成所有酒店价格
+node sql/generate-missing-reviews.js   # 生成缺失的评价
+```
+
+### 数据清理工具
+详见 `sql/database-cleanup-preparation/` 目录
+
