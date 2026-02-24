@@ -5,6 +5,8 @@ import HotelDetail from '../pages/client/Detail';
 import Booking from '../pages/client/Booking';
 import Orders from '../pages/client/Orders';
 import OrderDetail from '../pages/client/OrderDetail';
+import Favorites from '../pages/client/Favorites';
+import Compare from '../pages/client/Compare';
 import Login from '../pages/admin/Login';
 import Register from '../pages/admin/Register';
 // 新增后台页面
@@ -13,6 +15,9 @@ import Audit from '../pages/admin/Audit';
 import MerchantStatus from '../pages/admin/MerchantStatus';
 import PriceCalendar from '../pages/admin/PriceCalendar';
 import MerchantOrders from '../pages/admin/MerchantOrders';
+import ReviewManagement from '../pages/admin/ReviewManagement';
+import AIDemo from '../pages/admin/AIDemo';
+import Dashboard from '../pages/admin/Dashboard';
 import AuthGuard from '../components/AuthGuard';
 import Navigation from '../components/Navigation';
 
@@ -32,6 +37,8 @@ const router = createBrowserRouter([
   { path: '/booking', element: <Layout><Booking /></Layout> },
   { path: '/orders', element: <Layout><Orders /></Layout> },
   { path: '/orders/:id', element: <Layout><OrderDetail /></Layout> },
+  { path: '/favorites', element: <Layout><Favorites /></Layout> },
+  { path: '/compare', element: <Layout><Compare /></Layout> },
 
   // 管理后台
   { path: '/admin/login', element: <Layout><Login /></Layout> },
@@ -80,6 +87,28 @@ const router = createBrowserRouter([
       </Layout>
     )
   },
+  // 商户：评论管理
+  {
+    path: '/admin/review-management',
+    element: (
+      <Layout>
+        <AuthGuard allowedRoles={['merchant']}>
+          <ReviewManagement />
+        </AuthGuard>
+      </Layout>
+    )
+  },
+  // 商户：数据看板
+  {
+    path: '/admin/dashboard',
+    element: (
+      <Layout>
+        <AuthGuard allowedRoles={['merchant']}>
+          <Dashboard />
+        </AuthGuard>
+      </Layout>
+    )
+  },
   // 管理员：酒店审核
   {
     path: '/admin/audit',
@@ -88,6 +117,15 @@ const router = createBrowserRouter([
         <AuthGuard allowedRoles={['admin']}>
           <Audit />
         </AuthGuard>
+      </Layout>
+    )
+  },
+  // AI功能演示（所有角色可访问）
+  {
+    path: '/admin/ai-demo',
+    element: (
+      <Layout>
+        <AIDemo />
       </Layout>
     )
   },

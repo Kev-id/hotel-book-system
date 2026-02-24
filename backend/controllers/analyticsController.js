@@ -1,272 +1,411 @@
-const pool = require('../config/database');
+const db = require('../config/database');
+const DataInsightsService = require('../services/ai/dataInsights');
+const PricingInsightsService = require('../services/ai/pricingInsights');
+const { 
+  getCachedInsights, 
+  getCachedPricing, 
+  getCachedAlerts 
+} = require('../middleware/aiCache');
 
-// 获取价格趋势
-exports.getPriceTrends = async (req, res) => {
+// 获取商户数据概览
+exports.getMerchantOverview = async (req, res) => {
+  const merchantId = req.user.id;
+  const { period = '30' } = req.query;
+  
+  // 限制最大查询天�?
+  const safePeriod = Math.min(parseInt(period), 180);
+  
   try {
-    const { hotelId, days = 30 } = req.query;
-    
-    if (!hotelId) {
-      return res.status(400).json({ error: '缺少hotelId参数' });
-    }
-    
-    const [priceHistory] = await pool.query(
-      `SELECT date, price, occupancy_rate, is_weekend, is_holiday
-       FROM price_history
-       WHERE hotel_id = ? AND date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-       ORDER BY date ASC`,
-      [hotelId, parseInt(days)]
+    const [hotels] = await db.query(
+      'SELECT id FROM hotels WHERE merchantId = ? LIMIT 100',
+      [merchantId]
     );
     
-    res.json(priceHistory);
-  } catch (error) {
-    console.error('获取价格趋势失败:', error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// 获取酒店数据看板
-exports.getHotelDashboard = async (req, res) => {
-  try {
-    const { hotelId } = req.params;
+    if (hotels.length === 0) {
+      return res.json({
+        success: true,
+        data: { totalOrders: 0, totalRevenue: 0, avgOccupancy: 0, avgRating: 0, cancelRate: 0, orderGrowth: 0, revenueGrowth: 0 }
+      });
+    }
     
-    // 订单统计
-    const [orderStats] = await pool.query(
+    const hotelIds = hotels.map(h => h.id);
+    
+    // 统计订单量和营收
+    const [orderStats] = await db.query(
       `SELECT 
         COUNT(*) as totalOrders,
-        SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completedOrders,
-        SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelledOrders,
-        SUM(CASE WHEN status = 'completed' THEN total_price ELSE 0 END) as totalRevenue
-       FROM orders WHERE hotel_id = ?`,
-      [hotelId]
+        SUM(total_price) as totalRevenue,
+        SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelledOrders
+       FROM orders
+       WHERE hotel_id IN (?) 
+       AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)`,
+      [hotelIds, safePeriod]
     );
     
-    // 评价统计
-    const [reviewStats] = await pool.query(
-      `SELECT 
-        COUNT(*) as totalReviews,
-        AVG(overall_rating) as avgRating,
-        SUM(CASE WHEN sentiment = 'positive' THEN 1 ELSE 0 END) as positiveReviews,
-        SUM(CASE WHEN sentiment = 'negative' THEN 1 ELSE 0 END) as negativeReviews
-       FROM reviews WHERE hotel_id = ?`,
-      [hotelId]
+    // 计算入住�?
+    const [occupancyStats] = await db.query(
+      `SELECT COUNT(*) as completedOrders
+       FROM orders
+       WHERE hotel_id IN (?)
+       AND status IN ('checked_out', 'completed')
+       AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)`,
+      [hotelIds, safePeriod]
     );
     
-    // 最近30天价格统计
-    const [priceStats] = await pool.query(
-      `SELECT 
-        AVG(price) as avgPrice,
-        MIN(price) as minPrice,
-        MAX(price) as maxPrice,
-        AVG(occupancy_rate) as avgOccupancy
-       FROM price_history
-       WHERE hotel_id = ? AND date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)`,
-      [hotelId]
+    const avgOccupancy = orderStats[0].totalOrders > 0
+      ? (occupancyStats[0].completedOrders / orderStats[0].totalOrders) * 100
+      : 0;
+    
+    // 计算平均评分
+    const [ratingStats] = await db.query(
+      `SELECT AVG(overall_rating) as avgRating
+       FROM reviews
+       WHERE hotel_id IN (?)
+       AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)`,
+      [hotelIds, safePeriod]
     );
     
-    // 计算健康分
-    const cancelRate = orderStats[0].totalOrders > 0 
-      ? (orderStats[0].cancelledOrders / orderStats[0].totalOrders * 100).toFixed(2)
+    // 计算环比数据
+    const prevPeriod = parseInt(safePeriod) * 2;
+    const [prevOrderStats] = await db.query(
+      `SELECT COUNT(*) as totalOrders, SUM(total_price) as totalRevenue
+       FROM orders
+       WHERE hotel_id IN (?)
+       AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+       AND create_time < DATE_SUB(NOW(), INTERVAL ? DAY)`,
+      [hotelIds, prevPeriod, safePeriod]
+    );
+    
+    const orderGrowth = prevOrderStats[0].totalOrders > 0
+      ? ((orderStats[0].totalOrders - prevOrderStats[0].totalOrders) / prevOrderStats[0].totalOrders) * 100
       : 0;
     
-    const avgRating = reviewStats[0].avgRating 
-      ? parseFloat(reviewStats[0].avgRating).toFixed(2)
+    const revenueGrowth = prevOrderStats[0].totalRevenue > 0
+      ? ((orderStats[0].totalRevenue - prevOrderStats[0].totalRevenue) / prevOrderStats[0].totalRevenue) * 100
       : 0;
-    
-    const negativeRate = reviewStats[0].totalReviews > 0
-      ? (reviewStats[0].negativeReviews / reviewStats[0].totalReviews * 100).toFixed(2)
-      : 0;
-    
-    // 健康分计算：评分权重40%，取消率权重30%，差评率权重30%
-    const healthScore = (
-      (avgRating / 5 * 40) +
-      ((100 - parseFloat(cancelRate)) / 100 * 30) +
-      ((100 - parseFloat(negativeRate)) / 100 * 30)
-    ).toFixed(2);
     
     res.json({
-      orders: {
-        total: orderStats[0].totalOrders,
-        completed: orderStats[0].completedOrders,
-        cancelled: orderStats[0].cancelledOrders,
-        cancelRate: parseFloat(cancelRate),
-        revenue: orderStats[0].totalRevenue || 0
-      },
-      reviews: {
-        total: reviewStats[0].totalReviews,
-        avgRating: parseFloat(avgRating),
-        positive: reviewStats[0].positiveReviews,
-        negative: reviewStats[0].negativeReviews,
-        negativeRate: parseFloat(negativeRate)
-      },
-      pricing: {
-        avg: priceStats[0].avgPrice ? parseFloat(priceStats[0].avgPrice).toFixed(2) : 0,
-        min: priceStats[0].minPrice || 0,
-        max: priceStats[0].maxPrice || 0,
-        avgOccupancy: priceStats[0].avgOccupancy ? parseFloat(priceStats[0].avgOccupancy).toFixed(2) : 0
-      },
-      healthScore: parseFloat(healthScore)
+      success: true,
+      data: {
+        totalOrders: orderStats[0].totalOrders || 0,
+        totalRevenue: orderStats[0].totalRevenue || 0,
+        avgOccupancy: Math.round(avgOccupancy),
+        avgRating: parseFloat((Number(ratingStats[0].avgRating) || 0).toFixed(1)),
+        cancelRate: orderStats[0].totalOrders > 0
+          ? Math.round((orderStats[0].cancelledOrders / orderStats[0].totalOrders) * 100)
+          : 0,
+        orderGrowth: Math.round(orderGrowth),
+        revenueGrowth: Math.round(revenueGrowth)
+      }
     });
   } catch (error) {
-    console.error('获取酒店看板失败:', error);
+    console.error('获取数据概览失败:', error);
     res.status(500).json({ error: error.message });
   }
 };
 
-// 获取评价趋势
-exports.getReviewTrends = async (req, res) => {
+// 获取订单趋势数据
+exports.getOrderTrend = async (req, res) => {
+  const merchantId = req.user.id;
+  const { period = '30' } = req.query;
+  const safePeriod = Math.min(parseInt(period), 180);
+  
   try {
-    const { hotelId } = req.params;
-    const { days = 30 } = req.query;
+    const [hotels] = await db.query(
+      'SELECT id FROM hotels WHERE merchantId = ? LIMIT 100',
+      [merchantId]
+    );
     
-    const [trends] = await pool.query(
+    if (hotels.length === 0) {
+      return res.json({ success: true, data: [] });
+    }
+    
+    const hotelIds = hotels.map(h => h.id);
+    
+    const [trendData] = await db.query(
       `SELECT 
         DATE(create_time) as date,
-        COUNT(*) as count,
-        AVG(overall_rating) as avgRating,
-        SUM(CASE WHEN sentiment = 'positive' THEN 1 ELSE 0 END) as positive,
-        SUM(CASE WHEN sentiment = 'negative' THEN 1 ELSE 0 END) as negative
-       FROM reviews
-       WHERE hotel_id = ? AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+        COUNT(*) as orders,
+        SUM(total_price) as revenue
+       FROM orders
+       WHERE hotel_id IN (?)
+       AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
        GROUP BY DATE(create_time)
-       ORDER BY date ASC`,
-      [hotelId, parseInt(days)]
+       ORDER BY date ASC
+       LIMIT 200`,
+      [hotelIds, safePeriod]
     );
     
-    const formattedTrends = trends.map(t => ({
-      date: t.date,
-      count: t.count,
-      avgRating: t.avgRating ? parseFloat(t.avgRating).toFixed(2) : 0,
-      positive: t.positive,
-      negative: t.negative
-    }));
-    
-    res.json(formattedTrends);
+    res.json({
+      success: true,
+      data: trendData
+    });
   } catch (error) {
-    console.error('获取评价趋势失败:', error);
+    console.error('获取趋势数据失败:', error);
     res.status(500).json({ error: error.message });
   }
 };
 
-// 获取定价建议
-exports.getPricingSuggestions = async (req, res) => {
+// 获取房型排行
+exports.getRoomTypeRanking = async (req, res) => {
+  const merchantId = req.user.id;
+  const { period = '30' } = req.query;
+  const safePeriod = Math.min(parseInt(period), 180);
+  
   try {
-    const { hotelId } = req.params;
-    
-    // 获取最近30天的价格和入住率数据
-    const [priceData] = await pool.query(
-      `SELECT date, price, occupancy_rate, is_weekend, is_holiday
-       FROM price_history
-       WHERE hotel_id = ? AND date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-       ORDER BY date DESC`,
-      [hotelId]
+    const [hotels] = await db.query(
+      'SELECT id FROM hotels WHERE merchantId = ?',
+      [merchantId]
     );
     
-    if (priceData.length === 0) {
-      return res.json({
-        suggestions: [],
-        message: '暂无足够数据生成建议'
-      });
+    if (hotels.length === 0) {
+      return res.json({ success: true, data: [] });
     }
     
-    // 计算平均价格和入住率
-    const avgPrice = priceData.reduce((sum, d) => sum + parseFloat(d.price), 0) / priceData.length;
-    const avgOccupancy = priceData.reduce((sum, d) => sum + parseFloat(d.occupancy_rate || 0), 0) / priceData.length;
+    const hotelIds = hotels.map(h => h.id);
     
-    // 周末和工作日价格对比
-    const weekendData = priceData.filter(d => d.is_weekend);
-    const weekdayData = priceData.filter(d => !d.is_weekend);
-    
-    const avgWeekendPrice = weekendData.length > 0
-      ? weekendData.reduce((sum, d) => sum + parseFloat(d.price), 0) / weekendData.length
-      : avgPrice;
-    
-    const avgWeekdayPrice = weekdayData.length > 0
-      ? weekdayData.reduce((sum, d) => sum + parseFloat(d.price), 0) / weekdayData.length
-      : avgPrice;
-    
-    const suggestions = [];
-    
-    // 建议1: 入住率分析
-    if (avgOccupancy < 0.6) {
-      suggestions.push({
-        type: 'price_decrease',
-        priority: 'high',
-        title: '入住率偏低，建议降价促销',
-        description: `当前平均入住率${(avgOccupancy * 100).toFixed(1)}%，建议降价5-10%以提高入住率`,
-        suggestedPrice: (avgPrice * 0.9).toFixed(0),
-        reason: '低入住率'
-      });
-    } else if (avgOccupancy > 0.85) {
-      suggestions.push({
-        type: 'price_increase',
-        priority: 'medium',
-        title: '入住率较高，可适当提价',
-        description: `当前平均入住率${(avgOccupancy * 100).toFixed(1)}%，建议提价5-10%以增加收益`,
-        suggestedPrice: (avgPrice * 1.1).toFixed(0),
-        reason: '高入住率'
-      });
-    }
-    
-    // 建议2: 周末定价
-    if (avgWeekendPrice < avgWeekdayPrice * 1.1) {
-      suggestions.push({
-        type: 'weekend_pricing',
-        priority: 'medium',
-        title: '周末价格偏低',
-        description: '周末需求通常更高，建议周末价格比工作日高10-20%',
-        suggestedPrice: (avgWeekdayPrice * 1.15).toFixed(0),
-        reason: '周末溢价不足'
-      });
-    }
-    
-    // 建议3: 价格趋势
-    const recentPrices = priceData.slice(0, 7).map(d => parseFloat(d.price));
-    const olderPrices = priceData.slice(7, 14).map(d => parseFloat(d.price));
-    
-    if (recentPrices.length > 0 && olderPrices.length > 0) {
-      const recentAvg = recentPrices.reduce((a, b) => a + b, 0) / recentPrices.length;
-      const olderAvg = olderPrices.reduce((a, b) => a + b, 0) / olderPrices.length;
-      
-      if (recentAvg < olderAvg * 0.95) {
-        suggestions.push({
-          type: 'price_trend',
-          priority: 'low',
-          title: '价格持续下降',
-          description: '最近一周价格较前一周下降超过5%，注意市场竞争',
-          suggestedPrice: olderAvg.toFixed(0),
-          reason: '价格下降趋势'
-        });
-      }
-    }
-    
-    // 获取评价数据用于建议
-    const [reviewStats] = await pool.query(
-      `SELECT AVG(overall_rating) as avgRating
-       FROM reviews WHERE hotel_id = ?`,
-      [hotelId]
+    const [ranking] = await db.query(
+      `SELECT 
+        room_type,
+        COUNT(*) as orders,
+        SUM(total_price) as revenue,
+        AVG(total_price / nights) as avgPrice
+       FROM orders
+       WHERE hotel_id IN (?)
+       AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+       AND status != 'cancelled'
+       GROUP BY room_type
+       ORDER BY orders DESC`,
+      [hotelIds, safePeriod]
     );
-    
-    if (reviewStats[0].avgRating && reviewStats[0].avgRating >= 4.5) {
-      suggestions.push({
-        type: 'quality_premium',
-        priority: 'low',
-        title: '高评分支持溢价',
-        description: `当前评分${parseFloat(reviewStats[0].avgRating).toFixed(2)}，可适当提高价格`,
-        suggestedPrice: (avgPrice * 1.05).toFixed(0),
-        reason: '高评分'
-      });
-    }
     
     res.json({
-      currentAvgPrice: avgPrice.toFixed(0),
-      avgOccupancy: (avgOccupancy * 100).toFixed(1),
-      suggestions: suggestions.sort((a, b) => {
-        const priorityOrder = { high: 0, medium: 1, low: 2 };
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      })
+      success: true,
+      data: ranking
     });
   } catch (error) {
-    console.error('获取定价建议失败:', error);
+    console.error('获取房型排行失败:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 辅助函数：获取商户统计数�?
+async function getMerchantStats(merchantId, period) {
+  const safePeriod = Math.min(parseInt(period), 180);
+  
+  const [hotels] = await db.query(
+    'SELECT id FROM hotels WHERE merchantId = ? LIMIT 100',
+    [merchantId]
+  );
+  
+  if (hotels.length === 0) {
+    return { totalOrders: 0, totalRevenue: 0, avgOccupancy: 0, avgRating: 0, cancelRate: 0, orderGrowth: 0, revenueGrowth: 0 };
+  }
+  
+  const hotelIds = hotels.map(h => h.id);
+  
+  const [orderStats] = await db.query(
+    `SELECT 
+      COUNT(*) as totalOrders,
+      SUM(total_price) as totalRevenue,
+      SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelledOrders
+     FROM orders
+     WHERE hotel_id IN (?) 
+     AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)`,
+    [hotelIds, safePeriod]
+  );
+  
+  const [occupancyStats] = await db.query(
+    `SELECT COUNT(*) as completedOrders
+     FROM orders
+     WHERE hotel_id IN (?)
+     AND status IN ('checked_out', 'completed')
+     AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)`,
+    [hotelIds, safePeriod]
+  );
+  
+  const avgOccupancy = orderStats[0].totalOrders > 0
+    ? (occupancyStats[0].completedOrders / orderStats[0].totalOrders) * 100
+    : 0;
+  
+  const [ratingStats] = await db.query(
+    `SELECT AVG(overall_rating) as avgRating
+     FROM reviews
+     WHERE hotel_id IN (?)
+     AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)`,
+    [hotelIds, safePeriod]
+  );
+  
+  const prevPeriod = parseInt(safePeriod) * 2;
+  const [prevOrderStats] = await db.query(
+    `SELECT COUNT(*) as totalOrders, SUM(total_price) as totalRevenue
+     FROM orders
+     WHERE hotel_id IN (?)
+     AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+     AND create_time < DATE_SUB(NOW(), INTERVAL ? DAY)`,
+    [hotelIds, prevPeriod, safePeriod]
+  );
+  
+  const orderGrowth = prevOrderStats[0].totalOrders > 0
+    ? ((orderStats[0].totalOrders - prevOrderStats[0].totalOrders) / prevOrderStats[0].totalOrders) * 100
+    : 0;
+  
+  const revenueGrowth = prevOrderStats[0].totalRevenue > 0
+    ? ((orderStats[0].totalRevenue - prevOrderStats[0].totalRevenue) / prevOrderStats[0].totalRevenue) * 100
+    : 0;
+  
+  return {
+    totalOrders: orderStats[0].totalOrders || 0,
+    totalRevenue: orderStats[0].totalRevenue || 0,
+    avgOccupancy: Math.round(avgOccupancy),
+    avgRating: parseFloat((Number(ratingStats[0].avgRating) || 0).toFixed(1)),
+    cancelRate: orderStats[0].totalOrders > 0
+      ? Math.round((orderStats[0].cancelledOrders / orderStats[0].totalOrders) * 100)
+      : 0,
+    orderGrowth: Math.round(orderGrowth),
+    revenueGrowth: Math.round(revenueGrowth)
+  };
+}
+
+// 辅助函数：获取趋势数�?
+async function getTrendData(merchantId, period) {
+  const safePeriod = Math.min(parseInt(period), 180);
+  
+  const [hotels] = await db.query(
+    'SELECT id FROM hotels WHERE merchantId = ? LIMIT 100',
+    [merchantId]
+  );
+  
+  if (hotels.length === 0) {
+    return [];
+  }
+  
+  const hotelIds = hotels.map(h => h.id);
+  
+  const [trendData] = await db.query(
+    `SELECT 
+      DATE(create_time) as date,
+      COUNT(*) as orders,
+      SUM(total_price) as revenue
+     FROM orders
+     WHERE hotel_id IN (?)
+     AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+     GROUP BY DATE(create_time)
+     ORDER BY date ASC
+     LIMIT 200`,
+    [hotelIds, safePeriod]
+  );
+  
+  return trendData;
+}
+
+// 辅助函数：获取房型排�?
+async function getRoomRanking(merchantId, period) {
+  const safePeriod = Math.min(parseInt(period), 180);
+  
+  const [hotels] = await db.query(
+    'SELECT id FROM hotels WHERE merchantId = ?',
+    [merchantId]
+  );
+  
+  if (hotels.length === 0) {
+    return [];
+  }
+  
+  const hotelIds = hotels.map(h => h.id);
+  
+  const [ranking] = await db.query(
+    `SELECT 
+      room_type,
+      COUNT(*) as orders,
+      SUM(total_price) as revenue,
+      AVG(total_price / nights) as avgPrice
+     FROM orders
+     WHERE hotel_id IN (?)
+     AND create_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+     AND status != 'cancelled'
+     GROUP BY room_type
+     ORDER BY orders DESC`,
+    [hotelIds, safePeriod]
+  );
+  
+  return ranking;
+}
+
+// 获取AI数据洞察（带缓存�?
+exports.getAIInsights = async (req, res) => {
+  const merchantId = req.user.id;
+  const { period = '30' } = req.query;
+  
+  try {
+    const insights = await getCachedInsights(merchantId, period, async () => {
+      const stats = await getMerchantStats(merchantId, period);
+      const trendData = await getTrendData(merchantId, period);
+      const roomRanking = await getRoomRanking(merchantId, period);
+      
+      const insightsService = new DataInsightsService();
+      return await insightsService.generateDataInsights(stats, trendData, roomRanking);
+    });
+    
+    res.json({
+      success: true,
+      data: insights
+    });
+  } catch (error) {
+    console.error('获取AI洞察失败:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取AI定价建议（带缓存�?
+exports.getAIPricing = async (req, res) => {
+  const merchantId = req.user.id;
+  const { period = '30' } = req.query;
+  
+  try {
+    const suggestions = await getCachedPricing(merchantId, period, async () => {
+      const stats = await getMerchantStats(merchantId, period);
+      const roomRanking = await getRoomRanking(merchantId, period);
+      
+      const pricingService = new PricingInsightsService();
+      return await pricingService.generatePricingSuggestions({
+        roomRanking,
+        stats,
+        competitorPrices: {},  // 可扩�?
+        costPrices: {}         // 可扩�?
+      });
+    });
+    
+    res.json({
+      success: true,
+      data: suggestions
+    });
+  } catch (error) {
+    console.error('获取AI定价失败:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取AI异常预警（带缓存�?
+exports.getAIAlerts = async (req, res) => {
+  const merchantId = req.user.id;
+  const { period = '30' } = req.query;
+  
+  try {
+    const alerts = await getCachedAlerts(merchantId, period, async () => {
+      const stats = await getMerchantStats(merchantId, period);
+      const trendData = await getTrendData(merchantId, period);
+      
+      const insightsService = new DataInsightsService();
+      return await insightsService.detectAnomalies(stats, trendData);
+    });
+    
+    res.json({
+      success: true,
+      data: alerts
+    });
+  } catch (error) {
+    console.error('获取AI预警失败:', error);
     res.status(500).json({ error: error.message });
   }
 };

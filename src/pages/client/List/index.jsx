@@ -14,6 +14,7 @@ import {
   SortAscendingOutlined,
   CalendarOutlined
 } from '@ant-design/icons';
+import FavoriteButton from '../../../components/FavoriteButton';
 import dayjs from 'dayjs';
 import './styles.css';
 
@@ -569,9 +570,12 @@ const HotelList = () => {
                         </div>
                       </>
                     )}
-                    <Button type="primary" className="book-button">
-                      查看详情
-                    </Button>
+                    <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      <Button type="primary" className="book-button">
+                        查看详情
+                      </Button>
+                      <FavoriteButton hotelId={hotel.id} size="middle" />
+                    </div>
                   </div>
                 </div>
               </Card>

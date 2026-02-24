@@ -1,0 +1,246 @@
+.ai-summary-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 0;
+  margin: 20px 0;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  border: none;
+  overflow: hidden;
+}
+
+.ai-summary-card .ant-card-body {
+  padding: 24px;
+  color: white;
+}
+
+/* Loading State */
+.ai-summary-card.loading-card {
+  background: white;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* Error State */
+.ai-summary-card.error-card {
+  background: white;
+}
+
+/* Empty State */
+.ai-summary-card.empty-card {
+  background: white;
+}
+
+/* Header */
+.ai-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ai-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.ai-icon {
+  font-size: 18px;
+}
+
+.ai-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ai-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-count {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Summary Content */
+.summary-content {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.summary-text {
+  margin: 0;
+  line-height: 1.8;
+  font-size: 15px;
+  color: white;
+}
+
+/* Pros and Cons */
+.pros-cons-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.pros-section,
+.cons-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.section-icon {
+  font-size: 18px;
+}
+
+.pros-icon {
+  color: #52c41a;
+}
+
+.cons-icon {
+  color: #faad14;
+}
+
+.points-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.point-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.point-item:last-child {
+  border-bottom: none;
+}
+
+/* Sentiment Section */
+.sentiment-section {
+  margin-bottom: 20px;
+}
+
+.sentiment-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.sentiment-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sentiment-bar-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.sentiment-progress {
+  margin: 0;
+}
+
+.sentiment-progress .ant-progress-text {
+  color: white !important;
+  font-weight: 500;
+}
+
+/* Tags Section */
+.tags-section {
+  margin-bottom: 12px;
+}
+
+.tags-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-tag {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  font-size: 13px;
+}
+
+/* Fallback Message */
+.fallback-message {
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pros-cons-section {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ai-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-summary-card {
+  animation: fadeIn 0.5s ease-out;
+}

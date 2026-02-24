@@ -1,20 +1,27 @@
+/**
+ * Task13: 收藏对比路由
+ * 支持收藏管理、AI推荐、智能对比、浏览历史
+ */
+
 const express = require('express');
 const router = express.Router();
 const favoriteController = require('../controllers/favoriteController');
+const { authMiddleware } = require('../middleware/auth');
 
-// GET /api/favorites - 获取收藏列表
-router.get('/', favoriteController.getFavorites);
+// 所有路由都需要登录
+router.use(authMiddleware);
 
-// POST /api/favorites - 添加收藏
-router.post('/', favoriteController.addFavorite);
+// 收藏管理
+router.post('/add', favoriteController.addFavorite);
+router.delete('/:hotelId', favoriteController.removeFavorite);
+router.get('/list', favoriteController.getFavorites);
+router.get('/check/:hotelId', favoriteController.checkFavorite);
 
-// DELETE /api/favorites/:id - 删除收藏
-router.delete('/:id', favoriteController.removeFavorite);
+// AI功能
+router.get('/recommendations', favoriteController.getAIRecommendations);
+router.post('/compare', favoriteController.compareHotels);
 
-// GET /api/favorites/check - 检查是否已收藏
-router.get('/check', favoriteController.checkFavorite);
-
-// GET /api/favorites/compare - 对比收藏的酒店
-router.get('/compare', favoriteController.compareHotels);
+// 浏览历史
+router.post('/browse', favoriteController.recordBrowse);
 
 module.exports = router;

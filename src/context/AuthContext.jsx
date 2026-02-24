@@ -12,15 +12,18 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  // 从localStorage读取登录态
+  // 从localStorage读取登录态（兼容多个key）
   const [user, setUser] = useState(() => {
-    const local = localStorage.getItem('hotelUser');
-    return local ? JSON.parse(local) : null;
+    // 优先使用 'user'，然后尝试 'hotelUser'
+    const userStr = localStorage.getItem('user') || localStorage.getItem('hotelUser');
+    return userStr ? JSON.parse(userStr) : null;
   });
 
   // 登录保存信息
   const login = (userInfo) => {
     setUser(userInfo);
+    // 同时保存到两个key，确保兼容性
+    localStorage.setItem('user', JSON.stringify(userInfo));
     localStorage.setItem('hotelUser', JSON.stringify(userInfo));
     
     // 如果有 token，单独存储
@@ -32,6 +35,7 @@ export const AuthProvider = ({ children }) => {
   // 登出清除信息
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('user');
     localStorage.removeItem('hotelUser');
     localStorage.removeItem('token');
   };

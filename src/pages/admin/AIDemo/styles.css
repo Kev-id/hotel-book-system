@@ -1,0 +1,209 @@
+.ai-demo-page {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* Header */
+.demo-header {
+  margin-bottom: 24px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.demo-header .ant-card-body {
+  padding: 32px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+
+.header-icon {
+  font-size: 48px;
+}
+
+.header-content h1 {
+  margin: 0;
+  color: white;
+  font-size: 32px;
+}
+
+.header-content p {
+  margin: 8px 0 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+}
+
+/* Tabs */
+.demo-tabs {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.demo-tabs .ant-tabs-tab {
+  font-size: 16px;
+  padding: 12px 20px;
+}
+
+/* Demo Card */
+.demo-card {
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.demo-section {
+  padding: 20px;
+}
+
+.demo-section h3 {
+  font-size: 24px;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  color: #64748b;
+  font-size: 15px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* Input Group */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* Quality Demo */
+.quality-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.demo-example {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+}
+
+.demo-example h4 {
+  color: #1e293b;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.example-content p {
+  margin-bottom: 12px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.example-content strong {
+  color: #1e293b;
+}
+
+.example-content ul {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+
+.example-content li {
+  margin-bottom: 4px;
+  color: #64748b;
+}
+
+/* Result Box */
+.result-box {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+  border-left: 4px solid #e2e8f0;
+}
+
+.result-box.suspicious {
+  border-left-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.result-box.good {
+  border-left-color: #22c55e;
+  background: #f0fdf4;
+}
+
+.result-box p {
+  margin-bottom: 8px;
+}
+
+.result-box strong {
+  color: #1e293b;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .quality-demo {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .ai-demo-page {
+    padding: 16px;
+  }
+
+  .demo-header .ant-card-body {
+    padding: 20px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-content h1 {
+    font-size: 24px;
+  }
+
+  .demo-tabs {
+    padding: 16px;
+  }
+
+  .demo-section {
+    padding: 12px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.demo-card {
+  animation: fadeIn 0.5s ease-out;
+}

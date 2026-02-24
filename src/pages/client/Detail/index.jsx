@@ -15,6 +15,9 @@ import {
   RightOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import AISummaryCard from '../../../components/AISummaryCard';
+import ReviewList from '../../../components/ReviewList';
+import FavoriteButton from '../../../components/FavoriteButton';
 import './styles.css';
 
 const { RangePicker } = DatePicker;
@@ -363,6 +366,7 @@ const HotelDetail = () => {
               >
                 立即预订
               </Button>
+              <FavoriteButton hotelId={hotel.id} size="large" type="default" />
             </div>
           </div>
         </div>
@@ -434,6 +438,12 @@ const HotelDetail = () => {
           致力于为每一位宾客创造难忘的入住体验。`}
         </p>
       </Card>
+
+      {/* AI Summary Card */}
+      <AISummaryCard hotelId={id} />
+
+      {/* Review List */}
+      <ReviewList hotelId={id} />
 
       {/* Room Types Section */}
       {hotel.roomTypes && hotel.roomTypes.length > 0 && (
