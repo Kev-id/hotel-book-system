@@ -4,6 +4,7 @@ import { Select, InputNumber, Button, Card, Carousel, DatePicker } from 'antd';
 import { SearchOutlined, EnvironmentOutlined, DollarOutlined, StarOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getHotelList } from '../../../api/hotelApi';
 import dayjs from 'dayjs';
+import { CITIES } from '../../../config/cities';
 import './styles.css';
 
 const { RangePicker } = DatePicker;
@@ -145,10 +146,11 @@ const Home = () => {
                 placeholder="-- 请选择城市 --"
               >
                 <Select.Option value="">-- 请选择城市 --</Select.Option>
-                <Select.Option value="beijing">北京</Select.Option>
-                <Select.Option value="shanghai">上海</Select.Option>
-                <Select.Option value="guangzhou">广州</Select.Option>
-                <Select.Option value="shenzhen">深圳</Select.Option>
+                {CITIES.map(city => (
+                  <Select.Option key={city.value} value={city.value}>
+                    {city.label}
+                  </Select.Option>
+                ))}
               </Select>
             </div>
 

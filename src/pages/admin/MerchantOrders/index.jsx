@@ -24,7 +24,7 @@ const MerchantOrders = () => {
   // 获取订单统计
   const fetchStats = async () => {
     try {
-      const data = await orderApi.getOrderStats();
+      const data = await orderApi.getOrderStats({ viewMode: 'management' });
       setStats(data);
     } catch (error) {
       console.error('获取订单统计失败:', error);
@@ -37,7 +37,9 @@ const MerchantOrders = () => {
     
     setLoading(true);
     try {
-      const params = {};
+      const params = {
+        viewMode: 'management'  // 商家管理模式
+      };
       if (status && status !== 'all') {
         params.status = status;
       }

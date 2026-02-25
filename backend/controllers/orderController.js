@@ -120,16 +120,35 @@ exports.getOrders = async (req, res) => {
     
     // 根据角色区分查询逻辑
     if (userRole === 'merchant') {
-      // 商户查询: 查询自己酒店的所有订单
-      query = `
-        SELECT o.*, h.name as hotelName, h.address, h.images, u.username, u.phone, u.email
-        FROM orders o
-        LEFT JOIN hotels h ON o.hotel_id = h.id
-        LEFT JOIN users u ON o.user_id = u.id
-        WHERE h.merchantId = ?
-      `;
-      params = [userId];
-      console.log('商户查询模式: 查询商户酒店的订单');
+      // 商户查询: 
+      // 1. 如果在"订单管理"页面（商家后台），查询自己酒店的所有订单
+      // 2. 如果在"我的订单"页面（客户视角），查询自己作为顾客下的订单
+      // 通过 viewMode 参数区分：management=商家管理模式，customer=顾客模式
+      const viewMode = req.query.viewMode || 'customer';
+      
+      if (viewMode === 'management') {
+        // 商家管理模式：查询自己酒店的订单
+        query = `
+          SELECT o.*, h.name as hotelName, h.address, h.images, u.username, u.phone, u.email
+          FROM orders o
+          LEFT JOIN hotels h ON o.hotel_id = h.id
+          LEFT JOIN users u ON o.user_id = u.id
+          WHERE h.merchantId = ?
+        `;
+        params = [userId];
+        console.log('商户管理模式: 查询商户酒店的订单');
+      } else {
+        // 顾客模式：查询自己作为顾客下的订单
+        query = `
+          SELECT o.*, h.name as hotelName, h.address, h.images, u.username
+          FROM orders o
+          LEFT JOIN hotels h ON o.hotel_id = h.id
+          LEFT JOIN users u ON o.user_id = u.id
+          WHERE o.user_id = ?
+        `;
+        params = [userId];
+        console.log('商户顾客模式: 查询商户自己的订单');
+      }
     } else {
       // 普通用户查询: 查询自己创建的订单
       query = `
@@ -605,12 +624,12 @@ exports.getOrderStats = async (req, res) => {
     // 从认证中间件获取当前用户ID和角色
     const userId = req.user.id;
     const userRole = req.user.role;
-    const { hotelId } = req.query;
+    const { hotelId, viewMode = 'customer' } = req.query;
     
     let query, params;
     
-    if (userRole === 'merchant') {
-      // 商户统计: 统计自己酒店的订单
+    if (userRole === 'merchant' && viewMode === 'management') {
+      // 商户管理模式: 统计自己酒店的订单
       query = `
         SELECT 
           COUNT(*) as total,
@@ -627,7 +646,7 @@ exports.getOrderStats = async (req, res) => {
       `;
       params = [userId];
     } else {
-      // 用户统计: 统计自己的订单
+      // 用户统计: 统计自己的订单（包括商家作为顾客的订单）
       query = `
         SELECT 
           COUNT(*) as total,

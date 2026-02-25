@@ -62,7 +62,7 @@ const FavoriteButton = ({ hotelId, size = 'middle', type = 'default' }) => {
                 )}
               </div>
             ),
-            duration: 5
+            duration: 1
           });
         } else {
           message.success('收藏成功');

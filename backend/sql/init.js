@@ -1,4 +1,6 @@
 const mysql = require('mysql2/promise');
+const fs = require('fs').promises;
+const path = require('path');
 require('dotenv').config();
 
 const pool = mysql.createPool({
@@ -147,7 +149,7 @@ const initDB = async () => {
     console.log('\n📋 创建 orders 表...');
     await conn.query(`
       CREATE TABLE IF NOT EXISTS orders (
-        id VARCHAR(20) PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         hotel_id INT NOT NULL,
         room_type VARCHAR(50),
@@ -182,7 +184,7 @@ const initDB = async () => {
         id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT NOT NULL,
         hotel_id INT NOT NULL,
-        order_id VARCHAR(20),
+        order_id INT,
         overall_rating DECIMAL(2,1) NOT NULL,
         dimensions JSON NOT NULL COMMENT '5维度评分',
         content TEXT,
@@ -338,8 +340,301 @@ const initDB = async () => {
     `);
     console.log('✓ ai_call_logs 表创建成功');
 
+    // ==================== 数据导入 ====================
+    console.log('\n📦 开始导入数据...');
+
+    // 1. 导入用户数据
+    console.log('\n👤 导入用户数据...');
+    try {
+      const usersData = JSON.parse(
+        await fs.readFile(path.join(__dirname, '../../data/processed/users_complete.json'), 'utf-8')
+      );
+      
+      let userCount = 0;
+      for (const user of usersData) {
+        try {
+          await conn.execute(
+            `INSERT IGNORE INTO users (id, username, password, email, phone, role, preferences, favorites, created_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              user.id,
+              user.username,
+              user.password,
+              user.email || null,
+              user.phone || null,
+              user.role || 'user',
+              JSON.stringify(user.preferences || {}),
+              JSON.stringify(user.favorites || []),
+              user.createdAt || new Date()
+            ]
+          );
+          userCount++;
+        } catch (err) {
+          if (err.code !== 'ER_DUP_ENTRY') {
+            console.error(`  ⚠️  导入用户 ${user.username} 失败:`, err.message);
+          }
+        }
+      }
+      console.log(`  ✓ 成功导入 ${userCount}/${usersData.length} 个用户`);
+    } catch (err) {
+      console.error('  ⚠️  读取用户数据文件失败，使用默认测试用户');
+      // 插入默认测试用户
+      await conn.query(`
+        INSERT IGNORE INTO users (id, username, password, email, phone, role) VALUES
+        (1, 'admin1', '123456', NULL, NULL, 'admin'),
+        (2, 'merchant1', '123456', NULL, NULL, 'merchant'),
+        (3, '陈凯文', 'Kv20060426', '123@qq.com', '18017402610', 'merchant'),
+        (4, 'icc', 'Wang2006', NULL, NULL, 'admin'),
+        (5, 'user1', '123456', NULL, NULL, 'user')
+      `);
+      console.log('  ✓ 使用默认测试用户（5个）');
+    }
+
+    // 2. 导入酒店数据
+    console.log('\n🏨 导入酒店数据...');
+    try {
+      const hotelsData = JSON.parse(
+        await fs.readFile(path.join(__dirname, '../../data/processed/hotels.json'), 'utf-8')
+      );
+      
+      let hotelCount = 0;
+      for (const hotel of hotelsData) {
+        try {
+          await conn.execute(
+            `INSERT IGNORE INTO hotels (
+              id, name, address, city, status, merchantId, stars,
+              tags, description, images, rating, review_count, facilities,
+              coordinates, check_in_time, check_out_time, cancel_policy
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              hotel.id,
+              hotel.name,
+              hotel.address,
+              hotel.city,
+              hotel.status || 'published',
+              2,  // 默认商户ID
+              hotel.stars || 5,
+              JSON.stringify(hotel.tags || []),
+              hotel.description || `${hotel.name}位于${hotel.city}市中心，交通便利，设施完善。`,
+              JSON.stringify(hotel.images || []),
+              hotel.rating || 0,
+              hotel.reviewCount || 0,
+              JSON.stringify(hotel.facilities || []),
+              JSON.stringify(hotel.coordinates || {}),
+              hotel.checkInTime || '14:00',
+              hotel.checkOutTime || '12:00',
+              JSON.stringify(hotel.cancelPolicy || {})
+            ]
+          );
+          hotelCount++;
+        } catch (err) {
+          if (err.code !== 'ER_DUP_ENTRY') {
+            console.error(`  ⚠️  导入酒店 ${hotel.name} 失败:`, err.message);
+          }
+        }
+      }
+      console.log(`  ✓ 成功导入 ${hotelCount}/${hotelsData.length} 家酒店`);
+    } catch (err) {
+      console.error('  ⚠️  读取酒店数据文件失败，使用默认测试酒店:', err.message);
+      // 插入默认测试酒店
+      await conn.query(`
+        INSERT IGNORE INTO hotels (id, name, address, city, status, merchantId, openingDate, stars, tags, description, images) VALUES
+        (1, '北京国际大饭店', '北京市朝阳区建国门外大街1号', 'beijing', 'published', 2, '2015-03-15', 5, 
+         '["WiFi", "停车场", "健身房", "游泳池", "SPA"]', 
+         '五星级豪华酒店，拥有完善的娱乐和休闲设施，提供顶级的住宿体验。',
+         '["/uploads/hotels/0.png", "/uploads/hotels/1.png"]'),
+        
+        (2, '上海外滩华尔道夫酒店', '上海市黄浦区中山东一路2号', 'shanghai', 'published', 2, '2011-05-20', 5,
+         '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅", "会议室"]',
+         '坐落于外滩核心位置，尽享黄浦江美景，奢华与历史完美融合。',
+         '["/uploads/hotels/2.png", "/uploads/hotels/3.png"]'),
+        
+        (3, '广州白天鹅宾馆', '广州市越秀区沙面南街1号', 'guangzhou', 'published', 3, '2008-10-15', 5,
+         '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅"]',
+         '广州老牌五星级酒店，坐落于珠江边，享有绝佳江景。',
+         '["/uploads/hotels/4.png"]'),
+        
+        (4, '深圳瑞吉酒店', '深圳市福田区深南大道5016号', 'shenzhen', 'published', 3, '2012-08-15', 5,
+         '["WiFi", "停车场", "健身房", "游泳池", "SPA", "餐厅", "会议室"]',
+         '深圳顶级奢华酒店，位于CBD核心，服务一流。',
+         '["/uploads/hotels/5.png"]')
+      `);
+      console.log('  ✓ 使用默认测试酒店（4家）');
+    }
+
+    // 3. 导入房型数据
+    console.log('\n🛏️  导入房型数据...');
+    try {
+      const hotelsData = JSON.parse(
+        await fs.readFile(path.join(__dirname, '../../data/processed/hotels.json'), 'utf-8')
+      );
+      
+      let roomTypeCount = 0;
+      for (const hotel of hotelsData) {
+        if (hotel.rooms && Array.isArray(hotel.rooms)) {
+          for (const room of hotel.rooms) {
+            try {
+              await conn.execute(
+                `INSERT IGNORE INTO room_types (hotelId, roomType, price) VALUES (?, ?, ?)`,
+                [hotel.id, room.type, room.price]
+              );
+              roomTypeCount++;
+            } catch (err) {
+              if (err.code !== 'ER_DUP_ENTRY') {
+                console.error(`  ⚠️  导入房型失败:`, err.message);
+              }
+            }
+          }
+        }
+      }
+      console.log(`  ✓ 成功导入 ${roomTypeCount} 种房型`);
+    } catch (err) {
+      console.log('  ⚠️  从酒店数据生成房型失败，使用默认方式');
+      // 为每个酒店创建2种房型
+      const [hotels] = await conn.query('SELECT id FROM hotels');
+      let roomTypeCount = 0;
+      for (const hotel of hotels) {
+        try {
+          await conn.execute(
+            `INSERT IGNORE INTO room_types (hotelId, roomType, price) VALUES
+             (?, '豪华大床房', ?),
+             (?, '行政套房', ?)`,
+            [hotel.id, 800 + Math.floor(Math.random() * 500), hotel.id, 1200 + Math.floor(Math.random() * 1000)]
+          );
+          roomTypeCount += 2;
+        } catch (err) {
+          console.error(`  ⚠️  生成房型失败:`, err.message);
+        }
+      }
+      console.log(`  ✓ 成功生成 ${roomTypeCount} 种房型`);
+    }
+
+    // 4. 导入订单数据
+    console.log('\n📋 导入订单数据...');
+    try {
+      const ordersData = JSON.parse(
+        await fs.readFile(path.join(__dirname, '../../data/processed/orders_complete.json'), 'utf-8')
+      );
+      
+      let orderCount = 0;
+      for (const order of ordersData) {
+        try {
+          await conn.execute(
+            `INSERT IGNORE INTO orders (
+              id, user_id, hotel_id, room_type, status,
+              check_in_date, check_out_date, nights, adults, children,
+              total_price, create_time, update_time, cancel_deadline,
+              cancel_policy, logs, risk_flags
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              order.id,
+              order.userId,
+              order.hotelId,
+              order.roomType,
+              order.status,
+              order.checkInDate,
+              order.checkOutDate,
+              order.nights,
+              order.adults,
+              order.children,
+              order.totalPrice,
+              order.createTime,
+              order.updateTime,
+              order.cancelDeadline,
+              JSON.stringify(order.cancelPolicy || {}),
+              JSON.stringify(order.logs || []),
+              JSON.stringify(order.riskFlags || [])
+            ]
+          );
+          orderCount++;
+        } catch (err) {
+          if (err.code !== 'ER_DUP_ENTRY') {
+            console.error(`  ⚠️  导入订单失败:`, err.message);
+          }
+        }
+      }
+      console.log(`  ✓ 成功导入 ${orderCount}/${ordersData.length} 条订单`);
+    } catch (err) {
+      console.log('  ⚠️  订单数据文件不存在，跳过');
+    }
+
+    // 5. 导入评价数据
+    console.log('\n💬 导入评价数据...');
+    try {
+      const reviewsData = JSON.parse(
+        await fs.readFile(path.join(__dirname, '../../data/processed/reviews_complete.json'), 'utf-8')
+      );
+      
+      let reviewCount = 0;
+      for (const review of reviewsData) {
+        try {
+          await conn.execute(
+            `INSERT IGNORE INTO reviews (
+              user_id, hotel_id, order_id, overall_rating, dimensions,
+              content, images, tags, sentiment, helpful, reported,
+              merchant_reply, create_time
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              review.userId,
+              review.hotelId,
+              review.orderId || null,
+              review.overallRating,
+              JSON.stringify(review.dimensions || {}),
+              review.content,
+              JSON.stringify(review.images || []),
+              JSON.stringify(review.tags || []),
+              review.sentiment || 'neutral',
+              review.helpful || 0,
+              review.reported || false,
+              JSON.stringify(review.merchantReply || null),
+              review.createTime
+            ]
+          );
+          reviewCount++;
+        } catch (err) {
+          console.error(`  ⚠️  导入评价失败:`, err.message);
+        }
+      }
+      console.log(`  ✓ 成功导入 ${reviewCount}/${reviewsData.length} 条评价`);
+    } catch (err) {
+      console.log('  ⚠️  评价数据文件不存在，跳过');
+    }
+
+    // 6. 导入收藏数据
+    console.log('\n⭐ 导入收藏数据...');
+    try {
+      const favoritesData = JSON.parse(
+        await fs.readFile(path.join(__dirname, '../../data/processed/favorites.json'), 'utf-8')
+      );
+      
+      let favoriteCount = 0;
+      for (const favorite of favoritesData) {
+        try {
+          await conn.execute(
+            `INSERT IGNORE INTO favorites (user_id, hotel_id, category, ai_reason, create_time)
+             VALUES (?, ?, ?, ?, ?)`,
+            [
+              favorite.userId,
+              favorite.hotelId,
+              favorite.category || '未分类',
+              favorite.note || favorite.aiReason || '',
+              favorite.createTime || new Date()
+            ]
+          );
+          favoriteCount++;
+        } catch (err) {
+          if (err.code !== 'ER_DUP_ENTRY') {
+            console.error(`  ⚠️  导入收藏失败:`, err.message);
+          }
+        }
+      }
+      console.log(`  ✓ 成功导入 ${favoriteCount}/${favoritesData.length} 条收藏`);
+    } catch (err) {
+      console.log('  ⚠️  收藏数据文件不存在，跳过');
+    }
+
     // 插入测试价格数据
-    console.log('\n📅 开始插入价格日历测试数据...');
+    console.log('\n📅 生成价格日历测试数据...');
     
     // 获取今天的日期
     const today = new Date();
@@ -404,10 +699,23 @@ const initDB = async () => {
 
     console.log('\n✅ 数据库初始化完成！');
     console.log('\n📊 数据统计：');
-    console.log('   - 用户：5 个');
-    console.log('   - 酒店：4 家');
-    console.log('   - 房型：8 种（每家酒店2种）');
-    console.log(`   - 价格日历：${priceData.length} 条测试数据`);
+    
+    const [userStats] = await conn.query('SELECT COUNT(*) as total FROM users');
+    const [hotelStats] = await conn.query('SELECT COUNT(*) as total FROM hotels');
+    const [roomStats] = await conn.query('SELECT COUNT(*) as total FROM room_types');
+    const [orderStats] = await conn.query('SELECT COUNT(*) as total FROM orders');
+    const [reviewStats] = await conn.query('SELECT COUNT(*) as total FROM reviews');
+    const [favoriteStats] = await conn.query('SELECT COUNT(*) as total FROM favorites');
+    const [priceStats] = await conn.query('SELECT COUNT(*) as total FROM price_calendar');
+    
+    console.log(`   - 用户：${userStats[0].total} 个`);
+    console.log(`   - 酒店：${hotelStats[0].total} 家`);
+    console.log(`   - 房型：${roomStats[0].total} 种`);
+    console.log(`   - 订单：${orderStats[0].total} 条`);
+    console.log(`   - 评价：${reviewStats[0].total} 条`);
+    console.log(`   - 收藏：${favoriteStats[0].total} 条`);
+    console.log(`   - 价格日历：${priceStats[0].total} 条`);
+    
     console.log('\n📋 创建的表：');
     console.log('   - users (用户表)');
     console.log('   - hotels (酒店表)');
@@ -420,6 +728,12 @@ const initDB = async () => {
     console.log('   - review_ai_cache (AI缓存表)');
     console.log('   - review_quality_flags (质量标记表)');
     console.log('   - ai_call_logs (AI调用日志表)');
+    
+    console.log('\n🎯 下一步：');
+    console.log('   1. 启动后端服务：npm run dev');
+    console.log('   2. 启动前端服务：npm run dev（在项目根目录）');
+    console.log('   3. 访问系统：http://localhost:5173');
+    console.log('   4. 测试账号：admin1/123456, merchant1/123456, user1/123456');
     process.exit(0);
   } catch (error) {
     console.error('❌ 初始化失败:', error.message);

@@ -8,6 +8,40 @@ const recommendationService = require('../services/ai/recommendation');
 const { getCachedComparison, getCachedRecommendation, clearUserCache } = require('../middleware/favoriteCache');
 
 /**
+ * 分类映射：将 AI 返回的中文分类映射为带 emoji 的前端分类
+ */
+const categoryMap = {
+  '商务出行': '🏢 商务出行',
+  '度假休闲': '🏖️ 度假休闲',
+  '性价比之选': '💰 性价比之选',
+  '亲子家庭': '👨‍👩‍👧 亲子家庭',
+  // 兼容旧数据
+  'business': '🏢 商务出行',
+  'vacation': '🏖️ 度假休闲',
+  'value': '💰 性价比之选',
+  'family': '👨‍👩‍👧 亲子家庭',
+  'luxury': '🏢 商务出行'
+};
+
+/**
+ * 反向映射：将前端分类转换为数据库中可能存在的所有格式
+ */
+const reverseCategoryMap = {
+  '🏢 商务出行': ['business', 'luxury', '商务出行', '🏢 商务出行'],
+  '🏖️ 度假休闲': ['vacation', '度假休闲', '🏖️ 度假休闲'],
+  '💰 性价比之选': ['value', '性价比之选', '💰 性价比之选'],
+  '👨‍👩‍👧 亲子家庭': ['family', '亲子家庭', '👨‍👩‍👧 亲子家庭']
+};
+
+/**
+ * 标准化分类名称
+ */
+function normalizeCategory(category) {
+  if (!category) return '未分类';
+  return categoryMap[category] || category;
+}
+
+/**
  * 添加收藏（带AI分类，清除缓存）
  */
 exports.addFavorite = async (req, res) => {
@@ -16,7 +50,12 @@ exports.addFavorite = async (req, res) => {
 
   try {
     // 1. 获取酒店信息
-    const [hotels] = await db.query('SELECT * FROM hotels WHERE id = ?', [hotelId]);
+    const [hotels] = await db.query(`
+      SELECT h.*, 
+             (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price
+      FROM hotels h 
+      WHERE h.id = ?
+    `, [hotelId]);
     if (hotels.length === 0) {
       return res.status(404).json({ error: '酒店不存在' });
     }
@@ -31,6 +70,8 @@ exports.addFavorite = async (req, res) => {
     
     try {
       aiCategory = await recommendationService.categorizeHotel(hotel);
+      // 标准化分类名称（添加 emoji）
+      aiCategory.category = normalizeCategory(aiCategory.category);
     } catch (aiError) {
       console.error('AI分类失败，使用默认分类:', aiError.message);
       // AI失败时使用简单规则分类
@@ -45,7 +86,7 @@ exports.addFavorite = async (req, res) => {
 
     // 3. 添加收藏
     await db.query(
-      'INSERT INTO favorites (user_id, hotel_id, category, note) VALUES (?, ?, ?, ?)',
+      'INSERT INTO favorites (user_id, hotel_id, category, ai_reason) VALUES (?, ?, ?, ?)',
       [userId, hotelId, aiCategory.category, aiCategory.reason]
     );
 
@@ -108,26 +149,35 @@ exports.getFavorites = async (req, res) => {
 
   try {
     let query = `
-      SELECT f.*, h.name, h.address, h.price, h.rating, h.images, h.facilities
+      SELECT f.*, h.name, h.address, h.rating, h.images, h.facilities,
+             f.ai_reason as note,
+             (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price
       FROM favorites f
       JOIN hotels h ON f.hotel_id = h.id
       WHERE f.user_id = ?
     `;
     const params = [userId];
 
+    // 如果指定了分类，使用反向映射查询所有可能的格式
     if (category && category !== '全部') {
-      query += ' AND f.category = ?';
-      params.push(category);
+      const possibleCategories = reverseCategoryMap[category] || [category];
+      const placeholders = possibleCategories.map(() => '?').join(',');
+      query += ` AND f.category IN (${placeholders})`;
+      params.push(...possibleCategories);
     }
 
     query += ' ORDER BY f.create_time DESC';
 
     const [favorites] = await db.query(query, params);
 
-    res.json({
-      success: true,
-      data: favorites
-    });
+    // 标准化分类名称
+    const normalizedFavorites = favorites.map(fav => ({
+      ...fav,
+      category: normalizeCategory(fav.category)
+    }));
+
+    // 直接返回数组，与前端期望一致
+    res.json(normalizedFavorites);
   } catch (error) {
     console.error('获取收藏列表失败:', error);
     res.status(500).json({ error: error.message });
@@ -178,7 +228,8 @@ exports.getAIRecommendations = async (req, res) => {
       
       const placeholders = hotelIds.map(() => '?').join(',');
       const [hotels] = await db.query(
-        `SELECT * FROM hotels WHERE id IN (${placeholders})`,
+        `SELECT h.*, (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price 
+         FROM hotels h WHERE h.id IN (${placeholders})`,
         hotelIds
       );
 
@@ -187,6 +238,7 @@ exports.getAIRecommendations = async (req, res) => {
         const rec = recommendations.find(r => r.hotelId === hotel.id);
         return {
           ...hotel,
+          price: hotel.price || 0,
           aiReason: rec?.reason || ''
         };
       });
@@ -208,7 +260,8 @@ exports.getAIRecommendations = async (req, res) => {
 async function getUserProfile(userId) {
   // 浏览过的酒店
   const [browsed] = await db.query(`
-    SELECT h.name, h.price, h.rating, h.address
+    SELECT h.name, h.rating, h.address,
+           (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price
     FROM browse_history bh
     JOIN hotels h ON bh.hotel_id = h.id
     WHERE bh.user_id = ?
@@ -218,7 +271,8 @@ async function getUserProfile(userId) {
 
   // 收藏的酒店
   const [favorited] = await db.query(`
-    SELECT h.name, h.price, h.rating, h.address, f.category
+    SELECT h.name, h.rating, h.address, f.category,
+           (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price
     FROM favorites f
     JOIN hotels h ON f.hotel_id = h.id
     WHERE f.user_id = ?
@@ -226,7 +280,8 @@ async function getUserProfile(userId) {
 
   // 预订过的酒店
   const [booked] = await db.query(`
-    SELECT h.name, h.price, h.rating, h.address
+    SELECT h.name, h.rating, h.address,
+           (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price
     FROM orders o
     JOIN hotels h ON o.hotel_id = h.id
     WHERE o.user_id = ?
@@ -254,13 +309,19 @@ exports.compareHotels = async (req, res) => {
     // 2. 获取酒店信息（安全的SQL参数化）
     const placeholders = hotelIds.map(() => '?').join(',');
     const [hotels] = await db.query(
-      `SELECT * FROM hotels WHERE id IN (${placeholders})`,
+      `SELECT h.*, (SELECT MIN(price) FROM room_types WHERE hotelId = h.id) as price 
+       FROM hotels h WHERE h.id IN (${placeholders})`,
       hotelIds
     );
 
     if (hotels.length < 2) {
       return res.status(400).json({ error: '至少需要2个有效酒店进行对比' });
     }
+    
+    // 确保价格字段存在
+    hotels.forEach(hotel => {
+      hotel.price = hotel.price || 0;
+    });
 
     // 3. AI对比分析（使用缓存）
     const analysis = await getCachedComparison(hotelIds, () =>

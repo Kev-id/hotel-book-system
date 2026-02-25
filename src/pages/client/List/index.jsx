@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons';
 import FavoriteButton from '../../../components/FavoriteButton';
 import dayjs from 'dayjs';
+import { CITIES, getCityLabel } from '../../../config/cities';
 import './styles.css';
 
 const { RangePicker } = DatePicker;
@@ -33,13 +34,10 @@ const HotelList = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 新增：城市选项配置（可根据业务扩展）
+  // 城市选项配置
   const cityOptions = [
     { label: '全部', value: '' },
-    { label: '北京', value: 'beijing' },
-    { label: '上海', value: 'shanghai' },
-    { label: '广州', value: 'guangzhou' },
-    { label: '深圳', value: 'shenzhen' },
+    ...CITIES.map(city => ({ label: city.label, value: city.value }))
   ];
 
   // 新增：星级选项配置
@@ -235,13 +233,7 @@ const HotelList = () => {
   };
 
   const getCityName = (cityCode) => {
-    const cityMap = {
-      'beijing': '北京',
-      'shanghai': '上海',
-      'guangzhou': '广州',
-      'shenzhen': '深圳'
-    };
-    return cityMap[cityCode] || cityCode;
+    return getCityLabel(cityCode) || cityCode;
   };
 
   // 分页数据

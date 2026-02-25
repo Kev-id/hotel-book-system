@@ -54,7 +54,7 @@ const Navigation = () => {
   return (
     <nav className="nav-header">
       <div className="nav-wrapper">
-        <div className="nav-logo" onClick={() => navigate('/')}>🏨 酒店预订系统</div>
+        <div className="nav-logo" onClick={() => navigate('/')}>🏨 易宿</div>
 
         <div className="nav-menu">
           <div className="nav-links">

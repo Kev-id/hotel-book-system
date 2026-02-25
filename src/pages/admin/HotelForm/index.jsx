@@ -1,10 +1,11 @@
-﻿import { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { addHotel } from '../../../api/hotelApi';
 import { DateFormatter, DateValidator } from '../../../utils/dateUtils';
 import { Form, Input, InputNumber, Select, DatePicker, Button, Card, message, Steps, Checkbox, Space, Tag, Upload } from 'antd';
 import { HomeOutlined, EnvironmentOutlined, DollarOutlined, CalendarOutlined, StarOutlined, CheckCircleOutlined, LogoutOutlined, TagsOutlined, FileTextOutlined, PictureOutlined, UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { CITIES } from '../../../config/cities';
 import './styles.css';
 
 const AVAILABLE_TAGS = ['WiFi', '停车场', '健身房', '游泳池', 'SPA', '餐厅', '会议室', '前台24小时', '中餐厅', '茶楼', '商务中心', '行李寄存', '接送服务', '洗衣服务'];
@@ -186,7 +187,15 @@ const HotelForm = () => {
           <div className="form-section"><h3 className="section-title"><HomeOutlined /> 基本信息</h3>
             <Form.Item label="酒店名称" name="name" rules={[{ required: true, message: '请输入酒店名称' }, { min: 2, message: '酒店名称至少2个字符' }]}><Input placeholder="例如：北京国际大酒店" size="large" prefix={<HomeOutlined />} /></Form.Item>
             <Form.Item label="酒店地址" name="address" rules={[{ required: true, message: '请输入酒店地址' }, { min: 5, message: '地址至少5个字符' }]}><Input placeholder="例如：北京市朝阳区建国路88号" size="large" prefix={<EnvironmentOutlined />} /></Form.Item>
-            <Form.Item label="所在城市" name="city" rules={[{ required: true, message: '请选择酒店城市' }]}><Select placeholder="请选择酒店城市" size="large" suffixIcon={<EnvironmentOutlined />}><Select.Option value="beijing">北京</Select.Option><Select.Option value="shanghai">上海</Select.Option><Select.Option value="guangzhou">广州</Select.Option><Select.Option value="shenzhen">深圳</Select.Option></Select></Form.Item>
+            <Form.Item label="所在城市" name="city" rules={[{ required: true, message: '请选择酒店城市' }]}>
+              <Select placeholder="请选择酒店城市" size="large" suffixIcon={<EnvironmentOutlined />}>
+                {CITIES.map(city => (
+                  <Select.Option key={city.value} value={city.value}>
+                    {city.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
           </div>
           <div className="form-section"><h3 className="section-title"><DollarOutlined /> 房型与价格</h3><p className="section-desc">添加酒店的各个房型及对应价格，至少添加一个房型</p>
             {roomTypes.map((room, index) => (

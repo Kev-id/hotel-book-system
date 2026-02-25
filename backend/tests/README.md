@@ -4,6 +4,9 @@
 
 ## 测试脚本列表
 
+### 一致性检查
+- `check-field-consistency.js` - 检查数据库字段一致性
+
 ### API 测试
 - `test-ai-api.js` - AI 功能 API 测试
 - `test-analytics-api.js` - 数据分析 API 测试
@@ -28,6 +31,9 @@
 在 backend 目录下运行：
 
 ```bash
+# 一致性检查
+node tests/check-field-consistency.js
+
 # API 测试
 node tests/test-ai-api.js
 node tests/test-analytics-api.js
