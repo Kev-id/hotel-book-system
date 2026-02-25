@@ -397,9 +397,25 @@ const initDB = async () => {
         await fs.readFile(path.join(__dirname, '../../data/processed/hotels.json'), 'utf-8')
       );
       
+      // 获取所有商家用户ID
+      const [merchants] = await conn.query(
+        "SELECT id FROM users WHERE role = 'merchant'"
+      );
+      const merchantIds = merchants.map(m => m.id);
+      
+      if (merchantIds.length === 0) {
+        console.log('  ⚠️  没有商家用户，所有酒店将分配给默认商家(ID=2)');
+        merchantIds.push(2);
+      } else {
+        console.log(`  ℹ️  找到 ${merchantIds.length} 个商家账号，将随机分配酒店`);
+      }
+      
       let hotelCount = 0;
       for (const hotel of hotelsData) {
         try {
+          // 随机选择一个商家
+          const randomMerchantId = merchantIds[Math.floor(Math.random() * merchantIds.length)];
+          
           await conn.execute(
             `INSERT IGNORE INTO hotels (
               id, name, address, city, status, merchantId, stars,
@@ -412,7 +428,7 @@ const initDB = async () => {
               hotel.address,
               hotel.city,
               hotel.status || 'published',
-              2,  // 默认商户ID
+              randomMerchantId,  // 随机分配商户ID
               hotel.stars || 5,
               JSON.stringify(hotel.tags || []),
               hotel.description || `${hotel.name}位于${hotel.city}市中心，交通便利，设施完善。`,
@@ -433,7 +449,7 @@ const initDB = async () => {
           }
         }
       }
-      console.log(`  ✓ 成功导入 ${hotelCount}/${hotelsData.length} 家酒店`);
+      console.log(`  ✓ 成功导入 ${hotelCount}/${hotelsData.length} 家酒店，已随机分配给 ${merchantIds.length} 个商家`);
     } catch (err) {
       console.error('  ⚠️  读取酒店数据文件失败，使用默认测试酒店:', err.message);
       // 插入默认测试酒店

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getHotelDetail, getHotelRoomTypes, calculatePeriodPrice } from '../../../api/hotelApi';
 import { Card, Button, Tag, Spin, Empty, Divider, message, Carousel, DatePicker } from 'antd';
@@ -31,6 +31,7 @@ const HotelDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [carouselRef, setCarouselRef] = useState(null);
+  const roomTypesRef = useRef(null);
 
   const getSearchParams = () => {
     const params = new URLSearchParams(location.search);
@@ -128,10 +129,45 @@ const HotelDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
+  // 滚动到房型价格表
+  const scrollToRoomTypes = () => {
+    console.log('scrollToRoomTypes 被调用');
+    console.log('dateRange:', dateRange);
+    console.log('roomTypesRef.current:', roomTypesRef.current);
+    
+    // 检查是否选择了日期
+    if (!dateRange || dateRange.length !== 2) {
+      message.warning('请先选择入住和退房日期');
+      return;
+    }
+    
+    // 滚动到房型价格表
+    if (roomTypesRef.current) {
+      console.log('开始滚动到房型价格表');
+      roomTypesRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+      // 添加一个小延迟后显示提示，让滚动动画先完成
+      setTimeout(() => {
+        message.info('请选择您想预订的房型');
+      }, 500);
+    } else {
+      console.log('roomTypesRef.current 为空');
+    }
+  };
+
   const handleBook = (roomTypeId = null) => {
     // 检查是否选择了日期
     if (!dateRange || dateRange.length !== 2) {
       message.warning('请先选择入住和退房日期');
+      return;
+    }
+    
+    // 如果没有传入 roomTypeId，说明是从房型列表中的"预订"按钮点击的
+    // 这种情况不应该发生，因为房型卡片的按钮会传入 roomTypeId
+    if (!roomTypeId) {
+      message.error('请选择房型');
       return;
     }
     
@@ -150,25 +186,17 @@ const HotelDetail = () => {
       return;
     }
     
-    // 使用传入的 roomTypeId 或默认使用第一个房型
-    let targetRoomTypeId = roomTypeId;
-    
-    // 如果没有传入 roomTypeId，使用第一个房型的 id
-    if (!targetRoomTypeId) {
-      targetRoomTypeId = hotel.roomTypes[0]?.id;
-    }
-    
     // 验证 targetRoomTypeId 是有效的数字
-    if (!targetRoomTypeId || typeof targetRoomTypeId === 'object') {
-      console.error('无效的 roomTypeId:', targetRoomTypeId);
+    if (typeof roomTypeId === 'object') {
+      console.error('无效的 roomTypeId:', roomTypeId);
       message.error('房型信息错误，请刷新页面重试');
       return;
     }
     
     // 确保 roomTypeId 是数字
-    const validRoomTypeId = parseInt(targetRoomTypeId);
+    const validRoomTypeId = parseInt(roomTypeId);
     if (isNaN(validRoomTypeId)) {
-      console.error('roomTypeId 不是有效数字:', targetRoomTypeId);
+      console.error('roomTypeId 不是有效数字:', roomTypeId);
       message.error('房型信息错误，请刷新页面重试');
       return;
     }
@@ -361,7 +389,7 @@ const HotelDetail = () => {
                 type="primary" 
                 size="large" 
                 block 
-                onClick={handleBook}
+                onClick={scrollToRoomTypes}
                 className="book-button"
               >
                 立即预订
@@ -447,7 +475,7 @@ const HotelDetail = () => {
 
       {/* Room Types Section */}
       {hotel.roomTypes && hotel.roomTypes.length > 0 && (
-        <Card className="room-types-card" title={`${hotel.name} - 全部房型`}>
+        <Card ref={roomTypesRef} className="room-types-card" title={`${hotel.name} - 全部房型`}>
           <div className="room-types-grid">
             {hotel.roomTypes.map((room) => (
               <Card 
@@ -517,7 +545,7 @@ const HotelDetail = () => {
           <Button 
             type="primary" 
             size="large" 
-            onClick={handleBook}
+            onClick={scrollToRoomTypes}
             className="bottom-book-button"
           >
             立即预订
