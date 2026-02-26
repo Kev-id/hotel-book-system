@@ -144,16 +144,28 @@ const HotelDetail = () => {
     // 滚动到房型价格表
     if (roomTypesRef.current) {
       console.log('开始滚动到房型价格表');
-      roomTypesRef.current.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
+      
+      // 获取元素位置
+      const element = roomTypesRef.current;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - 80; // 减去80px的偏移量，避免被固定头部遮挡
+      
+      console.log('元素位置:', elementPosition);
+      console.log('滚动目标位置:', offsetPosition);
+      
+      // 使用 window.scrollTo 进行滚动
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
       });
+      
       // 添加一个小延迟后显示提示，让滚动动画先完成
       setTimeout(() => {
         message.info('请选择您想预订的房型');
       }, 500);
     } else {
       console.log('roomTypesRef.current 为空');
+      message.error('房型信息加载中，请稍后再试');
     }
   };
 
@@ -475,7 +487,8 @@ const HotelDetail = () => {
 
       {/* Room Types Section */}
       {hotel.roomTypes && hotel.roomTypes.length > 0 && (
-        <Card ref={roomTypesRef} className="room-types-card" title={`${hotel.name} - 全部房型`}>
+        <div ref={roomTypesRef}>
+          <Card className="room-types-card" title={`${hotel.name} - 全部房型`}>
           <div className="room-types-grid">
             {hotel.roomTypes.map((room) => (
               <Card 
@@ -515,6 +528,7 @@ const HotelDetail = () => {
             ))}
           </div>
         </Card>
+        </div>
       )}
 
       {/* Contact */}
