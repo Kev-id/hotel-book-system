@@ -332,17 +332,17 @@ const HotelList = () => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={24} sm={24} md={4}>
-              <Space>
-                <Button type="primary" htmlType="submit">
-                  筛选
-                </Button>
-                <Button onClick={handleFilterReset}>
-                  重置
-                </Button>
-              </Space>
-            </Col>
           </Row>
+          <div style={{ marginTop: '16px', textAlign: 'right' }}>
+            <Space>
+              <Button onClick={handleFilterReset}>
+                重置
+              </Button>
+              <Button type="primary" htmlType="submit">
+                筛选
+              </Button>
+            </Space>
+          </div>
         </Form>
       </Card>
 
