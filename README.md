@@ -5,16 +5,16 @@
 ## 技术栈
 
 ### 前端
-- Vue 3 + Vite
-- Element Plus UI 组件库
-- Vue Router 路由管理
+- React 18 + Vite
+- Ant Design UI 组件库
+- React Router 路由管理
 - Axios HTTP 客户端
 
 ### 后端
 - Node.js + Express
 - MySQL 数据库
 - JWT 身份认证
-- 通义千问 AI API
+- DeepSeek AI API
 
 ## 快速开始
 
@@ -116,7 +116,6 @@ npm start
 |--------|------|------|------|
 | admin1 | 123456 | 管理员 | 审核酒店、管理用户 |
 | merchant1 | 123456 | 商户 | 发布和管理酒店 |
-| 陈凯文 | Kv20060426 | 商户 | 发布和管理酒店 |
 | user1 | 123456 | 用户 | 浏览和预订酒店 |
 
 ## 主要功能
@@ -147,9 +146,12 @@ npm start
 ```
 hotel-book-system/
 ├── src/                    # 前端源码
-│   ├── components/         # Vue 组件
-│   ├── views/             # 页面视图
-│   ├── router/            # 路由配置
+│   ├── components/         # React 组件
+│   ├── pages/             # 页面组件
+│   │   ├── client/        # 用户端页面
+│   │   └── admin/         # 管理端页面
+│   ├── api/               # API 接口
+│   ├── config/            # 配置文件
 │   └── utils/             # 工具函数
 ├── backend/               # 后端源码
 │   ├── config/           # 配置文件
@@ -215,7 +217,7 @@ node sql/generate-missing-reviews.js
 
 ### AI 功能不可用
 
-AI 功能需要配置通义千问 API Key。如果没有配置，系统会使用模拟数据，不影响其他功能使用。
+AI 功能需要配置 DeepSeek API Key。如果没有配置，系统会使用模拟数据，不影响其他功能使用。
 
 ### 端口被占用
 

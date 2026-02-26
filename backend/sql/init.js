@@ -93,9 +93,7 @@ const initDB = async () => {
       INSERT IGNORE INTO users (id, username, password, email, phone, role) VALUES
       (1, 'admin1', '123456', NULL, NULL, 'admin'),
       (2, 'merchant1', '123456', NULL, NULL, 'merchant'),
-      (3, '陈凯文', 'Kv20060426', '123@qq.com', '18017402610', 'merchant'),
-      (4, 'icc', 'Wang2006', NULL, NULL, 'admin'),
-      (5, 'user1', '123456', NULL, NULL, 'user')
+      (3, 'user1', '123456', NULL, NULL, 'user')
     `);
     console.log('✓ 用户数据插入成功');
 
@@ -383,11 +381,9 @@ const initDB = async () => {
         INSERT IGNORE INTO users (id, username, password, email, phone, role) VALUES
         (1, 'admin1', '123456', NULL, NULL, 'admin'),
         (2, 'merchant1', '123456', NULL, NULL, 'merchant'),
-        (3, '陈凯文', 'Kv20060426', '123@qq.com', '18017402610', 'merchant'),
-        (4, 'icc', 'Wang2006', NULL, NULL, 'admin'),
-        (5, 'user1', '123456', NULL, NULL, 'user')
+        (3, 'user1', '123456', NULL, NULL, 'user')
       `);
-      console.log('  ✓ 使用默认测试用户（5个）');
+      console.log('  ✓ 使用默认测试用户（3个）');
     }
 
     // 2. 导入酒店数据
