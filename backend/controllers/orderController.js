@@ -270,16 +270,16 @@ exports.getOrderDetail = async (req, res) => {
     let query, params;
     
     if (userRole === 'merchant') {
-      // 商户查询: 可以查看自己酒店的订单
+      // 商户查询: 可以查看自己酒店的订单 OR 自己作为顾客下的订单
       query = `
         SELECT o.*, h.name as hotelName, h.address, h.images, h.stars,
                u.username, u.phone, u.email
         FROM orders o
         LEFT JOIN hotels h ON o.hotel_id = h.id
         LEFT JOIN users u ON o.user_id = u.id
-        WHERE o.id = ? AND h.merchantId = ?
+        WHERE o.id = ? AND (h.merchantId = ? OR o.user_id = ?)
       `;
-      params = [id, userId];
+      params = [id, userId, userId];
     } else {
       // 普通用户查询: 只能查看自己的订单
       query = `

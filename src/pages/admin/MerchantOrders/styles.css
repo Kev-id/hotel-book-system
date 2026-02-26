@@ -42,12 +42,13 @@
 }
 
 .stat-card.highlight {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
+  border: 2px solid #1890ff;
 }
 
 .stat-card.highlight .stat-value,
 .stat-card.highlight .stat-label {
-  color: white;
+  color: #1890ff;
 }
 
 .stat-icon {

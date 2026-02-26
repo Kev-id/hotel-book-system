@@ -1,6 +1,11 @@
+/* 强制覆盖所有可能的粉色背景 */
+.booking-page * {
+  background-image: none !important;
+}
+
 .booking-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f5f7fa !important;
   padding: 80px 16px 24px;
 }
 
@@ -15,10 +20,10 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: white;
+  border: 1px solid #d9d9d9;
   border-radius: 8px;
-  color: white;
+  color: #1890ff;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
@@ -26,7 +31,8 @@
 }
 
 .back-button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  color: #40a9ff;
+  border-color: #40a9ff;
 }
 
 .back-button .icon {
@@ -35,20 +41,26 @@
 }
 
 .page-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 24px;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  color: #67b6ff !important;
+  margin-bottom: 32px;
   text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 信息卡片 */
 .info-card {
-  background: white;
+  background: white !important;
   border-radius: 16px;
   padding: 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 32px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+}
+
+.info-card:last-of-type {
+  margin-bottom: 24px !important;
 }
 
 .card-title {
@@ -173,8 +185,8 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
 }
 
 .form-group textarea {
@@ -213,8 +225,9 @@
 
 /* 取消政策 */
 .policy-card {
-  background: #fff7e6;
-  border: 1px solid #ffd591;
+  background: white !important;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .policy-content {
@@ -233,20 +246,22 @@
 .submit-button {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
+  background: #e6f7ff;
+  border: 2px solid #1890ff;
   border-radius: 12px;
-  color: white;
+  color: #1890ff;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
 }
 
 .submit-button:hover:not(:disabled) {
+  background: #1890ff;
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
 }
 
 .submit-button:disabled {
@@ -261,7 +276,7 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: white;
+  color: #1a1a1a;
   font-size: 16px;
 }
 
