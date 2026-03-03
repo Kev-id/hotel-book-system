@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Select, InputNumber, Button, Card, Carousel, DatePicker } from 'antd';
-import { SearchOutlined, EnvironmentOutlined, DollarOutlined, StarOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Select, InputNumber, Button, Card, Carousel, DatePicker, message } from 'antd';
+import { SearchOutlined, EnvironmentOutlined, DollarOutlined, StarOutlined, CalendarOutlined, AimOutlined } from '@ant-design/icons';
 import { getHotelList } from '../../../api/hotelApi';
 import dayjs from 'dayjs';
 import { CITIES } from '../../../config/cities';
+import { getUserCity } from '../../../utils/geolocation';
 import './styles.css';
 
 const { RangePicker } = DatePicker;
@@ -16,7 +17,37 @@ const Home = () => {
   const [maxPrice, setMaxPrice] = useState(1000);
   const [dateRange, setDateRange] = useState([dayjs(), dayjs().add(1, 'day')]);
   const [featuredHotels, setFeaturedHotels] = useState([]);
+  const [isLocating, setIsLocating] = useState(false);
   const navigate = useNavigate();
+
+  // 自动识别用户所在城市
+  useEffect(() => {
+    const detectUserCity = async () => {
+      setIsLocating(true);
+      try {
+        const { city: detectedCity, method } = await getUserCity();
+        
+        if (detectedCity) {
+          setCity(detectedCity);
+          const cityLabel = CITIES.find(c => c.value === detectedCity)?.label;
+          
+          if (method === 'cache') {
+            console.log('使用缓存的城市:', cityLabel);
+          } else if (method === 'geolocation') {
+            message.success(`已自动定位到：${cityLabel}`);
+          } else if (method === 'ip') {
+            message.info(`根据网络位置识别到：${cityLabel}`);
+          }
+        }
+      } catch (error) {
+        console.error('城市识别失败:', error);
+      } finally {
+        setIsLocating(false);
+      }
+    };
+    
+    detectUserCity();
+  }, []);
 
   // 获取推荐酒店（用于轮播图）
   useEffect(() => {
@@ -28,13 +59,50 @@ const Home = () => {
     fetchFeaturedHotels();
   }, []);
 
+  // 手动重新定位
+  const handleRelocate = async () => {
+    setIsLocating(true);
+    message.loading('正在定位...', 0);
+    
+    try {
+      // 清除缓存，强制重新定位
+      localStorage.removeItem('userCity');
+      localStorage.removeItem('userCityTime');
+      
+      const { city: detectedCity, method } = await getUserCity();
+      
+      message.destroy();
+      
+      if (detectedCity) {
+        setCity(detectedCity);
+        const cityLabel = CITIES.find(c => c.value === detectedCity)?.label;
+        
+        if (method === 'geolocation') {
+          message.success(`定位成功：${cityLabel}`);
+        } else if (method === 'ip') {
+          message.info(`根据网络位置识别到：${cityLabel}`);
+        } else {
+          message.warning('定位失败，使用默认城市');
+        }
+      } else {
+        message.warning('定位失败，请手动选择城市');
+      }
+    } catch (error) {
+      message.destroy();
+      message.error('定位失败，请手动选择城市');
+      console.error('定位失败:', error);
+    } finally {
+      setIsLocating(false);
+    }
+  };
+
   const handleSearch = () => {
     if (!city) {
-      alert('请选择城市！');
+      message.warning('请选择城市！');
       return;
     }
     if (!dateRange || dateRange.length !== 2) {
-      alert('请选择入住和退房日期！');
+      message.warning('请选择入住和退房日期！');
       return;
     }
     const checkIn = dateRange[0].format('YYYY-MM-DD');
@@ -138,20 +206,34 @@ const Home = () => {
               <label className="form-label">
                 <EnvironmentOutlined /> 选择城市
               </label>
-              <Select
-                value={city}
-                onChange={(value) => setCity(value)}
-                size="large"
-                className="form-select"
-                placeholder="-- 请选择城市 --"
-              >
-                <Select.Option value="">-- 请选择城市 --</Select.Option>
-                {CITIES.map(city => (
-                  <Select.Option key={city.value} value={city.value}>
-                    {city.label}
-                  </Select.Option>
-                ))}
-              </Select>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <Select
+                  value={city}
+                  onChange={(value) => setCity(value)}
+                  size="large"
+                  className="form-select"
+                  placeholder="-- 请选择城市 --"
+                  style={{ flex: 1 }}
+                  loading={isLocating}
+                  options={[
+                    { value: '', label: '-- 请选择城市 --' },
+                    ...CITIES.map(city => ({
+                      value: city.value,
+                      label: city.label
+                    }))
+                  ]}
+                />
+                <Button
+                  size="large"
+                  icon={<AimOutlined />}
+                  onClick={handleRelocate}
+                  loading={isLocating}
+                  title="重新定位"
+                  style={{ flexShrink: 0 }}
+                >
+                  定位
+                </Button>
+              </div>
             </div>
 
             {/* 日期选择 */}
@@ -210,13 +292,14 @@ const Home = () => {
                 className="form-select"
                 allowClear
                 placeholder="-- 请选择星级 --"
-              >
-                <Select.Option value="1">⭐ 1星</Select.Option>
-                <Select.Option value="2">⭐⭐ 2星</Select.Option>
-                <Select.Option value="3">⭐⭐⭐ 3星</Select.Option>
-                <Select.Option value="4">⭐⭐⭐⭐ 4星</Select.Option>
-                <Select.Option value="5">⭐⭐⭐⭐⭐ 5星</Select.Option>
-              </Select>
+                options={[
+                  { value: '1', label: '⭐ 1星' },
+                  { value: '2', label: '⭐⭐ 2星' },
+                  { value: '3', label: '⭐⭐⭐ 3星' },
+                  { value: '4', label: '⭐⭐⭐⭐ 4星' },
+                  { value: '5', label: '⭐⭐⭐⭐⭐ 5星' }
+                ]}
+              />
             </div>
 
             {/* 查询按钮 */}
