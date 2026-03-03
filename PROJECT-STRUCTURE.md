@@ -31,32 +31,54 @@ hotel-book-system/
 
 ```
 src/
-├── components/             # Vue 组件
-│   ├── AdminPanel.vue     # 管理员面板
-│   ├── HotelCard.vue      # 酒店卡片
-│   ├── HotelDetail.vue    # 酒店详情
-│   ├── HotelList.vue      # 酒店列表
-│   ├── LoginForm.vue      # 登录表单
-│   ├── MerchantPanel.vue  # 商户面板
-│   ├── OrderList.vue      # 订单列表
-│   ├── ReviewList.vue     # 评价列表
+├── components/             # React 组件
+│   ├── Navigation.jsx     # 导航栏
+│   ├── Navigation.css     # 导航栏样式
+│   ├── FavoriteButton/    # 收藏按钮组件
+│   │   ├── index.jsx
+│   │   └── styles.css
 │   └── ...                # 其他组件
-├── views/                 # 页面视图
-│   ├── Home.vue          # 首页
-│   ├── Login.vue         # 登录页
-│   ├── Admin.vue         # 管理员页
-│   ├── Merchant.vue      # 商户页
+├── pages/                 # 页面组件
+│   ├── client/           # 客户端页面
+│   │   ├── Home/         # 首页
+│   │   │   ├── index.jsx
+│   │   │   └── styles.css
+│   │   ├── List/         # 酒店列表页
+│   │   │   ├── index.jsx
+│   │   │   └── styles.css
+│   │   ├── Detail/       # 酒店详情页
+│   │   │   ├── index.jsx
+│   │   │   └── styles.css
+│   │   ├── Booking/      # 预订页
+│   │   │   ├── index.jsx
+│   │   │   └── styles.css
+│   │   ├── Orders/       # 订单列表页
+│   │   ├── Favorites/    # 收藏页
+│   │   └── Profile/      # 个人中心
+│   ├── admin/            # 管理员页面
+│   │   ├── Login/        # 登录页
+│   │   ├── Dashboard/    # 仪表盘
+│   │   ├── HotelForm/    # 酒店录入表单
+│   │   ├── HotelManagement/  # 酒店管理
+│   │   ├── MerchantOrders/   # 商家订单管理
+│   │   └── Analytics/    # 数据分析
 │   └── ...               # 其他页面
-├── router/               # 路由配置
-│   └── index.js         # 路由定义
-├── utils/               # 工具函数
-│   ├── request.js      # HTTP 请求封装
-│   └── ...             # 其他工具
-├── assets/             # 静态资源
-│   ├── images/        # 图片
-│   └── styles/        # 样式
-├── App.vue            # 根组件
-└── main.js            # 入口文件
+├── context/              # React Context
+│   └── AuthContext.jsx  # 认证上下文
+├── api/                 # API 调用
+│   ├── hotelApi.js     # 酒店 API
+│   ├── orderApi.js     # 订单 API
+│   ├── favoriteApi.js  # 收藏 API
+│   └── ...             # 其他 API
+├── config/             # 配置文件
+│   └── cities.js      # 城市配置
+├── utils/             # 工具函数
+│   └── ...           # 工具函数
+├── assets/           # 静态资源
+│   └── ...          # 图片、样式等
+├── App.jsx          # 根组件
+├── App.css          # 根组件样式
+└── main.jsx         # 入口文件
 ```
 
 ## 🔧 后端结构 (backend/)
@@ -202,9 +224,9 @@ data/
 ## 📦 依赖管理
 
 ### 前端依赖 (package.json)
-- Vue 3 - 前端框架
-- Element Plus - UI 组件库
-- Vue Router - 路由管理
+- React 18 - 前端框架
+- React Router DOM - 路由管理
+- Ant Design - UI 组件库
 - Axios - HTTP 客户端
 - Vite - 构建工具
 
@@ -228,7 +250,7 @@ data/
 ## 📝 命名规范
 
 ### 文件命名
-- 组件：PascalCase（如 `HotelCard.vue`）
+- 组件：PascalCase（如 `Navigation.jsx`）
 - 工具：camelCase（如 `dateUtils.js`）
 - 配置：kebab-case（如 `vite.config.js`）
 - 文档：UPPER-CASE 或 kebab-case
@@ -248,7 +270,7 @@ data/
 - 评价相关：`*review*` 或 `*Review*`
 
 ### 按类型查找
-- 组件：`src/components/*.vue`
+- 组件：`src/components/*.jsx` 或 `src/pages/**/*.jsx`
 - 控制器：`backend/controllers/*Controller.js`
 - 路由：`backend/routes/*.js`
 - 测试：`backend/tests/test-*.js`
@@ -257,7 +279,7 @@ data/
 
 ### 添加新功能
 1. 后端：创建 controller → 创建 route → 测试
-2. 前端：创建 component → 添加到 view → 配置 router
+2. 前端：创建 component → 添加到 pages → 配置路由
 3. 文档：更新对应的 README
 
 ### 修改现有功能

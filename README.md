@@ -14,7 +14,7 @@
 - Node.js + Express
 - MySQL 数据库
 - JWT 身份认证
-- DeepSeek AI API
+- 千问 AI API
 
 ## 快速开始
 

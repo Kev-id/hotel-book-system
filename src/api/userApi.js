@@ -1,10 +1,13 @@
+import axios from 'axios';
+
 const baseUrl = import.meta.env.VITE_API_URL || '/api';
 
 // 用户登录
 export const userLogin = async (username, password) => {
   try {
-    const res = await fetch(`${baseUrl}/users?username=${username}&password=${password}`);
-    const data = await res.json();
+    const { data } = await axios.get(`${baseUrl}/users`, {
+      params: { username, password }
+    });
     
     // 新格式：返回 { success, user, token, message }
     if (data.success && data.user && data.token) {
@@ -29,21 +32,12 @@ export const userLogin = async (username, password) => {
 // 用户注册
 export const userRegister = async (username, password, role = 'user') => {
   try {
-    const res = await fetch(`${baseUrl}/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username,
-        password,
-        confirmPwd: password,
-        role
-      })
+    const { data } = await axios.post(`${baseUrl}/users`, {
+      username,
+      password,
+      confirmPwd: password,
+      role
     });
-    const data = await res.json();
-    
-    if (!res.ok) {
-      throw new Error(data.error || '注册失败');
-    }
     
     // 新格式：返回 { success, user, token, message }
     if (data.success && data.user && data.token) {
@@ -56,7 +50,7 @@ export const userRegister = async (username, password, role = 'user') => {
     // 旧格式兼容
     return data && data.id ? data : null;
   } catch (err) {
-    console.error('注册失败', err);
+    console.error('注册失败', err.response?.data || err);
     throw err;
   }
 };
